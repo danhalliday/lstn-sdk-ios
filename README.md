@@ -1,2 +1,3 @@
-# lstn-sdk-ios
-Lstn SDK for iOS
+# Lstn SDK for iOS
+
+Lstn converts your app’s text articles into playable podcasts.
