@@ -1,0 +1,14 @@
+language: objective-c
+osx_image: xcode8
+
+branches:
+ only: [master]
+
+xcode_project: LstnSDK.xcodeproj
+xcode_scheme: LstnSDK
+
+script: >-
+  xcodebuild clean build test
+  -project LstnSDK.xcodeproj
+  -scheme LstnSDK
+  -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
