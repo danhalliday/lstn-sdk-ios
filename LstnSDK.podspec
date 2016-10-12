@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "LstnSDK"
-  s.version      = "0.0.1"
+  s.version      = "0.0.3"
   s.summary      = "Lstn is a podcast player for your app’s text content."
 
   # This description is used to generate tags and improve search results.
@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
   audio version. Lstn provides a customisable player UI, or you can connect your own.
   DESC
 
-  s.homepage     = "https://lstn.ltd/sdk/"
+  s.homepage     = "https://dashaudio.co"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
