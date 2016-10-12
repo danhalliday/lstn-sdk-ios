@@ -6,11 +6,11 @@
 //  Copyright © 2016 Lstn Ltd. All rights reserved.
 //
 
-class Lstn {
+public class Lstn {
 
-    static let shared = Lstn()
+    public static let shared = Lstn()
 
-    func start() {
+    public func start() {
         print("Hello world")
     }
 

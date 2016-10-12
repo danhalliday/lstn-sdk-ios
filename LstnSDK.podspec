@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "LstnSDK"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "Lstn is a podcast player for your app’s text content."
   s.description  = <<-DESC
   Lstn is a SDK and service that turns your app’s text content into playable podcasts. Provide the
@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.author             = "Dan Halliday"
   s.platform     = :ios, "10.0"
   s.source       = { :git => "https://github.com/lstn-ltd/lstn-sdk-ios.git", :tag => "#{s.version}" }
-  s.source_files  = "LstnSDK"
+  s.source_files  = "LstnSDK/**/*.{h,swift}"
 end

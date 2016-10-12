@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import LstnSDK
+@testable import Lstn
 
 class LstnSDKTests: XCTestCase {
 
