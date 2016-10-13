@@ -15,3 +15,8 @@ script:
     -sdk iphonesimulator10.0
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
   - pod lib lint
+
+deploy:
+  provider: script
+  script: pod trunk push
+  on: { tags: true }
