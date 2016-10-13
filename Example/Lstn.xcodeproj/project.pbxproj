@@ -15,8 +15,6 @@
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		77F17C2941043BCAB11337FD /* Pods_LstnTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 428C7AC610715E0566E73B9D /* Pods_LstnTests.framework */; };
-		956575A03D4384CE4748A70F /* Pods_Lstn_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A99CA4858B25A9DAE4B6A70 /* Pods_Lstn_Example.framework */; };
-		B75F699E9BC7B1235F13D158 /* Pods_Lstn_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EB776AF56DDEB38A5661756 /* Pods_Lstn_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,13 +46,7 @@
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		694464E2A940C4A550353529 /* Pods-LstnExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LstnExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LstnExample/Pods-LstnExample.debug.xcconfig"; sourceTree = "<group>"; };
-		6EB776AF56DDEB38A5661756 /* Pods_Lstn_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lstn_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		71DF3D0B97E03B0C6F4D8B8C /* Pods-LstnExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LstnExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-LstnExample/Pods-LstnExample.release.xcconfig"; sourceTree = "<group>"; };
-		74EC8837028E6F1B090E765F /* Pods-Lstn_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lstn_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lstn_Example/Pods-Lstn_Example.debug.xcconfig"; sourceTree = "<group>"; };
-		83307D1E06A7B6CEF7E061FC /* Pods-Lstn_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lstn_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lstn_Example/Pods-Lstn_Example.release.xcconfig"; sourceTree = "<group>"; };
-		9294D68FC03421938D0131F9 /* Pods-Lstn_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lstn_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-Lstn_Tests/Pods-Lstn_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		9A99CA4858B25A9DAE4B6A70 /* Pods_Lstn_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Lstn_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC7C4E88FA4CFF7B3E51F8CD /* Pods-Lstn_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Lstn_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Lstn_Tests/Pods-Lstn_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +54,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				956575A03D4384CE4748A70F /* Pods_Lstn_Example.framework in Frameworks */,
 				3534DE057404EBDF16097EAF /* Pods_LstnExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,7 +62,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B75F699E9BC7B1235F13D158 /* Pods_Lstn_Tests.framework in Frameworks */,
 				77F17C2941043BCAB11337FD /* Pods_LstnTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -152,8 +142,6 @@
 		D3C5CADEACD6D245AA9EF125 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9A99CA4858B25A9DAE4B6A70 /* Pods_Lstn_Example.framework */,
-				6EB776AF56DDEB38A5661756 /* Pods_Lstn_Tests.framework */,
 				358BE9774C51967BCEB67D5B /* Pods_LstnExample.framework */,
 				428C7AC610715E0566E73B9D /* Pods_LstnTests.framework */,
 			);
@@ -163,10 +151,6 @@
 		E0466AF97A6C146C9704A674 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				74EC8837028E6F1B090E765F /* Pods-Lstn_Example.debug.xcconfig */,
-				83307D1E06A7B6CEF7E061FC /* Pods-Lstn_Example.release.xcconfig */,
-				BC7C4E88FA4CFF7B3E51F8CD /* Pods-Lstn_Tests.debug.xcconfig */,
-				9294D68FC03421938D0131F9 /* Pods-Lstn_Tests.release.xcconfig */,
 				694464E2A940C4A550353529 /* Pods-LstnExample.debug.xcconfig */,
 				71DF3D0B97E03B0C6F4D8B8C /* Pods-LstnExample.release.xcconfig */,
 				0199BBBF4C87B1AF66988463 /* Pods-LstnTests.debug.xcconfig */,
