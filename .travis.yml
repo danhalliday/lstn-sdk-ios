@@ -11,7 +11,7 @@ script:
   - >-
     xcodebuild clean build test
     -workspace Example/Lstn.xcworkspace
-    -scheme Lstn-Example
+    -scheme LstnExample
     -sdk iphonesimulator10.0
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
   - pod lib lint

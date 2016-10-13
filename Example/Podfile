@@ -1,9 +1,9 @@
 use_frameworks!
 
-target 'Lstn_Example' do
+target 'LstnExample' do
   pod 'Lstn', :path => '../'
 
-  target 'Lstn_Tests' do
+  target 'LstnTests' do
     inherit! :search_paths
 
     pod 'Quick', '~> 0.10'
