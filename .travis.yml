@@ -1,5 +1,5 @@
-language: objective-c
 osx_image: xcode8
+language: objective-c
 
 branches:
  only: [master]
@@ -7,8 +7,11 @@ branches:
 xcode_project: LstnSDK.xcodeproj
 xcode_scheme: LstnSDK
 
-script: >-
-  xcodebuild clean build test
-  -project LstnSDK.xcodeproj
-  -scheme LstnSDK
-  -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
+script:
+  - >-
+    xcodebuild clean build test
+    -workspace Example/Lstn.xcworkspace
+    -scheme Lstn-Example
+    -sdk iphonesimulator10.0
+    -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
+  - pod lib lint
