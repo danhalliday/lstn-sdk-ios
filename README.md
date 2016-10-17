@@ -1,6 +1,6 @@
 # Lstn
 
-[![CI Status](http://img.shields.io/travis/lstn-ltd/lstn-sdk-ios.svg)](https://travis-ci.org/Dan Halliday/Lstn)
+[![CI Status](http://img.shields.io/travis/lstn-ltd/lstn-sdk-ios.svg)](https://travis-ci.org/lstn-ltd/Lstn)
 [![Version](https://img.shields.io/cocoapods/v/Lstn.svg)](http://cocoapods.org/pods/Lstn)
 [![License](https://img.shields.io/cocoapods/l/Lstn.svg)](http://cocoapods.org/pods/Lstn)
 [![Platform](https://img.shields.io/cocoapods/p/Lstn.svg)](http://cocoapods.org/pods/Lstn)
@@ -10,8 +10,6 @@ Lstn is a podcast player for your app’s text content.
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
 
 ## Installation
 
@@ -24,7 +22,9 @@ pod "Lstn"
 
 ## Author
 
-Dan Halliday ([@danhalliday](https://github.com/danhalliday))
+Lstn Ltd team.
+
+- Dan Halliday ([@danhalliday](https://github.com/danhalliday))
 
 ## License
 

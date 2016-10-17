@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   DESC
   s.homepage = "https://dashaudio.co"
   s.license = "MIT"
-  s.author = "Dan Halliday"
+  s.author = "Lstn Ltd"
   s.source = { :git => "https://github.com/lstn-ltd/lstn-sdk-ios.git", :tag => "#{s.version}" }
   s.ios.deployment_target = "10.0"
   s.source_files = "Lstn/Classes/**/*"
