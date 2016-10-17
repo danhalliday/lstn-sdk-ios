@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = "Lstn"
-  s.version = "0.0.9"
+  s.version = "0.0.12"
   s.summary = "Lstn is a podcast player for your app’s text content."
   s.description  = <<-DESC
   Lstn is a SDK and service that turns your app’s text content into playable podcasts. Provide the
