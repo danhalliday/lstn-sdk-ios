@@ -1,15 +1,13 @@
 osx_image: xcode8
 language: objective-c
 
-xcode_project: LstnSDK.xcodeproj
-xcode_scheme: LstnSDK
-
 before_install:
   - gem update cocoapods --prerelease
-  - bundle exec pod repo update
-  - bundle exec pod install --project-directory=Example
+  - pod repo update
+  - pod install --project-directory=Example
 
 script:
+  - set -o pipefail
   - >-
     xcodebuild clean build test
     -workspace Example/Lstn.xcworkspace
@@ -20,7 +18,7 @@ script:
 
 deploy:
   provider: script
-  script: bundle exec pod trunk push Lstn.podspec
+  script: pod trunk push Lstn.podspec
   on: { tags: true }
 
 notifications:
