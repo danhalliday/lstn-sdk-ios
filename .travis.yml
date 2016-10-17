@@ -5,9 +5,9 @@ xcode_project: LstnSDK.xcodeproj
 xcode_scheme: LstnSDK
 
 before_install:
-  - gem install cocoapods --pre
-  - pod repo update
-  - pod install --project-directory=Example
+  - gem update cocoapods --prerelease
+  - bundle exec pod repo update
+  - bundle exec pod install --project-directory=Example
 
 script:
   - >-
@@ -20,5 +20,8 @@ script:
 
 deploy:
   provider: script
-  script: pod trunk push
+  script: bundle exec pod trunk push Lstn.podspec
   on: { tags: true }
+
+notifications:
+  email: false
