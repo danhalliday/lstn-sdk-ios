@@ -19,6 +19,7 @@ script:
 deploy:
   provider: script
   script: pod trunk push Lstn.podspec
+  skip_cleanup: true
   on: { tags: true }
 
 notifications:
