@@ -2,7 +2,7 @@ osx_image: xcode8
 language: objective-c
 
 before_install:
-  - gem update cocoapods --prerelease
+  - gem update cocoapods --pre
   - pod repo update
   - pod install --project-directory=Example
 
