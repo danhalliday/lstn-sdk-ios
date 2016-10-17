@@ -16,11 +16,11 @@ script:
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
   - pod lib lint
 
-deploy:
-  provider: script
-  script: pod trunk push Lstn.podspec
-  skip_cleanup: true
-  on: { tags: true }
+# deploy:
+#   provider: script
+#   script: pod trunk push Lstn.podspec
+#   skip_cleanup: true
+#   on: { tags: true }
 
 notifications:
   email: false
