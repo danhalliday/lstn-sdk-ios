@@ -7,7 +7,8 @@ xcode_scheme: LstnSDK
 
 before_install:
   - gem install cocoapods --pre
-  - pod install --project-directory=Example --repo-update
+  - pod repo update
+  - pod install --project-directory=Example
 
 script:
   - >-
