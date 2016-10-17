@@ -1,5 +1,5 @@
 PODS:
-  - Lstn (0.0.15)
+  - Lstn (0.0.16)
   - Nimble (5.0.0)
   - Quick (0.10.0)
 
@@ -13,7 +13,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Lstn: 2c53787d88b7aad123057778ad952780ff832dbc
+  Lstn: 49cb99337a7f9a7c0763edd7cca9fff9139bfad2
   Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
