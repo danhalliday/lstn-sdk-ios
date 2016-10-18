@@ -7,12 +7,21 @@
 //
 
 import UIKit
+import Lstn
 
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        let url = URL(string: "https://social.techcrunch.com/2016/10/18/finally-legislation-to-support-startups/")!
+
+        Lstn.shared.player.load(source: url) { success in
+            print("Loaded: \(success)")
+            Lstn.shared.player.play { success in
+                print("Playing: \(success)")
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,4 +30,3 @@ class ViewController: UIViewController {
     }
 
 }
-

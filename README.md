@@ -7,10 +7,6 @@
 
 Lstn is a podcast player for your app’s text content.
 
-## Example
-
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
 ## Installation
 
 Lstn is available through [CocoaPods](http://cocoapods.org). To install
@@ -20,12 +16,103 @@ it, simply add the following line to your Podfile:
 pod "Lstn"
 ```
 
-## Author
+## Quick Start
 
-Lstn Ltd team.
+Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load some content and
+play it:
 
-- Dan Halliday ([@danhalliday](https://github.com/danhalliday))
+```swift
+import Lstn
 
-## License
+let article = URL(string: "https://example.com/article.html")!
+
+Lstn.shared.player.load(source: article) { success in
+    if success { print("Content was loaded") }
+}
+
+Lstn.shared.player.play { success in
+    if success { print("Content started playing") }
+}
+
+Lstn.shared.player.stop { success in
+    if success { print("Content stopped playing") }
+}
+```
+
+For more advanced use, a delegate protocol is provided:
+
+```swift
+import Lstn
+
+class Example {
+
+    let player = Lstn.Player()
+    let url = URL(string: "https://example.com/article.html")!
+
+    var loading = false
+    var playing = false
+    var progress = 0.0
+    var error = false
+
+    init() {
+        self.player.delegate = self
+    }
+
+    func loadButtonWasTapped() {
+        self.player.load(self.url)
+    }
+
+    func playButtonWasTapped() {
+        self.player.play()
+    }
+
+    func stopButtonWasTapped() {
+        self.player.stop()
+    }
+
+}
+
+extension Example: PlayerDelegate {
+
+    func loadingDidStart() {
+        self.loading = true
+        self.error = false
+    }
+
+    func loadingDidFinish() {
+        self.loading = false
+    }
+
+    func loadingDidFail() {
+        self.loading = false
+        self.error = true
+    }
+
+    func playbackDidStart() {
+        self.playing = true
+        self.error = false
+    }
+
+    func playbackDidProgress(amount: Double) {
+        self.progress = amount
+    }
+
+    func playbackDidStop() {
+        self.playing = false
+    }
+
+    func playbackDidFinish() {
+        self.playing = false
+    }
+
+    func playbackDidFail() {
+        self.playing = false
+        self.error = true
+    }
+
+}
+```
+
+---
 
 Lstn is available under the MIT license. See the LICENSE file for more info.

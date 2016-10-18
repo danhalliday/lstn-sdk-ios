@@ -36,7 +36,7 @@ class PlayerSpy: PlayerDelegate {
         self.playbackDidStartFired = true
     }
 
-    func playbackDidProgress() {
+    func playbackDidProgress(amount: Double) {
         self.playbackDidProgressFired = true
     }
 

@@ -15,7 +15,7 @@ public protocol PlayerDelegate: class {
     func loadingDidFail()
 
     func playbackDidStart()
-    func playbackDidProgress()
+    func playbackDidProgress(amount: Double)
     func playbackDidStop()
     func playbackDidFinish()
     func playbackDidFail()
@@ -33,9 +33,9 @@ public class Player {
         self.resolver = resolver
     }
 
-    public func load(url: URL, complete: Callback? = nil) {
+    public func load(source: URL, complete: Callback? = nil) {
 
-        self.resolver.resolve(source: url) { state in
+        self.resolver.resolve(source: source) { state in
 
             switch state {
 
@@ -58,10 +58,12 @@ public class Player {
 
     public func play(complete: Callback? = nil) {
         self.delegate?.playbackDidStart()
+        complete?(true)
     }
 
     public func stop(complete: Callback? = nil) {
         self.delegate?.playbackDidStop()
+        complete?(true)
     }
 
 }

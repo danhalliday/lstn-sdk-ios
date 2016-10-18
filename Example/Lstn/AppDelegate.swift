@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Lstn
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

@@ -10,8 +10,6 @@ import Foundation
 
 class RemoteContentResolver: ContentResolver {
 
-    private let endpoint = "http://api.lstn.ltd/content"
-
     private let session: URLSessionType
     private var task: URLSessionDataTaskType?
 
@@ -75,7 +73,7 @@ class RemoteContentResolver: ContentResolver {
     }
 
     private func url(source: URL) -> URL {
-        return URL(string: "\(self.endpoint)?source=\(self.escape(url: source))")!
+        return URL(string: "\(Lstn.API)/content/?source=\(self.escape(url: source))")!
     }
 
     private func escape(url: URL) -> String {

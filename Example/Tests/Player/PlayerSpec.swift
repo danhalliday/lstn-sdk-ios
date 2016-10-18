@@ -21,7 +21,7 @@ class PlayerSpec: QuickSpec {
                 let player = Player()
                 let url = URL(string: "http://example.com")!
 
-                player.load(url: url)
+                player.load(source: url)
 
             }
 
@@ -33,7 +33,7 @@ class PlayerSpec: QuickSpec {
                     let url = URL(string: "http://example.com")!
                     var result: Bool? = nil
 
-                    player.load(url: url) { success in
+                    player.load(source: url) { success in
                         result = success
                     }
 
@@ -52,7 +52,7 @@ class PlayerSpec: QuickSpec {
                     let spy = PlayerSpy()
 
                     player.delegate = spy
-                    player.load(url: url)
+                    player.load(source: url)
 
                     expect(spy.loadingDidStartFired).toEventually(equal(true))
                     expect(spy.loadingDidFinishFired).toEventually(equal(true))
