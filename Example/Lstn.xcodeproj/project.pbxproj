@@ -15,6 +15,7 @@
 		37840D7E1DB6216500B92DF5 /* MockURLSessionDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D791DB6212200B92DF5 /* MockURLSessionDataTask.swift */; };
 		37840D811DB62F1E00B92DF5 /* MockContentResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D7F1DB62E7E00B92DF5 /* MockContentResolver.swift */; };
 		37840D8F1DB6546300B92DF5 /* ContentSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D8D1DB653AE00B92DF5 /* ContentSpec.swift */; };
+		37840D921DB6734C00B92DF5 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D901DB6733800B92DF5 /* Example.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACD81AFB9204008FA782 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* ViewController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
@@ -47,6 +48,7 @@
 		37840D791DB6212200B92DF5 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		37840D7F1DB62E7E00B92DF5 /* MockContentResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockContentResolver.swift; sourceTree = "<group>"; };
 		37840D8D1DB653AE00B92DF5 /* ContentSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentSpec.swift; sourceTree = "<group>"; };
+		37840D901DB6733800B92DF5 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		40119DEF79C11DFA62299771 /* Pods-LstnTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LstnTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LstnTests/Pods-LstnTests.release.xcconfig"; sourceTree = "<group>"; };
 		428C7AC610715E0566E73B9D /* Pods_LstnTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LstnTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* LstnExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LstnExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,7 @@
 			isa = PBXGroup;
 			children = (
 				607FACEB1AFB9204008FA782 /* Main.swift */,
+				37840D901DB6733800B92DF5 /* Example.swift */,
 				37840D821DB62F9500B92DF5 /* Player */,
 				37840D861DB64B5A00B92DF5 /* Audio */,
 				37840D831DB62FA600B92DF5 /* Content */,
@@ -448,6 +451,7 @@
 				37840D6A1DB5286B00B92DF5 /* PlayerSpy.swift in Sources */,
 				37840D811DB62F1E00B92DF5 /* MockContentResolver.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Main.swift in Sources */,
+				37840D921DB6734C00B92DF5 /* Example.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

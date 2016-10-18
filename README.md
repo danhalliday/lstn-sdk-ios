@@ -22,18 +22,20 @@ Lstn provides a singleton instance and simple callback interface for quick and d
 play it:
 
 ```swift
-import Lstn
-
 let article = URL(string: "https://example.com/article.html")!
 
 Lstn.shared.player.load(source: article) { success in
     if success { print("Content was loaded") }
 }
+```
 
+```swift
 Lstn.shared.player.play { success in
     if success { print("Content started playing") }
 }
+```
 
+```swift
 Lstn.shared.player.stop { success in
     if success { print("Content stopped playing") }
 }
@@ -46,8 +48,8 @@ import Lstn
 
 class Example {
 
-    let player = Lstn.Player()
-    let url = URL(string: "https://example.com/article.html")!
+    let player = Player()
+    let article = URL(string: "https://example.com/article.html")!
 
     var loading = false
     var playing = false
@@ -59,7 +61,7 @@ class Example {
     }
 
     func loadButtonWasTapped() {
-        self.player.load(self.url)
+        self.player.load(source: self.article)
     }
 
     func playButtonWasTapped() {
