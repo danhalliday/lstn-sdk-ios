@@ -1,4 +1,10 @@
-// https://github.com/Quick/Quick
+//
+//  Main.swift
+//  Lstn
+//
+//  Created by Dan Halliday on 17/10/2016.
+//  Copyright © 2016 Lstn Ltd. All rights reserved.
+//
 
 import Quick
 import Nimble

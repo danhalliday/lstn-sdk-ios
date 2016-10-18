@@ -4,21 +4,9 @@ public class Lstn {
 
     public static let shared = Lstn()
 
-    
+    public let player = Player()
+
     private init() {}
 
 }
 
-public class Player {
-
-    public typealias Callback = (Bool) -> Void
-
-    public init() {
-
-    }
-
-    public func load(url: URL, complete: Callback? = nil) {
-        complete?(true)
-    }
-
-}
