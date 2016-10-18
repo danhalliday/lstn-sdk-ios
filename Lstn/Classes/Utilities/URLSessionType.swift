@@ -12,7 +12,7 @@ import Foundation
  Fat free dependency injection of URLSession and friends
  */
 
-public protocol URLSessionType {
+protocol URLSessionType {
 
     func dataTask(with url: URL, completionHandler: @escaping URLSessionDataTaskCallbackType) -> URLSessionDataTaskType
 
@@ -20,7 +20,7 @@ public protocol URLSessionType {
 
 extension URLSession: URLSessionType {
 
-    public func dataTask(with url: URL, completionHandler: @escaping URLSessionDataTaskCallbackType) -> URLSessionDataTaskType {
+    func dataTask(with url: URL, completionHandler: @escaping URLSessionDataTaskCallbackType) -> URLSessionDataTaskType {
         return self.dataTask(with: url, completionHandler: completionHandler) as URLSessionDataTask
     }
     

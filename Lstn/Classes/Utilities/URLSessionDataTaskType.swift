@@ -12,13 +12,13 @@ import Foundation
  Fat free dependency injection of URLSession and friends
  */
 
-public protocol URLSessionDataTaskType {
+protocol URLSessionDataTaskType {
 
     func resume()
     func cancel()
 
 }
 
-public typealias URLSessionDataTaskCallbackType = (Data?, URLResponse?, Error?) -> Void
+typealias URLSessionDataTaskCallbackType = (Data?, URLResponse?, Error?) -> Void
 
 extension URLSessionDataTask: URLSessionDataTaskType {}
