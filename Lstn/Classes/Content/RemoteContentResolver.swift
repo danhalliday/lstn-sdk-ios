@@ -10,7 +10,7 @@ import Foundation
 
 class RemoteContentResolver: ContentResolver {
 
-    private let endpoint = "https://api.lstn.ltd/articles"
+    private let endpoint = "http://api.lstn.ltd/content"
 
     private let session: URLSessionType
     private var task: URLSessionDataTaskType?

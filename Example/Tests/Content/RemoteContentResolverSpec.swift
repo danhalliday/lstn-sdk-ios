@@ -28,7 +28,7 @@ class RemoteContentResolverSpec: QuickSpec {
                 let resolver = RemoteContentResolver(session: session)
 
                 let sourceUrl = URL(string: "http://apple.com")!
-                let requestUrl = URL(string: "https://api.lstn.ltd/articles?source=http%3A%2F%2Fapple.com")!
+                let requestUrl = URL(string: "http://api.lstn.ltd/content?source=http%3A%2F%2Fapple.com")!
 
                 resolver.resolve(source: sourceUrl)
 
