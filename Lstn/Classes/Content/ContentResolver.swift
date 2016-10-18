@@ -17,7 +17,7 @@ public protocol ContentResolver {
 public enum ContentResolverState {
 
     case started
-    case succeeded(ContentResolverResult)
+    case resolved(Content)
     case failed(ContentResolverError)
 
 }
@@ -29,5 +29,3 @@ public enum ContentResolverError: Error {
     case unknown(Error?)
 
 }
-
-public typealias ContentResolverResult = [URL]

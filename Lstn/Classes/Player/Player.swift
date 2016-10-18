@@ -29,14 +29,6 @@ public class Player {
 
     public typealias Callback = (Bool) -> Void
 
-    struct Callbacks {
-        var load: Callback? = nil
-        var play: Callback? = nil
-        var stop: Callback? = nil
-    }
-
-    private var callbacks = Callbacks()
-
     public init(resolver: ContentResolver = RemoteContentResolver()) {
         self.resolver = resolver
     }
@@ -50,7 +42,7 @@ public class Player {
             case .started:
                 self.delegate?.loadingDidStart()
 
-            case .succeeded:
+            case .resolved:
                 self.delegate?.loadingDidFinish()
                 complete?(true)
 
@@ -65,15 +57,11 @@ public class Player {
     }
 
     public func play(complete: Callback? = nil) {
-        self.callbacks.play = complete
         self.delegate?.playbackDidStart()
-        self.callbacks.play?(true)
     }
 
     public func stop(complete: Callback? = nil) {
-        self.callbacks.stop = complete
         self.delegate?.playbackDidStop()
-        self.callbacks.stop?(true)
     }
 
 }

@@ -62,13 +62,15 @@ class RemoteContentResolver: ContentResolver {
             return .failed(.data(data))
         }
 
-        guard let array = json as? [String] else {
+        guard let dictionary = json as? [String:Any] else {
             return .failed(.data(json))
         }
 
-        let result = array.map { URL(string: $0)! }
+        guard let content = Content(dictionary: dictionary) else {
+            return .failed(.data(dictionary))
+        }
 
-        return .succeeded(result)
+        return .resolved(content)
 
     }
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Content {
+public struct Content {
 
     let source: URL
     let title: String
@@ -32,19 +32,35 @@ extension Content {
             return nil
         }
 
-        guard let mediaStrings = dictionary["media"] as? [String], mediaStrings.count > 0 else {
-            return nil
-        }
-
-        let media = mediaStrings.flatMap { URL(string: $0) }
-
-        if media.count == 0 {
+        guard let media = (dictionary["media"] as? [String])?.flatMap({ URL(string: $0) }), media.count > 0 else {
             return nil
         }
 
         self.source = source
         self.title = title
         self.media = media
+
+    }
+
+    func dictionary() -> [String:Any] {
+
+        return [
+            "source": self.source.absoluteString,
+            "title": self.title,
+            "media": self.media.map { $0.absoluteString }
+        ]
+
+    }
+
+}
+
+extension Content: Equatable {
+
+    public static func ==(lhs: Content, rhs: Content) -> Bool {
+
+        return lhs.source == rhs.source
+            && lhs.title == rhs.title
+            && lhs.media == rhs.media
 
     }
 

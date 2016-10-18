@@ -22,38 +22,63 @@ class RemoteContentResolverSpec: QuickSpec {
 
         describe("content resolver") {
 
+            it("should report that resolution has started") {
+
+                let session = MockURLSession()
+                let resolver = RemoteContentResolver(session: session)
+
+                let sourceUrl = URL(string: "http://example.com")!
+                var started = false
+
+                resolver.resolve(source: sourceUrl) { state in
+                    if case .started = state { started = true }
+                }
+
+                expect(started).toEventually(equal(true))
+                
+            }
+
             it("should make a network request for a given source") {
 
                 let session = MockURLSession()
                 let resolver = RemoteContentResolver(session: session)
 
-                let sourceUrl = URL(string: "http://apple.com")!
-                let requestUrl = URL(string: "http://api.lstn.ltd/content?source=http%3A%2F%2Fapple.com")!
+                let sourceUrl = URL(string: "http://example.com")!
+                let requestUrl = URL(string: "http://api.lstn.ltd/content?source=http%3A%2F%2Fexample.com")!
 
                 resolver.resolve(source: sourceUrl)
 
                 expect(session.dataTaskFired).toEventually(equal(true))
                 expect(session.dataTaskUrl).toEventually(equal(requestUrl))
-                
+
             }
 
             it("should return a valid result for a successful request") {
 
-                let response = ["https://one.com", "https://two.com", "https://three.com"]
-                let data = try! JSONSerialization.data(withJSONObject: response, options: [])
+                let content = Content(dictionary: [
+                    "source": "https://example.com/articles/1",
+                    "title": "Example content item title",
+                    "media": [
+                        "https://example.com/articles/1/media.mp3",
+                        "https://example.com/articles/1/media.m3u8",
+                        "https://example.com/articles/1/media.m4a"
+                    ]
+                ])!
+
+                let data = try! JSONSerialization.data(withJSONObject: content.dictionary())
 
                 let session = MockURLSession(data: data)
                 let resolver = RemoteContentResolver(session: session)
 
-                let url = URL(string: "http://apple.com/")!
-                var result: ContentResolverResult? = nil
+                let url = URL(string: "http://example.com/")!
+                var result: Content? = nil
 
                 resolver.resolve(source: url) { state in
-                    if case let .succeeded(r) = state { result = r }
+                    if case let .resolved(r) = state { result = r }
                 }
 
-                expect(result).toEventually(contain([URL(string: "https://one.com")!]))
-                
+                expect(result).toEventually(equal(content))
+
             }
 
             it("should return an error when the network is unreachable") {
@@ -61,7 +86,7 @@ class RemoteContentResolverSpec: QuickSpec {
                 let session = MockURLSession(error: SpecError.general)
                 let resolver = RemoteContentResolver(session: session)
 
-                let sourceUrl = URL(string: "http://apple.com")!
+                let sourceUrl = URL(string: "http://example.com")!
                 var error: ContentResolverError? = nil
 
                 resolver.resolve(source: sourceUrl) { state in
@@ -74,13 +99,13 @@ class RemoteContentResolverSpec: QuickSpec {
 
             it("should return an error when the response is invalid") {
 
-                let response = ["invalid": "dictionary"]
+                let response = ["invalid": "response"]
                 let data = try! JSONSerialization.data(withJSONObject: response, options: [])
 
                 let session = MockURLSession(data: data)
                 let resolver = RemoteContentResolver(session: session)
 
-                let sourceUrl = URL(string: "http://apple.com/")!
+                let sourceUrl = URL(string: "http://example.com/")!
                 var error: ContentResolverError? = nil
 
                 resolver.resolve(source: sourceUrl) { state in
