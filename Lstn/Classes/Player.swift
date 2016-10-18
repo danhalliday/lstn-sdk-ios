@@ -37,8 +37,8 @@ public class Player {
 
     private var callbacks = Callbacks()
 
-    public init(resolver: ContentResolver? = nil) {
-        self.resolver = resolver ?? RemoteContentResolver()
+    public init(resolver: ContentResolver = RemoteContentResolver()) {
+        self.resolver = resolver
     }
 
     public func load(url: URL, complete: Callback? = nil) {

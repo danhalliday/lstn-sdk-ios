@@ -15,8 +15,8 @@ class RemoteContentResolver: ContentResolver {
     private let session: URLSessionType
     private var task: URLSessionDataTaskType?
 
-    public init(session: URLSessionType? = nil) {
-        self.session = session ?? URLSession.shared
+    init(session: URLSessionType = URLSession.shared) {
+        self.session = session
     }
 
     func resolve(source: URL, callback: ((ContentResolverState) -> Void)? = nil) {
