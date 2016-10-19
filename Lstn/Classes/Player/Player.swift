@@ -40,15 +40,25 @@ public class Player {
             switch state {
 
             case .started:
-                self.delegate?.loadingDidStart()
+                self.dispatch {
+                    self.delegate?.loadingDidStart()
+                }
 
             case .resolved:
-                self.delegate?.loadingDidFinish()
-                complete?(true)
+                self.dispatch {
+                    self.delegate?.playbackDidStop()
+                    self.delegate?.playbackDidProgress(amount: 0)
+                    self.delegate?.loadingDidFinish()
+                    complete?(true)
+                }
 
             case .failed:
-                self.delegate?.loadingDidFail()
-                complete?(false)
+                self.dispatch {
+                    self.delegate?.playbackDidStop()
+                    self.delegate?.playbackDidProgress(amount: 0)
+                    self.delegate?.loadingDidFail()
+                    complete?(false)
+                }
 
             }
 
@@ -57,13 +67,23 @@ public class Player {
     }
 
     public func play(complete: Callback? = nil) {
-        self.delegate?.playbackDidStart()
-        complete?(true)
+        self.dispatch {
+            self.delegate?.playbackDidStart()
+            self.delegate?.playbackDidProgress(amount: 0.5)
+            complete?(true)
+        }
     }
 
     public func stop(complete: Callback? = nil) {
-        self.delegate?.playbackDidStop()
-        complete?(true)
+        self.dispatch {
+            self.delegate?.playbackDidStop()
+            self.delegate?.playbackDidProgress(amount: 0.5)
+            complete?(true)
+        }
+    }
+
+    private func dispatch(closure: @escaping () -> Void) {
+        DispatchQueue.main.async(execute: closure)
     }
 
 }

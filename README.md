@@ -7,7 +7,7 @@
 
 Lstn is a podcast player for your app’s text content.
 
-## Installation
+## Getting Started
 
 Lstn is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
@@ -16,32 +16,19 @@ it, simply add the following line to your Podfile:
 pod "Lstn"
 ```
 
-## Quick Start
-
-Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load some content and
-play it:
+Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load and play some content:
 
 ```swift
 let article = URL(string: "https://example.com/article.html")!
 
 Lstn.shared.player.load(source: article) { success in
-    if success { print("Content was loaded") }
+    if success { Lstn.shared.player.play() }
 }
 ```
 
-```swift
-Lstn.shared.player.play { success in
-    if success { print("Content started playing") }
-}
-```
+## Real-World Example
 
-```swift
-Lstn.shared.player.stop { success in
-    if success { print("Content stopped playing") }
-}
-```
-
-For more advanced use, a delegate protocol is provided:
+Larger apps will need a clean way to catch all player events, so a delegate protocol (`PlayerDelegate`) is provided. You can also create your own `Player` instances as needed:
 
 ```swift
 import Lstn
