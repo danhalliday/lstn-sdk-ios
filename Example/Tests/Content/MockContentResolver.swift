@@ -11,19 +11,21 @@ import Foundation
 
 class SucceedingContentResolver: ContentResolver {
 
-    let content = Content(dictionary: [
-        "source": "https://example.com/articles/1",
-        "title": "Example content item title",
-        "media": [
-            "https://example.com/articles/1/media.mp3",
-            "https://example.com/articles/1/media.m3u8",
-            "https://example.com/articles/1/media.m4a"
-        ]
-    ])!
+    var workingPopSoundPath: String {
+        return Bundle(for: type(of: self)).path(forResource: "Pop", ofType: "m4a")!
+    }
 
     func resolve(source: URL, callback: ((ContentResolverState) -> Void)?) {
+
+        let content = Content(dictionary: [
+            "source": "https://example.com/articles/1",
+            "title": "Example content item title",
+            "media": ["file://\(self.workingPopSoundPath)"]
+        ])!
+
         callback?(.started)
-        callback?(.resolved(self.content))
+        callback?(.resolved(content))
+
     }
 
 }
@@ -31,8 +33,10 @@ class SucceedingContentResolver: ContentResolver {
 class FailingContentResolver: ContentResolver {
 
     func resolve(source: URL, callback: ((ContentResolverState) -> Void)?) {
+
         callback?(.started)
         callback?(.failed(.unknown(nil)))
+
     }
     
 }

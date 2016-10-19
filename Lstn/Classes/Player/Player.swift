@@ -25,15 +25,27 @@ public protocol PlayerDelegate: class {
 public class Player {
 
     public weak var delegate: PlayerDelegate? = nil
+
     private let resolver: ContentResolver
+    private let engine: AudioEngine
 
     public typealias Callback = (Bool) -> Void
 
-    public init(resolver: ContentResolver = RemoteContentResolver()) {
+    fileprivate var loadCallback: Callback?
+
+    public init(resolver: ContentResolver = RemoteContentResolver(),
+                engine: AudioEngine = DefaultAudioEngine()) {
+
         self.resolver = resolver
+        self.engine = engine
+
+        self.engine.delegate = self
+
     }
 
     public func load(source: URL, complete: Callback? = nil) {
+
+        self.loadCallback = complete
 
         self.resolver.resolve(source: source) { state in
 
@@ -44,20 +56,13 @@ public class Player {
                     self.delegate?.loadingDidStart()
                 }
 
-            case .resolved:
-                self.dispatch {
-                    self.delegate?.playbackDidStop()
-                    self.delegate?.playbackDidProgress(amount: 0)
-                    self.delegate?.loadingDidFinish()
-                    complete?(true)
-                }
+            case .resolved(let content):
+                self.engine.load(url: content.media.first!)
 
             case .failed:
                 self.dispatch {
-                    self.delegate?.playbackDidStop()
-                    self.delegate?.playbackDidProgress(amount: 0)
                     self.delegate?.loadingDidFail()
-                    complete?(false)
+                    self.loadCallback?(false)
                 }
 
             }
@@ -67,23 +72,73 @@ public class Player {
     }
 
     public func play(complete: Callback? = nil) {
-        self.dispatch {
-            self.delegate?.playbackDidStart()
-            self.delegate?.playbackDidProgress(amount: 0.5)
-            complete?(true)
-        }
+        self.engine.play()
+        // TODO: Callback?
     }
 
     public func stop(complete: Callback? = nil) {
+        self.engine.stop()
+        // TODO: Callback?
+    }
+
+    fileprivate func dispatch(closure: @escaping () -> Void) {
+        DispatchQueue.main.async(execute: closure)
+    }
+
+}
+
+extension Player: AudioEngineDelegate {
+
+    public func loadingDidStart() {
+        // ...
+    }
+
+    public func loadingDidFinish() {
         self.dispatch {
-            self.delegate?.playbackDidStop()
-            self.delegate?.playbackDidProgress(amount: 0.5)
-            complete?(true)
+            self.delegate?.loadingDidFinish()
+            self.loadCallback?(true)
         }
     }
 
-    private func dispatch(closure: @escaping () -> Void) {
-        DispatchQueue.main.async(execute: closure)
+    public func loadingDidFail() {
+        self.dispatch {
+            self.delegate?.loadingDidFail()
+            self.delegate?.playbackDidStop()
+            self.delegate?.playbackDidProgress(amount: 0)
+            self.loadCallback?(false)
+        }
+    }
+
+    public func playbackDidStart() {
+        self.dispatch {
+            self.delegate?.playbackDidStart()
+        }
+    }
+
+    public func playbackDidProgress(amount: Double) {
+        self.dispatch {
+            self.delegate?.playbackDidProgress(amount: amount)
+        }
+    }
+
+    public func playbackDidStop() {
+        self.dispatch {
+            self.delegate?.playbackDidStop()
+        }
+    }
+
+    public func playbackDidFinish() {
+        self.dispatch {
+            self.delegate?.playbackDidFinish()
+        }
+    }
+
+    public func playbackDidFail() {
+        self.dispatch {
+            self.delegate?.playbackDidFail()
+            self.delegate?.playbackDidStop()
+            self.delegate?.playbackDidProgress(amount: 0)
+        }
     }
 
 }
