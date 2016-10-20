@@ -15,6 +15,7 @@ class PlayerView: UIView {
     @IBOutlet weak var pauseButton: UIButton!
     @IBOutlet weak var loadingIndicatorView: UIActivityIndicatorView!
     @IBOutlet weak var positionProgressView: UIProgressView!
+    @IBOutlet weak var errorLabel: UILabel!
 
     override func awakeFromNib() {
 
@@ -32,6 +33,7 @@ class PlayerView: UIView {
         self.loadingIndicatorView.hidesWhenStopped = true
 
         self.positionProgressView.progress = 0
+        self.errorLabel.isHidden = true
 
     }
 
@@ -58,6 +60,7 @@ extension PlayerView: PlayerDelegate {
     func loadingDidStart() {
 
         self.loadingIndicatorView.startAnimating()
+        self.errorLabel.isHidden = true
 
     }
 
@@ -74,7 +77,7 @@ extension PlayerView: PlayerDelegate {
         self.playButton.isEnabled = false
         self.pauseButton.isEnabled = false
         self.loadingIndicatorView.stopAnimating()
-        // TODO: Error icon
+        self.errorLabel.isHidden = false
 
     }
 
@@ -82,6 +85,7 @@ extension PlayerView: PlayerDelegate {
 
         self.playButton.isHidden = true
         self.pauseButton.isHidden = false
+        self.errorLabel.isHidden = true
 
     }
 
@@ -109,6 +113,7 @@ extension PlayerView: PlayerDelegate {
 
         self.playButton.isHidden = false
         self.pauseButton.isHidden = true
+        self.errorLabel.isHidden = false
 
     }
     

@@ -57,7 +57,9 @@ public class Player {
                 }
 
             case .resolved(let content):
-                self.engine.load(url: content.media.first!)
+                self.dispatch {
+                    self.engine.load(url: content.media.first!)
+                }
 
             case .failed:
                 self.dispatch {
@@ -103,8 +105,6 @@ extension Player: AudioEngineDelegate {
     public func loadingDidFail() {
         self.dispatch {
             self.delegate?.loadingDidFail()
-            self.delegate?.playbackDidStop()
-            self.delegate?.playbackDidProgress(amount: 0)
             self.loadCallback?(false)
         }
     }
@@ -117,7 +117,7 @@ extension Player: AudioEngineDelegate {
 
     public func playbackDidProgress(amount: Double) {
         self.dispatch {
-            self.delegate?.playbackDidProgress(amount: amount)
+//            self.delegate?.playbackDidProgress(amount: amount)
         }
     }
 
@@ -136,8 +136,6 @@ extension Player: AudioEngineDelegate {
     public func playbackDidFail() {
         self.dispatch {
             self.delegate?.playbackDidFail()
-            self.delegate?.playbackDidStop()
-            self.delegate?.playbackDidProgress(amount: 0)
         }
     }
 

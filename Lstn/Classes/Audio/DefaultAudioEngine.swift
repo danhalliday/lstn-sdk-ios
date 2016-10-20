@@ -9,105 +9,149 @@
 import Foundation
 import AVFoundation
 
-private var playerItemContext = 0
-
 class DefaultAudioEngine: NSObject, AudioEngine {
 
     weak var delegate: AudioEngineDelegate?
 
-    fileprivate let player = AVPlayer()
-    fileprivate var observer: Any?
+    @objc fileprivate let player = AVPlayer()
+
+    fileprivate var rateObservationContext = 0
+    fileprivate var statusObservationContext = 0
+
+    fileprivate var periodicObservers: [Any] = []
+
+    fileprivate let queue = DispatchQueue.global(qos: .background)
+
+    override init() {
+        super.init()
+        self.addPropertyObservers()
+    }
 
     func load(url: URL) {
-
-        self.removeItemObserver(item: self.player.currentItem)
-        let item = AVPlayerItem(url: url)
-        self.addItemObserver(item: item)
-        self.player.replaceCurrentItem(with: item)
-
+        self.dispatch {
+            self.player.replaceCurrentItem(with: AVPlayerItem(url: url))
+        }
     }
 
     func play() {
-        self.addPlayerObserver(player: self.player)
-        self.player.play()
+        self.dispatch {
+            self.addPeriodicObservers()
+            self.player.play()
+        }
     }
 
     func stop() {
-        self.removePlayerObserver(player: self.player)
-        self.player.pause()
+        self.dispatch {
+            self.removePeriodicObservers()
+            self.player.pause()
+        }
     }
 
-    func addItemObserver(item: AVPlayerItem?) {
-        item?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: .new, context: &playerItemContext)
+    private func dispatch(closure: @escaping () -> Void) {
+        self.queue.async(execute: closure)
     }
 
-    func removeItemObserver(item: AVPlayerItem?) {
-        item?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), context: &playerItemContext)
+    deinit {
+        self.removePropertyObservers()
+        self.removePeriodicObservers()
     }
 
-    func addPlayerObserver(player: AVPlayer) {
+}
+
+// MARK: - KVO Setup
+
+extension DefaultAudioEngine {
+
+    fileprivate func addPropertyObservers() {
+
+        self.player.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: .new, context: &rateObservationContext)
+        self.player.addObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem.status), options: .new, context: &statusObservationContext)
+
+    }
+
+    fileprivate func removePropertyObservers() {
+
+        self.player.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate), context: &rateObservationContext)
+        self.player.removeObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem.status), context: &statusObservationContext)
+
+    }
+
+    fileprivate func addPeriodicObservers() {
 
         let interval = CMTime(value: 1, timescale: 1)
         let queue = DispatchQueue.main
 
-        player.addPeriodicTimeObserver(forInterval: interval, queue: queue) { time in
-
-            if let duration = player.currentItem?.duration {
-                self.delegate?.playbackDidProgress(amount: time.seconds / duration.seconds)
-            }
-
+        guard let duration = self.player.currentItem?.duration, duration.seconds > 0 else {
+            return
         }
 
-    }
-
-    func removePlayerObserver(player: AVPlayer) {
-
-        if let observer = self.observer {
-            player.removeTimeObserver(observer)
-            self.observer = nil
+        let observer = self.player.addPeriodicTimeObserver(forInterval: interval, queue: queue) {
+            time in
+            self.delegate?.playbackDidProgress(amount: time.seconds / duration.seconds)
         }
 
+        self.periodicObservers.append(observer)
+
     }
 
-    deinit {
-        self.removeItemObserver(item: self.player.currentItem)
-        self.removePlayerObserver(player: self.player)
-    }
+    fileprivate func removePeriodicObservers() {
 
+        self.periodicObservers.forEach { self.player.removeTimeObserver($0) }
+        self.periodicObservers.removeAll()
+
+    }
+    
 }
+
+// MARK: - KVO Handlers
 
 extension DefaultAudioEngine {
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
 
-        guard context == &playerItemContext, keyPath == #keyPath(AVPlayerItem.status) else {
+        switch context {
+
+        case .some(&statusObservationContext):
+            self.statusDidChange(change: change)
+
+        case .some(&rateObservationContext):
+            self.rateDidChange(change: change)
+
+        default:
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-            return
         }
 
-        let status: AVPlayerItemStatus
+    }
 
-        if let statusNumber = change?[.newKey] as? NSNumber {
-            status = AVPlayerItemStatus(rawValue: statusNumber.intValue)!
-        } else {
-            status = .unknown
-        }
+    private func statusDidChange(change: [NSKeyValueChangeKey: Any]?) {
+
+        guard let number = change?[.newKey] as? NSNumber else { return }
+        guard let status = AVPlayerItemStatus(rawValue: number.intValue) else { return }
 
         switch status {
-        case .readyToPlay:
-            print("readyToPlay")
-            self.delegate?.loadingDidFinish()
-
-        case .failed:
-            print("failed: \(self.player.error)")
-            self.delegate?.loadingDidFail()
 
         case .unknown:
-            print("unknown: \(self.player.error)")
-            self.delegate?.loadingDidFail()
+            self.queue.async { self.delegate?.loadingDidStart() }
+
+        case .readyToPlay:
+            self.queue.async { self.delegate?.loadingDidFinish() }
+
+        case .failed:
+            self.queue.async { self.delegate?.loadingDidFail() }
 
         }
 
+    }
+
+    private func rateDidChange(change: [NSKeyValueChangeKey: Any]?) {
+
+        guard let number = change?[.newKey] as? NSNumber else { return }
+
+        if number.floatValue > 0 {
+            self.queue.async { self.delegate?.playbackDidStart() }
+        } else {
+            self.queue.async { self.delegate?.playbackDidStop() }
+        }
 
     }
 

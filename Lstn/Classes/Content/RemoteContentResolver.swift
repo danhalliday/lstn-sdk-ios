@@ -13,21 +13,30 @@ class RemoteContentResolver: ContentResolver {
     private let session: URLSessionType
     private var task: URLSessionDataTaskType?
 
+    private let queue = DispatchQueue.global(qos: .background)
+
     init(session: URLSessionType = URLSession.shared) {
         self.session = session
     }
 
     func resolve(source: URL, callback: ((ContentResolverState) -> Void)? = nil) {
 
-        callback?(.started)
-        self.task?.cancel()
+         self.queue.async {
 
-        let task = self.session.dataTask(with: self.url(source: source)) {
-            callback?(self.handler(data: $0, response: $1, error: $2))
+            callback?(.started)
+            self.task?.cancel()
+
+            let task = self.session.dataTask(with: self.url(source: source)) {
+                data, response, error in
+                self.queue.async {
+                    callback?(self.handler(data: data, response: response, error: error))
+                }
+            }
+
+            self.task = task
+            task.resume()
+
         }
-
-        self.task = task
-        task.resume()
 
     }
 

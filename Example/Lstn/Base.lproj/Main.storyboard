@@ -87,6 +87,13 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </activityIndicatorView>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UbH-El-nx3"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Error!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o45-bU-Phy">
+                                        <frame key="frameInset" minX="152" minY="25" width="43" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -96,6 +103,7 @@
                                     <constraint firstItem="UbH-El-nx3" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="topMargin" id="xCE-so-Cur"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="errorLabel" destination="o45-bU-Phy" id="jBA-ub-uLI"/>
                                     <outlet property="loadingIndicatorView" destination="enV-LC-GaV" id="qM3-0t-C7H"/>
                                     <outlet property="pauseButton" destination="xFg-Iu-D7B" id="eUj-T8-ao3"/>
                                     <outlet property="playButton" destination="QYc-Uz-pdD" id="17W-4k-3rh"/>
