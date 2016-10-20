@@ -15,8 +15,8 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
     weak var delegate: AudioEngineDelegate?
 
-    private let player = AVPlayer()
-    private var observer: Any?
+    fileprivate let player = AVPlayer()
+    fileprivate var observer: Any?
 
     func load(url: URL) {
 
@@ -99,11 +99,11 @@ extension DefaultAudioEngine {
             self.delegate?.loadingDidFinish()
 
         case .failed:
-            print("failed")
+            print("failed: \(self.player.error)")
             self.delegate?.loadingDidFail()
 
         case .unknown:
-            print("unknown")
+            print("unknown: \(self.player.error)")
             self.delegate?.loadingDidFail()
 
         }
