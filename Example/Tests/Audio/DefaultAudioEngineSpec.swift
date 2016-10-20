@@ -38,7 +38,7 @@ class DefaultAudioEngineSpec: QuickSpec {
                 engine.delegate = spy
                 engine.load(url: url)
 
-                expect(spy.loadingDidFinishFired).toEventually(equal(true))
+                expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: 10)
 
             }
 

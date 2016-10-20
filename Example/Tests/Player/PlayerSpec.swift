@@ -37,7 +37,7 @@ class PlayerSpec: QuickSpec {
                         result = success
                     }
 
-                    expect(result).toEventually(equal(true))
+                    expect(result).toEventually(equal(true), timeout: 10)
 
                 }
 
@@ -54,8 +54,8 @@ class PlayerSpec: QuickSpec {
                     player.delegate = spy
                     player.load(source: url)
 
-                    expect(spy.loadingDidStartFired).toEventually(equal(true))
-                    expect(spy.loadingDidFinishFired).toEventually(equal(true))
+                    expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: 10)
+                    expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: 10)
 
                 }
 
