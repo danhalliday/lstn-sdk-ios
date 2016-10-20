@@ -137,6 +137,7 @@ extension DefaultAudioEngine {
             self.queue.async { self.delegate?.loadingDidFinish() }
 
         case .failed:
+            print("Audio engine failed to load: \(self.player.error)")
             self.queue.async { self.delegate?.loadingDidFail() }
 
         }
