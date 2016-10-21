@@ -13,6 +13,7 @@ class AudioEngineSpy: AudioEngineDelegate {
 
     var loadingDidStartFired = false
     var loadingDidFinishFired = false
+    var loadingDidFinishCallback: (() -> Void)?
     var loadingDidFailFired = false
 
     func loadingDidStart() {
@@ -21,6 +22,7 @@ class AudioEngineSpy: AudioEngineDelegate {
 
     func loadingDidFinish() {
         self.loadingDidFinishFired = true
+        self.loadingDidFinishCallback?()
     }
 
     func loadingDidFail() {

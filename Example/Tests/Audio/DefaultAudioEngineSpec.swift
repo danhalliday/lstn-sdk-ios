@@ -12,6 +12,8 @@ import Foundation
 
 @testable import Lstn
 
+private let timeout = 5.0 // Need a little time as no way to avoid reading from disk...
+
 class DefaultAudioEngineSpec: QuickSpec {
 
     var workingPopSoundPath: String {
@@ -26,7 +28,7 @@ class DefaultAudioEngineSpec: QuickSpec {
 
     override func spec() {
 
-        describe("audio engine") {
+        describe("Audio Engine") {
 
             it("should load a local item") {
 
@@ -38,7 +40,7 @@ class DefaultAudioEngineSpec: QuickSpec {
                 engine.delegate = spy
                 engine.load(url: url)
 
-                expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: 10)
+                expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: timeout)
 
             }
 
@@ -52,8 +54,8 @@ class DefaultAudioEngineSpec: QuickSpec {
                 engine.delegate = spy
                 engine.load(url: url)
 
-                expect(spy.loadingDidFailFired).toEventually(equal(true))
-                
+                expect(spy.loadingDidFailFired).toEventually(equal(true), timeout: timeout)
+
             }
 
             it("should fail to load a corrupt file") {
@@ -66,8 +68,63 @@ class DefaultAudioEngineSpec: QuickSpec {
                 engine.delegate = spy
                 engine.load(url: url)
 
-                expect(spy.loadingDidFailFired).toEventually(equal(true))
-                
+                expect(spy.loadingDidFailFired).toEventually(equal(true), timeout: timeout)
+
+            }
+
+            it("should report playback did start") {
+
+                let engine = DefaultAudioEngine()
+                let spy = AudioEngineSpy()
+
+                let url = URL(fileURLWithPath: self.workingPopSoundPath)
+
+                spy.loadingDidFinishCallback = {
+                    engine.play()
+                }
+
+                engine.delegate = spy
+                engine.load(url: url)
+
+                expect(spy.playbackDidStartFired).toEventually(equal(true), timeout: timeout)
+
+            }
+
+            it("should report playback did stop") {
+
+                let engine = DefaultAudioEngine()
+                let spy = AudioEngineSpy()
+
+                let url = URL(fileURLWithPath: self.workingPopSoundPath)
+
+                spy.loadingDidFinishCallback = {
+                    engine.play()
+                    engine.stop()
+                }
+
+                engine.delegate = spy
+                engine.load(url: url)
+
+                expect(spy.playbackDidStopFired).toEventually(equal(true), timeout: timeout)
+
+            }
+
+            it("should report playback did finish") {
+
+                let engine = DefaultAudioEngine()
+                let spy = AudioEngineSpy()
+
+                let url = URL(fileURLWithPath: self.workingPopSoundPath)
+
+                spy.loadingDidFinishCallback = {
+                    engine.play()
+                }
+
+                engine.delegate = spy
+                engine.load(url: url)
+
+                expect(spy.playbackDidFinishFired).toEventually(equal(true), timeout: timeout)
+
             }
 
         }

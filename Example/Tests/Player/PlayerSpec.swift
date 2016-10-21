@@ -14,9 +14,9 @@ class PlayerSpec: QuickSpec {
 
     override func spec() {
 
-        describe("player") {
+        describe("Player") {
 
-            it("loads a URL") {
+            it("should load a URL") {
 
                 let player = Player()
                 let url = URL(string: "http://example.com")!
@@ -27,7 +27,7 @@ class PlayerSpec: QuickSpec {
 
             describe("callback interface") {
 
-                it("calls back after loading a URL") {
+                it("should call back after loading a URL") {
 
                     let player = Player(resolver: SucceedingContentResolver())
                     let url = URL(string: "http://example.com")!
@@ -45,7 +45,7 @@ class PlayerSpec: QuickSpec {
 
             describe("delegate interface") {
 
-                it("calls its delegate after loading a URL") {
+                it("should call its delegate after loading a URL") {
 
                     let player = Player(resolver: SucceedingContentResolver())
                     let url = URL(string: "http://example.com")!

@@ -18,42 +18,41 @@ class DefaultAudioEngine: NSObject, AudioEngine {
     fileprivate var rateObservationContext = 0
     fileprivate var statusObservationContext = 0
 
-    fileprivate var periodicObservers: [Any] = []
+    fileprivate var timeObservers: [Any] = []
 
     fileprivate let queue = DispatchQueue.global(qos: .background)
 
     override init() {
         super.init()
-        self.addPropertyObservers()
+        self.addPlayerObservers(player: self.player)
     }
 
     func load(url: URL) {
-        self.dispatch {
-            self.player.replaceCurrentItem(with: AVPlayerItem(url: url))
+        self.queue.async {
+            self.removeItemObservers(item: self.player.currentItem)
+            let item = AVPlayerItem(url: url)
+            self.addItemObservers(item: item)
+            self.player.replaceCurrentItem(with: item)
         }
     }
 
     func play() {
-        self.dispatch {
-            self.addPeriodicObservers()
+        self.queue.async {
+            self.addPlayerTimeObservers(player: self.player)
             self.player.play()
         }
     }
 
     func stop() {
-        self.dispatch {
-            self.removePeriodicObservers()
+        self.queue.async {
+            self.removePlayerTimeObservers(player: self.player)
             self.player.pause()
         }
     }
 
-    private func dispatch(closure: @escaping () -> Void) {
-        self.queue.async(execute: closure)
-    }
-
     deinit {
-        self.removePropertyObservers()
-        self.removePeriodicObservers()
+        self.removePlayerObservers(player: self.player)
+        self.removePlayerTimeObservers(player: self.player)
     }
 
 }
@@ -62,44 +61,53 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
 extension DefaultAudioEngine {
 
-    fileprivate func addPropertyObservers() {
+    fileprivate func addPlayerObservers(player: AVPlayer) {
 
-        self.player.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: .new, context: &rateObservationContext)
-        self.player.addObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem.status), options: .new, context: &statusObservationContext)
-
-    }
-
-    fileprivate func removePropertyObservers() {
-
-        self.player.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate), context: &rateObservationContext)
-        self.player.removeObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem.status), context: &statusObservationContext)
+        player.addObserver(self, forKeyPath: #keyPath(AVPlayer.rate), options: .new, context: &rateObservationContext)
+        player.addObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem.status), options: .new, context: &statusObservationContext)
 
     }
 
-    fileprivate func addPeriodicObservers() {
+    fileprivate func removePlayerObservers(player: AVPlayer) {
+
+        player.removeObserver(self, forKeyPath: #keyPath(AVPlayer.rate), context: &rateObservationContext)
+        player.removeObserver(self, forKeyPath: #keyPath(AVPlayer.currentItem.status), context: &statusObservationContext)
+
+    }
+
+    fileprivate func addPlayerTimeObservers(player: AVPlayer) {
 
         let interval = CMTime(value: 1, timescale: 1)
         let queue = DispatchQueue.main
 
-        guard let duration = self.player.currentItem?.duration, duration.seconds > 0 else {
+        guard let duration = player.currentItem?.duration, duration.seconds > 0 else {
             return
         }
 
-        let observer = self.player.addPeriodicTimeObserver(forInterval: interval, queue: queue) {
+        let observer = player.addPeriodicTimeObserver(forInterval: interval, queue: queue) {
             time in self.delegate?.playbackDidProgress(amount: time.seconds / duration.seconds)
         }
 
-        self.periodicObservers.append(observer)
+        self.timeObservers.append(observer)
 
     }
 
-    fileprivate func removePeriodicObservers() {
+    fileprivate func removePlayerTimeObservers(player: AVPlayer) {
 
-        self.periodicObservers.forEach { self.player.removeTimeObserver($0) }
-        self.periodicObservers.removeAll()
-
+        self.timeObservers.forEach { player.removeTimeObserver($0) }
+        self.timeObservers.removeAll()
+        
     }
-    
+
+    fileprivate func addItemObservers(item: AVPlayerItem?) {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.playbackDidFinish), name: .AVPlayerItemDidPlayToEndTime, object: item)
+    }
+
+    fileprivate func removeItemObservers(item: AVPlayerItem?) {
+        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: item)
+    }
+
+
 }
 
 // MARK: - KVO Handlers
@@ -130,15 +138,15 @@ extension DefaultAudioEngine {
         switch status {
 
         case .unknown:
-            self.queue.async { self.delegate?.loadingDidStart() }
+            self.delegate?.loadingDidStart()
 
         case .readyToPlay:
-            self.queue.async { self.delegate?.loadingDidFinish() }
+            self.delegate?.loadingDidFinish()
 
         case .failed:
             print("Audio engine failed to load: \(self.player.error)")
             print("Player item error: \(self.player.currentItem?.error)")
-            self.queue.async { self.delegate?.loadingDidFail() }
+            self.delegate?.loadingDidFail()
 
         }
 
@@ -149,9 +157,9 @@ extension DefaultAudioEngine {
         guard let number = change?[.newKey] as? NSNumber else { return }
 
         if number.floatValue > 0 {
-            self.queue.async { self.delegate?.playbackDidStart() }
+            self.delegate?.playbackDidStart()
         } else {
-            self.queue.async { self.delegate?.playbackDidStop() }
+            self.delegate?.playbackDidStop()
         }
 
     }
@@ -162,7 +170,7 @@ extension DefaultAudioEngine {
 
 extension DefaultAudioEngine {
 
-    func itemDidFinish() {
+    @objc func playbackDidFinish() {
         self.delegate?.playbackDidFinish()
     }
 
