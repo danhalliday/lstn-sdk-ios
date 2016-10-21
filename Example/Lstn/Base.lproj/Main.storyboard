@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -42,18 +41,18 @@
                                         <rect key="frame" x="0.0" y="92" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C80-Qf-jQH" id="D3U-rp-ebs">
-                                            <frame key="frameInset" width="320" height="43.5"/>
+                                            <frame key="frameInset" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ry9-Xo-4Xt">
-                                                    <frame key="frameInset" minX="15" minY="5" width="33.5" height="20.5"/>
+                                                    <frame key="frameInset" minX="15" minY="4" width="34" height="21"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" alpha="0.25" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Hjy-Ba-vEF">
-                                                    <frame key="frameInset" minX="15" minY="25.5" width="44" height="14.5"/>
+                                                    <frame key="frameInset" minX="15" minY="25" width="44" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
@@ -66,44 +65,64 @@
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9tp-AC-WeC" customClass="PlayerView" customModule="LstnExample" customModuleProvider="target">
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYc-Uz-pdD">
-                                        <frame key="frameInset" minX="40" minY="25" width="30" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Play"/>
-                                        <connections>
-                                            <action selector="playButtonWasTapped" destination="9tp-AC-WeC" eventType="touchUpInside" id="hZT-VL-Abi"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFg-Iu-D7B">
-                                        <frame key="frameInset" minX="92" minY="25" width="42" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Pause"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xFg-Iu-D7B">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="7Q6-EE-Plu"/>
+                                        </constraints>
+                                        <state key="normal" image="pause-icon"/>
                                         <connections>
                                             <action selector="pauseButtonWasTapped" destination="9tp-AC-WeC" eventType="touchUpInside" id="1XJ-S9-i8b"/>
                                         </connections>
                                     </button>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="enV-LC-GaV">
-                                        <frame key="frameInset" minX="238" minY="26" width="20" height="20"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </activityIndicatorView>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="UbH-El-nx3"/>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Error!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="o45-bU-Phy">
-                                        <frame key="frameInset" minX="152" minY="25" width="43" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYc-Uz-pdD">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="44g-uL-jHG"/>
+                                        </constraints>
+                                        <state key="normal" image="play-icon"/>
+                                        <connections>
+                                            <action selector="playButtonWasTapped" destination="9tp-AC-WeC" eventType="touchUpInside" id="hZT-VL-Abi"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A7e-gj-hjn">
+                                        <subviews>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="enV-LC-GaV">
+                                                <color key="color" cocoaTouchSystemColor="darkTextColor"/>
+                                            </activityIndicatorView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="enV-LC-GaV" firstAttribute="centerY" secondItem="A7e-gj-hjn" secondAttribute="centerY" id="4ci-Zc-zct"/>
+                                            <constraint firstItem="enV-LC-GaV" firstAttribute="centerX" secondItem="A7e-gj-hjn" secondAttribute="centerX" id="MSk-0x-ewR"/>
+                                            <constraint firstAttribute="width" constant="64" id="ejc-CU-O3X"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="error-icon" translatesAutoresizingMaskIntoConstraints="NO" id="d6b-Nq-2rn">
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="64" id="dAZ-dp-KCM"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.97636479139328003" green="0.97653168439865112" blue="0.97635418176651001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="UbH-El-nx3" firstAttribute="leading" secondItem="9tp-AC-WeC" secondAttribute="leadingMargin" id="2da-1E-sZn"/>
-                                    <constraint firstItem="UbH-El-nx3" firstAttribute="trailing" secondItem="9tp-AC-WeC" secondAttribute="trailingMargin" id="JTl-bo-DQo"/>
-                                    <constraint firstAttribute="height" constant="80" id="vnX-ly-V7c"/>
-                                    <constraint firstItem="UbH-El-nx3" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="topMargin" id="xCE-so-Cur"/>
+                                    <constraint firstItem="xFg-Iu-D7B" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="top" id="2P3-LT-4dh"/>
+                                    <constraint firstAttribute="trailing" secondItem="A7e-gj-hjn" secondAttribute="trailing" id="6DA-gg-4KQ"/>
+                                    <constraint firstItem="UbH-El-nx3" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="top" id="7VH-nb-3Ox"/>
+                                    <constraint firstItem="QYc-Uz-pdD" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="top" id="8Nw-87-9na"/>
+                                    <constraint firstItem="QYc-Uz-pdD" firstAttribute="leading" secondItem="9tp-AC-WeC" secondAttribute="leading" id="9kN-cU-1ZU"/>
+                                    <constraint firstAttribute="bottom" secondItem="xFg-Iu-D7B" secondAttribute="bottom" constant="1" id="CnZ-XT-azv"/>
+                                    <constraint firstAttribute="bottom" secondItem="A7e-gj-hjn" secondAttribute="bottom" id="FWh-gf-b4X"/>
+                                    <constraint firstItem="UbH-El-nx3" firstAttribute="leading" secondItem="9tp-AC-WeC" secondAttribute="leading" id="Ld2-gW-m4X"/>
+                                    <constraint firstAttribute="trailing" secondItem="UbH-El-nx3" secondAttribute="trailing" id="Vjn-p8-G0j"/>
+                                    <constraint firstItem="d6b-Nq-2rn" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="top" id="Wh7-9A-P5V"/>
+                                    <constraint firstItem="A7e-gj-hjn" firstAttribute="top" secondItem="9tp-AC-WeC" secondAttribute="top" id="eOd-nM-Plm"/>
+                                    <constraint firstItem="xFg-Iu-D7B" firstAttribute="leading" secondItem="9tp-AC-WeC" secondAttribute="leading" id="i18-on-GVC"/>
+                                    <constraint firstAttribute="bottom" secondItem="d6b-Nq-2rn" secondAttribute="bottom" id="jKD-ca-qAA"/>
+                                    <constraint firstAttribute="height" constant="64" id="vnX-ly-V7c"/>
+                                    <constraint firstAttribute="trailing" secondItem="d6b-Nq-2rn" secondAttribute="trailing" id="xWg-xI-b79"/>
+                                    <constraint firstAttribute="bottom" secondItem="QYc-Uz-pdD" secondAttribute="bottom" id="zaq-IZ-TfD"/>
                                 </constraints>
                                 <connections>
-                                    <outlet property="errorLabel" destination="o45-bU-Phy" id="jBA-ub-uLI"/>
+                                    <outlet property="errorIcon" destination="d6b-Nq-2rn" id="Oq2-Vk-c6U"/>
                                     <outlet property="loadingIndicatorView" destination="enV-LC-GaV" id="qM3-0t-C7H"/>
                                     <outlet property="pauseButton" destination="xFg-Iu-D7B" id="eUj-T8-ao3"/>
                                     <outlet property="playButton" destination="QYc-Uz-pdD" id="17W-4k-3rh"/>
@@ -132,4 +151,9 @@
             <point key="canvasLocation" x="705" y="452.11267605633805"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="error-icon" width="50" height="50"/>
+        <image name="pause-icon" width="50" height="50"/>
+        <image name="play-icon" width="50" height="50"/>
+    </resources>
 </document>
