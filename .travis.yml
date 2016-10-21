@@ -9,7 +9,7 @@ before_install:
 script:
   - set -o pipefail
   - >-
-    xcodebuild clean build test
+    xcodebuild clean build
     -workspace Example/Lstn.xcworkspace
     -scheme LstnExample
     -sdk iphonesimulator10.0

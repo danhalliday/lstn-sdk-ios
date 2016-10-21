@@ -157,3 +157,13 @@ extension DefaultAudioEngine {
     }
 
 }
+
+// MARK: - Notification Handlers
+
+extension DefaultAudioEngine {
+
+    func itemDidFinish() {
+        self.delegate?.playbackDidFinish()
+    }
+
+}
