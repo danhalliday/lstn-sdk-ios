@@ -86,8 +86,7 @@ extension DefaultAudioEngine {
         }
 
         let observer = self.player.addPeriodicTimeObserver(forInterval: interval, queue: queue) {
-            time in
-            self.delegate?.playbackDidProgress(amount: time.seconds / duration.seconds)
+            time in self.delegate?.playbackDidProgress(amount: time.seconds / duration.seconds)
         }
 
         self.periodicObservers.append(observer)
@@ -138,6 +137,7 @@ extension DefaultAudioEngine {
 
         case .failed:
             print("Audio engine failed to load: \(self.player.error)")
+            print("Player item error: \(self.player.currentItem?.error)")
             self.queue.async { self.delegate?.loadingDidFail() }
 
         }
