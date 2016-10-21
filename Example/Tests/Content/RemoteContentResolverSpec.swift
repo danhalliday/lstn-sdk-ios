@@ -87,13 +87,13 @@ class RemoteContentResolverSpec: QuickSpec {
                 let resolver = RemoteContentResolver(session: session)
 
                 let sourceUrl = URL(string: "http://example.com")!
-                var error: ContentResolverError? = nil
+                var failed = false
 
                 resolver.resolve(source: sourceUrl) { state in
-                    if case let .failed(e) = state { error = e }
+                    if case .failed = state { failed = true }
                 }
 
-                expect(error).toEventuallyNot(beNil())
+                expect(failed).toEventually(beTrue())
 
             }
 
@@ -106,13 +106,13 @@ class RemoteContentResolverSpec: QuickSpec {
                 let resolver = RemoteContentResolver(session: session)
 
                 let sourceUrl = URL(string: "http://example.com/")!
-                var error: ContentResolverError? = nil
+                var failed = false
 
                 resolver.resolve(source: sourceUrl) { state in
-                    if case let .failed(e) = state { error = e }
+                    if case .failed = state { failed = true }
                 }
 
-                expect(error).toEventuallyNot(beNil())
+                expect(failed).toEventually(beTrue())
 
             }
 

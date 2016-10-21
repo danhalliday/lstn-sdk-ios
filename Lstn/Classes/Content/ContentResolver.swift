@@ -18,14 +18,7 @@ public enum ContentResolverState {
 
     case started
     case resolved(Content)
-    case failed(ContentResolverError)
-
-}
-
-public enum ContentResolverError: Error {
-
-    case http(Int)
-    case data(Any?)
-    case unknown(Error?)
+    case failed
+    case cancelled
 
 }

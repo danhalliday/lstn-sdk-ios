@@ -13,7 +13,7 @@ class RemoteContentResolver: ContentResolver {
     private let session: URLSessionType
     private var task: URLSessionDataTaskType?
 
-    private let queue = DispatchQueue.global(qos: .background)
+    private let queue = DispatchQueue(label: "Lstn Content Resolver")
 
     init(session: URLSessionType = URLSession.shared) {
         self.session = session
@@ -42,39 +42,39 @@ class RemoteContentResolver: ContentResolver {
 
     private func handler(data: Data?, response: URLResponse?, error: Error?) -> ContentResolverState {
 
-        if let error = error {
-            return .failed(.unknown(error))
+        if let error = error as? NSError {
+            return (error.code == -999 && error.domain == NSURLErrorDomain) ? .cancelled : .failed
         }
 
         guard let response = response as? HTTPURLResponse else {
-            return .failed(.unknown(nil))
+            return .failed
         }
 
         if response.statusCode != 200 {
             // TODO: handle retry if status == 202
-            return .failed(.http(response.statusCode))
+            return .failed
         }
 
         guard let data = data else {
-            return .failed(.data(nil))
+            return .failed
         }
 
         if data.count == 0 {
-            return .failed(.data(data))
+            return .failed
         }
 
         let json: Any
 
         do { json = try JSONSerialization.jsonObject(with: data) } catch {
-            return .failed(.data(data))
+            return .failed
         }
 
         guard let dictionary = json as? [String:Any] else {
-            return .failed(.data(json))
+            return .failed
         }
 
         guard let content = Content(dictionary: dictionary) else {
-            return .failed(.data(dictionary))
+            return .failed
         }
 
         return .resolved(content)

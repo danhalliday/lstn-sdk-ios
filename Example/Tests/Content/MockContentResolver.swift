@@ -35,7 +35,7 @@ class FailingContentResolver: ContentResolver {
     func resolve(source: URL, callback: ((ContentResolverState) -> Void)?) {
 
         callback?(.started)
-        callback?(.failed(.unknown(nil)))
+        callback?(.failed)
 
     }
     

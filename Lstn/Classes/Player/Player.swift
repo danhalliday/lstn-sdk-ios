@@ -33,6 +33,8 @@ public class Player {
 
     fileprivate var loadCallback: Callback?
 
+    fileprivate let queue = DispatchQueue.main
+
     public init(resolver: ContentResolver = RemoteContentResolver(),
                 engine: AudioEngine = DefaultAudioEngine()) {
 
@@ -52,20 +54,26 @@ public class Player {
             switch state {
 
             case .started:
-                self.dispatch {
+                self.queue.async {
                     self.delegate?.loadingDidStart()
                 }
 
             case .resolved(let content):
-                self.dispatch {
-                    self.engine.load(url: content.media.first!)
+                self.queue.async {
+                    self.delegate?.loadingDidFinish()
+                    self.loadCallback?(true)
+//                    self.engine.load(url: content.media.first!)
                 }
 
-            case .failed:
-                self.dispatch {
+            case .failed(let error):
+                print(error)
+                self.queue.async {
                     self.delegate?.loadingDidFail()
                     self.loadCallback?(false)
                 }
+
+            case .cancelled:
+                break
 
             }
 
@@ -74,12 +82,12 @@ public class Player {
     }
 
     public func play(complete: Callback? = nil) {
-        self.engine.play()
+//        self.engine.play()
         // TODO: Callback?
     }
 
     public func stop(complete: Callback? = nil) {
-        self.engine.stop()
+//        self.engine.stop()
         // TODO: Callback?
     }
 
