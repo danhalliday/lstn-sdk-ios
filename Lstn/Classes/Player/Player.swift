@@ -61,7 +61,7 @@ public class Player {
             case .resolved(let content):
                 self.engine.load(url: content.media.first!)
 
-            case .failed(let error):
+            case .failed:
                 self.queue.async {
                     self.delegate?.loadingDidFail()
                     self.loadCallback?(false)
