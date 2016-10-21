@@ -59,14 +59,9 @@ public class Player {
                 }
 
             case .resolved(let content):
-                self.queue.async {
-                    self.delegate?.loadingDidFinish()
-                    self.loadCallback?(true)
-//                    self.engine.load(url: content.media.first!)
-                }
+                self.engine.load(url: content.media.first!)
 
             case .failed(let error):
-                print(error)
                 self.queue.async {
                     self.delegate?.loadingDidFail()
                     self.loadCallback?(false)
@@ -82,12 +77,12 @@ public class Player {
     }
 
     public func play(complete: Callback? = nil) {
-//        self.engine.play()
+        self.engine.play()
         // TODO: Callback?
     }
 
     public func stop(complete: Callback? = nil) {
-//        self.engine.stop()
+        self.engine.stop()
         // TODO: Callback?
     }
 
@@ -104,45 +99,45 @@ extension Player: AudioEngineDelegate {
     }
 
     public func loadingDidFinish() {
-        self.dispatch {
+        self.queue.async {
             self.delegate?.loadingDidFinish()
             self.loadCallback?(true)
         }
     }
 
     public func loadingDidFail() {
-        self.dispatch {
+        self.queue.async {
             self.delegate?.loadingDidFail()
             self.loadCallback?(false)
         }
     }
 
     public func playbackDidStart() {
-        self.dispatch {
+        self.queue.async {
             self.delegate?.playbackDidStart()
         }
     }
 
     public func playbackDidProgress(amount: Double) {
-        self.dispatch {
-//            self.delegate?.playbackDidProgress(amount: amount)
+        self.queue.async {
+            self.delegate?.playbackDidProgress(amount: amount)
         }
     }
 
     public func playbackDidStop() {
-        self.dispatch {
+        self.queue.async {
             self.delegate?.playbackDidStop()
         }
     }
 
     public func playbackDidFinish() {
-        self.dispatch {
+        self.queue.async {
             self.delegate?.playbackDidFinish()
         }
     }
 
     public func playbackDidFail() {
-        self.dispatch {
+        self.queue.async {
             self.delegate?.playbackDidFail()
         }
     }

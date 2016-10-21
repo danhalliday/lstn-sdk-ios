@@ -39,6 +39,9 @@ class DefaultAudioEngine: NSObject, AudioEngine {
     func play() {
         self.queue.async {
             self.addPlayerTimeObservers(player: self.player)
+            if self.playerIsAtEnd(player: self.player) {
+                self.player.seek(to: kCMTimeZero)
+            }
             self.player.play()
         }
     }
@@ -48,6 +51,11 @@ class DefaultAudioEngine: NSObject, AudioEngine {
             self.removePlayerTimeObservers(player: self.player)
             self.player.pause()
         }
+    }
+
+    private func playerIsAtEnd(player: AVPlayer) -> Bool {
+        guard let item = player.currentItem else { return false }
+        return player.currentTime() == item.duration
     }
 
     deinit {
@@ -171,6 +179,7 @@ extension DefaultAudioEngine {
 extension DefaultAudioEngine {
 
     @objc func playbackDidFinish() {
+        self.removePlayerTimeObservers(player: self.player)
         self.delegate?.playbackDidFinish()
     }
 

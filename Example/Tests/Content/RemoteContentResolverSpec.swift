@@ -20,7 +20,7 @@ class RemoteContentResolverSpec: QuickSpec {
 
     override func spec() {
 
-        describe("content resolver") {
+        describe("Content Resolver") {
 
             it("should report that resolution has started") {
 

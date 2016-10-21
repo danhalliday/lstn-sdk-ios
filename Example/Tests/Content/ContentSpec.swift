@@ -16,7 +16,7 @@ class ContentSpec: QuickSpec {
 
     override func spec() {
 
-        describe("content model") {
+        describe("Content Model") {
 
             it("should initialise with a valid dictionary") {
 

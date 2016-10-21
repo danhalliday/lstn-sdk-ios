@@ -45,6 +45,18 @@ class ArticlesController: UIViewController {
 
     }
 
+    func titleForRow(index: Int) -> String {
+        return self.articles[index]["title"]!
+    }
+
+    func detailForRow(index: Int) -> String {
+        return self.articles[index]["url"]!
+    }
+
+    func urlForRow(index: Int) -> URL {
+        return URL(string: self.articles[index]["url"]!)!
+    }
+
 }
 
 // MARK: - Table View Data Source
@@ -52,17 +64,15 @@ class ArticlesController: UIViewController {
 extension ArticlesController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? self.articles.count : 0
+        return self.articles.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "articleCell", for: indexPath)
-        let article = self.articles[indexPath.row]
 
-        cell.textLabel?.text = article["title"]!
-        cell.detailTextLabel?.text = article["url"]!
-        cell.detailTextLabel?.alpha = 0.25
+        cell.textLabel?.text = self.titleForRow(index: indexPath.row)
+        cell.detailTextLabel?.text = self.detailForRow(index: indexPath.row)
 
         return cell
 
@@ -76,8 +86,7 @@ extension ArticlesController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let article = self.articles[indexPath.row]
-        let url = URL(string: article["url"]!)!
+        let url = self.urlForRow(index: indexPath.row)
 
         Lstn.shared.player.load(source: url) { success in
             if success { Lstn.shared.player.play() }
