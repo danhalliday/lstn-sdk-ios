@@ -1,4 +1,4 @@
-# Lstn
+# 🎙 Lstn
 
 [![CI Status](http://img.shields.io/travis/lstn-ltd/lstn-sdk-ios.svg)](https://travis-ci.org/lstn-ltd/lstn-sdk-ios)
 [![Version](https://img.shields.io/cocoapods/v/Lstn.svg)](http://cocoapods.org/pods/Lstn)
