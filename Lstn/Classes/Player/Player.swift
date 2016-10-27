@@ -22,7 +22,7 @@ public protocol PlayerDelegate: class {
 
 }
 
-public class Player {
+@objc public class Player: NSObject {
 
     public weak var delegate: PlayerDelegate? = nil
 
@@ -35,11 +35,15 @@ public class Player {
 
     fileprivate let queue = DispatchQueue.main
 
+    override private init() { fatalError() }
+
     public init(resolver: ContentResolver = RemoteContentResolver(),
                 engine: AudioEngine = DefaultAudioEngine()) {
 
         self.resolver = resolver
         self.engine = engine
+
+        super.init()
 
         self.engine.delegate = self
 
