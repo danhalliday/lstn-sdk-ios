@@ -7,7 +7,7 @@ Pod::Spec.new do |s|
   Lstn SDK with an article URL, and it will fetch the article’s text, clean it up, and generate an
   audio version. Lstn provides a customisable player UI, or you can connect your own.
   DESC
-  s.homepage = "https://dashaudio.co"
+  s.homepage = "https://lstn.ltd/sdk/ios/"
   s.license = "MIT"
   s.author = "Lstn Ltd"
   s.source = { :git => "https://github.com/lstn-ltd/lstn-sdk-ios.git", :tag => "#{s.version}" }

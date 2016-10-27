@@ -12,6 +12,7 @@
 		370835BB1DB7A04B00B26896 /* DefaultAudioEngineSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370835BA1DB7A04B00B26896 /* DefaultAudioEngineSpec.swift */; };
 		370835BD1DB7A31300B26896 /* AudioEngineSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 370835BC1DB7A31300B26896 /* AudioEngineSpy.swift */; };
 		370835BF1DB7B12B00B26896 /* PopCorrupt.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 370835BE1DB7B12B00B26896 /* PopCorrupt.m4a */; };
+		371F52DF1DC230DB00DAF7AA /* ExampleObjectiveC.m in Sources */ = {isa = PBXBuildFile; fileRef = 371F52DE1DC230DB00DAF7AA /* ExampleObjectiveC.m */; };
 		3733573B1DB761840058ED70 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3733573A1DB761840058ED70 /* PlayerView.swift */; };
 		37840D651DB5161A00B92DF5 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D631DB5152500B92DF5 /* PlayerSpec.swift */; };
 		37840D6A1DB5286B00B92DF5 /* PlayerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D681DB5284700B92DF5 /* PlayerSpy.swift */; };
@@ -50,6 +51,8 @@
 		370835BA1DB7A04B00B26896 /* DefaultAudioEngineSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DefaultAudioEngineSpec.swift; sourceTree = "<group>"; };
 		370835BC1DB7A31300B26896 /* AudioEngineSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngineSpy.swift; sourceTree = "<group>"; };
 		370835BE1DB7B12B00B26896 /* PopCorrupt.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = PopCorrupt.m4a; sourceTree = "<group>"; };
+		371F52DD1DC230DB00DAF7AA /* LstnTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LstnTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		371F52DE1DC230DB00DAF7AA /* ExampleObjectiveC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleObjectiveC.m; sourceTree = "<group>"; };
 		3733573A1DB761840058ED70 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
 		37840D631DB5152500B92DF5 /* PlayerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSpec.swift; sourceTree = "<group>"; };
 		37840D681DB5284700B92DF5 /* PlayerSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSpy.swift; sourceTree = "<group>"; };
@@ -181,11 +184,13 @@
 			children = (
 				607FACEB1AFB9204008FA782 /* Main.swift */,
 				37840D901DB6733800B92DF5 /* Example.swift */,
+				371F52DE1DC230DB00DAF7AA /* ExampleObjectiveC.m */,
 				37840D831DB62FA600B92DF5 /* Content */,
 				37840D861DB64B5A00B92DF5 /* Audio */,
 				37840D821DB62F9500B92DF5 /* Player */,
 				37840D761DB6210B00B92DF5 /* Utilities */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
+				371F52DD1DC230DB00DAF7AA /* LstnTests-Bridging-Header.h */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				371F52DF1DC230DB00DAF7AA /* ExampleObjectiveC.m in Sources */,
 				37840D651DB5161A00B92DF5 /* PlayerSpec.swift in Sources */,
 				37840D711DB533D100B92DF5 /* RemoteContentResolverSpec.swift in Sources */,
 				37840D8F1DB6546300B92DF5 /* ContentSpec.swift in Sources */,
@@ -631,6 +637,7 @@
 			baseConfigurationReference = 0199BBBF4C87B1AF66988463 /* Pods-LstnTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 44Z29AP4K7;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -640,6 +647,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/LstnTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -649,11 +658,13 @@
 			baseConfigurationReference = 40119DEF79C11DFA62299771 /* Pods-LstnTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 44Z29AP4K7;
 				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Tests/LstnTests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
