@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol PlayerDelegate: class {
+@objc public protocol PlayerDelegate: class {
 
     func loadingDidStart()
     func loadingDidFinish()
@@ -50,7 +50,6 @@ public protocol PlayerDelegate: class {
     }
 
     public func load(source: URL, complete: Callback? = nil) {
-
         self.loadCallback = complete
 
         self.resolver.resolve(source: source) { state in
@@ -144,6 +143,24 @@ extension Player: AudioEngineDelegate {
         self.queue.async {
             self.delegate?.playbackDidFail()
         }
+    }
+
+}
+
+// MARK: - Objective-C compatibility
+
+extension Player {
+
+    public func load(source: URL) {
+        self.load(source: source, complete: nil)
+    }
+
+    public func play() {
+        self.play(complete: nil)
+    }
+
+    public func stop() {
+        self.stop(complete: nil)
     }
 
 }
