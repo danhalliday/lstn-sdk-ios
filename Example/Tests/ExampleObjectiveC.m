@@ -30,7 +30,7 @@
 
     if (self) {
 
-        _player = [[Lstn shared] player];
+        _player = [Player new];
         _article = [[NSURL alloc] initWithString:@"https://example.com/article.html"];
 
         _loading = false;

@@ -35,8 +35,6 @@ import Foundation
 
     fileprivate let queue = DispatchQueue.main
 
-    override private init() { fatalError() }
-
     public init(resolver: ContentResolver = RemoteContentResolver(),
                 engine: AudioEngine = DefaultAudioEngine()) {
 
@@ -48,6 +46,12 @@ import Foundation
         self.engine.delegate = self
 
     }
+
+    override convenience init() {
+        // For Objective-C compatibility
+        self.init(resolver: RemoteContentResolver(), engine: DefaultAudioEngine())
+    }
+
 
     public func load(source: URL, complete: Callback? = nil) {
         self.loadCallback = complete
@@ -150,6 +154,7 @@ extension Player: AudioEngineDelegate {
 // MARK: - Objective-C compatibility
 
 extension Player {
+
 
     public func load(source: URL) {
         self.load(source: source, complete: nil)
