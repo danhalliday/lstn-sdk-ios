@@ -18,9 +18,19 @@ class SucceedingContentResolver: ContentResolver {
     func resolve(source: URL, callback: ((ContentResolverState) -> Void)?) {
 
         let content = Content(dictionary: [
-            "source": "https://example.com/articles/1",
-            "title": "Example content item title",
-            "media": ["file://\(self.workingPopSoundPath)"]
+            "url": "https://example.com/articles/1",
+            "title": "Content title",
+            "author": "Jane Doe",
+            "summary": "Content summary",
+            "body": "Content body",
+            "published_at": "2000-01-01T00:00:000Z",
+            "media": [
+                [
+                    "url": "file://\(self.workingPopSoundPath)",
+                    "type": "audio/mp3",
+                    "role": "summary"
+                ]
+            ]
         ])!
 
         callback?(.started)

@@ -56,12 +56,18 @@ class RemoteContentResolverSpec: QuickSpec {
             it("should return a valid result for a successful request") {
 
                 let content = Content(dictionary: [
-                    "source": "https://example.com/articles/1",
-                    "title": "Example content item title",
+                    "url": "https://example.com/articles/1",
+                    "title": "Content title",
+                    "author": "Jane Doe",
+                    "summary": "Content summary",
+                    "body": "Content body",
+                    "published_at": "2000-01-01T00:00:000Z",
                     "media": [
-                        "https://example.com/articles/1/media.mp3",
-                        "https://example.com/articles/1/media.m3u8",
-                        "https://example.com/articles/1/media.m4a"
+                        [
+                            "url": "https://example.com/articles/1/media.mp3",
+                            "type": "audio/mp3",
+                            "role": "summary"
+                        ]
                     ]
                 ])!
 

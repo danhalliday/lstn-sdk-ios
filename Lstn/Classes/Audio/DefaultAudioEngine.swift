@@ -152,8 +152,6 @@ extension DefaultAudioEngine {
             self.delegate?.loadingDidFinish()
 
         case .failed:
-            print("Audio engine failed to load: \(self.player.error)")
-            print("Player item error: \(self.player.currentItem?.error)")
             self.delegate?.loadingDidFail()
 
         }

@@ -66,7 +66,7 @@ import Foundation
                 }
 
             case .resolved(let content):
-                self.engine.load(url: content.media.first!)
+                self.engine.load(url: content.media.first!.url)
 
             case .failed:
                 self.queue.async {
