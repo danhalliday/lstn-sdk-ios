@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MediaPlayer
 
 @objc public protocol PlayerDelegate: class {
 
@@ -66,6 +67,7 @@ import Foundation
                 }
 
             case .resolved(let content):
+                self.updateControlCenterInfo(content: content)
                 self.engine.load(url: content.media.first!.url)
 
             case .failed:
@@ -168,4 +170,26 @@ extension Player {
         self.stop(complete: nil)
     }
 
+}
+
+// MARK: - Control Center Info
+
+extension Player {
+
+    func updateControlCenterInfo(content: Content) {
+
+        let info: [String:Any] = [
+            MPMediaItemPropertyTitle: content.title,
+            MPMediaItemPropertyArtist: content.author,
+            MPMediaItemPropertyAlbumTitle: "Album",
+            // MPMediaItemPropertyArtwork:
+            MPMediaItemPropertyPlaybackDuration: 100,
+            MPNowPlayingInfoPropertyElapsedPlaybackTime: 50,
+            MPMediaItemPropertyLyrics: content.summary
+        ]
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
+        
+    }
+    
 }
