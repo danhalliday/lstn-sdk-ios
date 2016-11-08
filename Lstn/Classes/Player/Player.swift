@@ -37,6 +37,8 @@ import MediaPlayer
 
     fileprivate let queue = DispatchQueue.main
 
+    fileprivate var content: Content? = nil
+
     public init(resolver: ContentResolver = RemoteContentResolver(),
                 engine: AudioEngine = DefaultAudioEngine(),
                 remote: Remote = MediaPlayerRemote()) {
@@ -73,6 +75,7 @@ import MediaPlayer
             case .resolved(let content):
                 self.remote.itemDidChange(item: self.remoteItemForContent(content: content))
                 self.engine.load(url: content.media.first!.url)
+                self.content = content
 
             case .failed:
                 self.queue.async {
@@ -103,9 +106,18 @@ import MediaPlayer
         DispatchQueue.main.async(execute: closure)
     }
 
-    private func remoteItemForContent(content: Content) -> RemoteItem {
+    fileprivate func remoteItemForContent(content: Content?) -> RemoteItem? {
+
+        guard let content = content else {
+            return nil
+        }
+
+        let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
+
         return RemoteItem(title: content.title, author: content.author,
-                          publisher: content.publisher, url: content.url)
+                          publisher: content.publisher, url: content.url,
+                          duration: self.engine.totalTime, image: image)
+
     }
 
 }
@@ -117,6 +129,7 @@ extension Player: AudioEngineDelegate {
     }
 
     public func loadingDidFinish() {
+        self.remote.itemDidChange(item: self.remoteItemForContent(content: self.content))
         self.queue.async {
             self.delegate?.loadingDidFinish()
             self.loadCallback?(true)
@@ -131,7 +144,7 @@ extension Player: AudioEngineDelegate {
     }
 
     public func playbackDidStart() {
-        self.remote.playbackDidStart()
+        self.remote.playbackDidStart(position: self.engine.elapsedTime)
         self.queue.async {
             self.delegate?.playbackDidStart()
         }
@@ -144,7 +157,7 @@ extension Player: AudioEngineDelegate {
     }
 
     public func playbackDidStop() {
-        self.remote.playbackDidStop()
+        self.remote.playbackDidStop(position: self.engine.elapsedTime)
         self.queue.async {
             self.delegate?.playbackDidStop()
         }

@@ -8,10 +8,10 @@
 
 public protocol Remote {
 
-    func itemDidChange(item: RemoteItem)
+    func itemDidChange(item: RemoteItem?)
 
-    func playbackDidStart()
-    func playbackDidStop()
+    func playbackDidStart(position: Double)
+    func playbackDidStop(position: Double)
 
     weak var delegate: RemoteDelegate? { get set }
 
@@ -30,5 +30,7 @@ public struct RemoteItem {
     let author: String
     let publisher: String
     let url: URL
+    let duration: Double
+    let image: URL
 
 }

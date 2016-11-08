@@ -17,6 +17,9 @@ public protocol AudioEngine {
 
     weak var delegate: AudioEngineDelegate? { get set }
 
+    var elapsedTime: Double { get }
+    var totalTime: Double { get }
+
 }
 
 public protocol AudioEngineDelegate: class {

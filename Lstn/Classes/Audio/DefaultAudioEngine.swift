@@ -53,6 +53,14 @@ class DefaultAudioEngine: NSObject, AudioEngine {
         }
     }
 
+    var elapsedTime: Double {
+        return self.player.currentTime().seconds
+    }
+
+    var totalTime: Double {
+        return self.player.currentItem?.duration.seconds ?? 0
+    }
+
     private func playerIsAtEnd(player: AVPlayer) -> Bool {
         guard let item = player.currentItem else { return false }
         return player.currentTime() == item.duration
@@ -114,7 +122,6 @@ extension DefaultAudioEngine {
     fileprivate func removeItemObservers(item: AVPlayerItem?) {
         NotificationCenter.default.removeObserver(self, name: .AVPlayerItemDidPlayToEndTime, object: item)
     }
-
 
 }
 
