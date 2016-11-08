@@ -27,8 +27,9 @@ import MediaPlayer
 
     public weak var delegate: PlayerDelegate? = nil
 
-    private let resolver: ContentResolver
-    private let engine: AudioEngine
+    fileprivate let resolver: ContentResolver
+    fileprivate let engine: AudioEngine
+    fileprivate let remote: Remote
 
     public typealias Callback = (Bool) -> Void
 
@@ -37,20 +38,23 @@ import MediaPlayer
     fileprivate let queue = DispatchQueue.main
 
     public init(resolver: ContentResolver = RemoteContentResolver(),
-                engine: AudioEngine = DefaultAudioEngine()) {
+                engine: AudioEngine = DefaultAudioEngine(),
+                remote: Remote = MediaPlayerRemote()) {
 
         self.resolver = resolver
         self.engine = engine
+        self.remote = remote
 
         super.init()
 
         self.engine.delegate = self
+        self.remote.delegate = self
 
     }
 
     override convenience init() {
         // For Objective-C compatibility
-        self.init(resolver: RemoteContentResolver(), engine: DefaultAudioEngine())
+        self.init(resolver: RemoteContentResolver(), engine: DefaultAudioEngine(), remote: MediaPlayerRemote())
     }
 
 
@@ -67,7 +71,7 @@ import MediaPlayer
                 }
 
             case .resolved(let content):
-                self.updateControlCenterInfo(content: content)
+                self.remote.itemDidChange(item: self.remoteItemForContent(content: content))
                 self.engine.load(url: content.media.first!.url)
 
             case .failed:
@@ -99,6 +103,11 @@ import MediaPlayer
         DispatchQueue.main.async(execute: closure)
     }
 
+    private func remoteItemForContent(content: Content) -> RemoteItem {
+        return RemoteItem(title: content.title, author: content.author,
+                          publisher: content.publisher, url: content.url)
+    }
+
 }
 
 extension Player: AudioEngineDelegate {
@@ -122,6 +131,7 @@ extension Player: AudioEngineDelegate {
     }
 
     public func playbackDidStart() {
+        self.remote.playbackDidStart()
         self.queue.async {
             self.delegate?.playbackDidStart()
         }
@@ -134,6 +144,7 @@ extension Player: AudioEngineDelegate {
     }
 
     public func playbackDidStop() {
+        self.remote.playbackDidStop()
         self.queue.async {
             self.delegate?.playbackDidStop()
         }
@@ -149,6 +160,18 @@ extension Player: AudioEngineDelegate {
         self.queue.async {
             self.delegate?.playbackDidFail()
         }
+    }
+
+}
+
+extension Player: RemoteDelegate {
+
+    public func playCommandDidFire() {
+        self.engine.play()
+    }
+
+    public func pauseCommandDidFire() {
+        self.engine.stop()
     }
 
 }
@@ -170,26 +193,4 @@ extension Player {
         self.stop(complete: nil)
     }
 
-}
-
-// MARK: - Control Center Info
-
-extension Player {
-
-    func updateControlCenterInfo(content: Content) {
-
-        let info: [String:Any] = [
-            MPMediaItemPropertyTitle: content.title,
-            MPMediaItemPropertyArtist: content.author,
-            MPMediaItemPropertyAlbumTitle: "Album",
-            // MPMediaItemPropertyArtwork:
-            MPMediaItemPropertyPlaybackDuration: 100,
-            MPNowPlayingInfoPropertyElapsedPlaybackTime: 50,
-            MPMediaItemPropertyLyrics: content.summary
-        ]
-
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = info
-        
-    }
-    
 }

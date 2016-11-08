@@ -13,6 +13,7 @@ public struct Content {
     let url: URL
     let title: String
     let author: String
+    let publisher: String
     let summary: String
     let body: String
     let publishedAt: String
@@ -46,6 +47,14 @@ extension Content {
             return nil
         }
 
+        guard let publisher = dictionary["publisher"] as? [String:Any] else {
+            return nil
+        }
+
+        guard let publisherName = publisher["name"] as? String else {
+            return nil
+        }
+
         guard let summary = dictionary["summary"] as? String else {
             return nil
         }
@@ -67,6 +76,7 @@ extension Content {
         self.url = url
         self.title = title
         self.author = author
+        self.publisher = publisherName
         self.summary = summary
         self.body = body
         self.publishedAt = publishedAt
