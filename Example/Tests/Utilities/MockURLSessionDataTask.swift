@@ -28,5 +28,12 @@ class MockURLSessionDataTask: URLSessionDataTaskType {
     func cancel() {
         self.cancelFired = true
     }
-    
+
+    var state: URLSessionTask.State {
+        switch (self.resumeFired, self.cancelFired) {
+        case (false, false): return .suspended
+        default: return .completed
+        }
+    }
+
 }

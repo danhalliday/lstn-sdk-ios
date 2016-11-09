@@ -14,6 +14,9 @@
 		370835BF1DB7B12B00B26896 /* PopCorrupt.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 370835BE1DB7B12B00B26896 /* PopCorrupt.m4a */; };
 		371F52DF1DC230DB00DAF7AA /* ExampleObjectiveC.m in Sources */ = {isa = PBXBuildFile; fileRef = 371F52DE1DC230DB00DAF7AA /* ExampleObjectiveC.m */; };
 		3733573B1DB761840058ED70 /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3733573A1DB761840058ED70 /* PlayerView.swift */; };
+		374C0BBA1DD32F1400BAD1E8 /* ArticleSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374C0BB81DD32EF800BAD1E8 /* ArticleSpec.swift */; };
+		374C0BBD1DD3312F00BAD1E8 /* ArticleResolverSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374C0BBB1DD3310B00BAD1E8 /* ArticleResolverSpec.swift */; };
+		374C0BC01DD3666400BAD1E8 /* ArticleResolverSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 374C0BBE1DD3332300BAD1E8 /* ArticleResolverSpy.swift */; };
 		37840D651DB5161A00B92DF5 /* PlayerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D631DB5152500B92DF5 /* PlayerSpec.swift */; };
 		37840D6A1DB5286B00B92DF5 /* PlayerSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D681DB5284700B92DF5 /* PlayerSpy.swift */; };
 		37840D711DB533D100B92DF5 /* RemoteContentResolverSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37840D6F1DB5327400B92DF5 /* RemoteContentResolverSpec.swift */; };
@@ -54,6 +57,9 @@
 		371F52DD1DC230DB00DAF7AA /* LstnTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LstnTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		371F52DE1DC230DB00DAF7AA /* ExampleObjectiveC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleObjectiveC.m; sourceTree = "<group>"; };
 		3733573A1DB761840058ED70 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		374C0BB81DD32EF800BAD1E8 /* ArticleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleSpec.swift; path = Article/ArticleSpec.swift; sourceTree = "<group>"; };
+		374C0BBB1DD3310B00BAD1E8 /* ArticleResolverSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleResolverSpec.swift; path = Article/ArticleResolverSpec.swift; sourceTree = "<group>"; };
+		374C0BBE1DD3332300BAD1E8 /* ArticleResolverSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleResolverSpy.swift; path = Article/ArticleResolverSpy.swift; sourceTree = "<group>"; };
 		37840D631DB5152500B92DF5 /* PlayerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSpec.swift; sourceTree = "<group>"; };
 		37840D681DB5284700B92DF5 /* PlayerSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSpy.swift; sourceTree = "<group>"; };
 		37840D6F1DB5327400B92DF5 /* RemoteContentResolverSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoteContentResolverSpec.swift; sourceTree = "<group>"; };
@@ -98,6 +104,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		374C0BB71DD32EDA00BAD1E8 /* Article */ = {
+			isa = PBXGroup;
+			children = (
+				374C0BB81DD32EF800BAD1E8 /* ArticleSpec.swift */,
+				374C0BBB1DD3310B00BAD1E8 /* ArticleResolverSpec.swift */,
+				374C0BBE1DD3332300BAD1E8 /* ArticleResolverSpy.swift */,
+			);
+			name = Article;
+			sourceTree = "<group>";
+		};
 		37840D761DB6210B00B92DF5 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
@@ -185,8 +201,9 @@
 				607FACEB1AFB9204008FA782 /* Main.swift */,
 				37840D901DB6733800B92DF5 /* Example.swift */,
 				371F52DE1DC230DB00DAF7AA /* ExampleObjectiveC.m */,
-				37840D831DB62FA600B92DF5 /* Content */,
 				37840D861DB64B5A00B92DF5 /* Audio */,
+				374C0BB71DD32EDA00BAD1E8 /* Article */,
+				37840D831DB62FA600B92DF5 /* Content */,
 				37840D821DB62F9500B92DF5 /* Player */,
 				37840D761DB6210B00B92DF5 /* Utilities */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
@@ -471,9 +488,12 @@
 				37840D711DB533D100B92DF5 /* RemoteContentResolverSpec.swift in Sources */,
 				37840D8F1DB6546300B92DF5 /* ContentSpec.swift in Sources */,
 				37840D7D1DB6216300B92DF5 /* MockURLSession.swift in Sources */,
+				374C0BBD1DD3312F00BAD1E8 /* ArticleResolverSpec.swift in Sources */,
 				370835BD1DB7A31300B26896 /* AudioEngineSpy.swift in Sources */,
 				37840D7E1DB6216500B92DF5 /* MockURLSessionDataTask.swift in Sources */,
+				374C0BC01DD3666400BAD1E8 /* ArticleResolverSpy.swift in Sources */,
 				37840D6A1DB5286B00B92DF5 /* PlayerSpy.swift in Sources */,
+				374C0BBA1DD32F1400BAD1E8 /* ArticleSpec.swift in Sources */,
 				37840D811DB62F1E00B92DF5 /* MockContentResolver.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Main.swift in Sources */,
 				37840D921DB6734C00B92DF5 /* Example.swift in Sources */,

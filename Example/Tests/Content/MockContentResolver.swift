@@ -21,6 +21,9 @@ class SucceedingContentResolver: ContentResolver {
             "url": "https://example.com/articles/1",
             "title": "Content title",
             "author": "Jane Doe",
+            "publisher": [
+                "name": "Publisher"
+            ],
             "summary": "Content summary",
             "body": "Content body",
             "published_at": "2000-01-01T00:00:000Z",

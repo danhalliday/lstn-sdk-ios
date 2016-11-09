@@ -17,6 +17,8 @@ protocol URLSessionDataTaskType {
     func resume()
     func cancel()
 
+    var state: URLSessionTask.State { get }
+
 }
 
 typealias URLSessionDataTaskCallbackType = (Data?, URLResponse?, Error?) -> Void
