@@ -45,7 +45,7 @@ class PlayerSpec: QuickSpec {
 
             describe("delegate interface") {
 
-                it("should call its delegate after loading a URL") {
+                it("should successfully load an article") {
 
                     let player = Player(resolver: SucceedingArticleResolver())
                     let url = URL(string: "http://example.com")!
@@ -57,6 +57,20 @@ class PlayerSpec: QuickSpec {
                     expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: 10)
                     expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: 10)
 
+                }
+
+                it("should fail to load an article if article resolution fails") {
+
+                    let player = Player(resolver: FailingArticleResolver())
+                    let url = URL(string: "http://example.com")!
+                    let spy = PlayerSpy()
+
+                    player.delegate = spy
+                    player.load(source: url)
+
+                    expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: 10)
+                    expect(spy.loadingDidFailFired).toEventually(equal(true), timeout: 10)
+                    
                 }
 
             }

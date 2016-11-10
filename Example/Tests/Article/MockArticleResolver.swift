@@ -35,3 +35,16 @@ class SucceedingArticleResolver: ArticleResolver {
     }
 
 }
+
+class FailingArticleResolver: ArticleResolver {
+
+    weak var delegate: ArticleResolverDelegate? = nil
+
+    func resolve(key: ArticleKey) {
+
+        self.delegate?.resolutionDidStart(key: key)
+        self.delegate?.resolutionDidFail(key: key)
+
+    }
+
+}
