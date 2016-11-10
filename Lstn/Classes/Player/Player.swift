@@ -27,7 +27,7 @@ import MediaPlayer
 
     public weak var delegate: PlayerDelegate? = nil
 
-    fileprivate let resolver: ContentResolver
+    fileprivate let resolver: ArticleResolver
     fileprivate let engine: AudioEngine
     fileprivate let remote: Remote
 
@@ -37,9 +37,9 @@ import MediaPlayer
 
     fileprivate let queue = DispatchQueue.main
 
-    fileprivate var content: Content? = nil
+    fileprivate var article: Article? = nil
 
-    public init(resolver: ContentResolver = RemoteContentResolver(),
+    public init(resolver: ArticleResolver = RemoteArticleResolver(),
                 engine: AudioEngine = DefaultAudioEngine(),
                 remote: Remote = MediaPlayerRemote()) {
 
@@ -49,6 +49,7 @@ import MediaPlayer
 
         super.init()
 
+        self.resolver.delegate = self
         self.engine.delegate = self
         self.remote.delegate = self
 
@@ -56,40 +57,12 @@ import MediaPlayer
 
     override convenience init() {
         // For Objective-C compatibility
-        self.init(resolver: RemoteContentResolver(), engine: DefaultAudioEngine(), remote: MediaPlayerRemote())
+        self.init(resolver: RemoteArticleResolver(), engine: DefaultAudioEngine(), remote: MediaPlayerRemote())
     }
-
 
     public func load(source: URL, complete: Callback? = nil) {
         self.loadCallback = complete
-
-        self.resolver.resolve(source: source) { state in
-
-            switch state {
-
-            case .started:
-                self.queue.async {
-                    self.delegate?.loadingDidStart()
-                }
-
-            case .resolved(let content):
-                self.remote.itemDidChange(item: self.remoteItemForContent(content: content))
-                self.engine.load(url: content.media.first!.url)
-                self.content = content
-
-            case .failed:
-                self.queue.async {
-                    self.delegate?.loadingDidFail()
-                    self.loadCallback?(false)
-                }
-
-            case .cancelled:
-                break
-
-            }
-
-        }
-
+        self.resolver.resolve(key: ArticleKey(id: "123", publisher: "456"))
     }
 
     public func play(complete: Callback? = nil) {
@@ -106,18 +79,34 @@ import MediaPlayer
         DispatchQueue.main.async(execute: closure)
     }
 
-    fileprivate func remoteItemForContent(content: Content?) -> RemoteItem? {
+    fileprivate func remoteItemForArticle(article: Article?) -> RemoteItem? {
 
-        guard let content = content else {
+        guard let article = article else {
             return nil
         }
 
-        let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
+        return RemoteItem(title: article.title, author: article.author,
+                          publisher: article.publisher, url: article.source,
+                          duration: self.engine.totalTime, image: article.image)
 
-        return RemoteItem(title: content.title, author: content.author,
-                          publisher: content.publisher, url: content.url,
-                          duration: self.engine.totalTime, image: image)
+    }
 
+}
+
+extension Player: ArticleResolverDelegate {
+
+    public func resolutionDidStart(key: ArticleKey) {
+        self.delegate?.loadingDidStart()
+    }
+
+    public func resolutionDidFinish(key: ArticleKey, article: Article) {
+        self.remote.itemDidChange(item: self.remoteItemForArticle(article: article))
+        self.article = article
+    }
+
+    public func resolutionDidFail(key: ArticleKey) {
+        self.delegate?.loadingDidFail()
+        self.loadCallback?(false)
     }
 
 }
@@ -129,7 +118,7 @@ extension Player: AudioEngineDelegate {
     }
 
     public func loadingDidFinish() {
-        self.remote.itemDidChange(item: self.remoteItemForContent(content: self.content))
+        self.remote.itemDidChange(item: self.remoteItemForArticle(article: self.article))
         self.queue.async {
             self.delegate?.loadingDidFinish()
             self.loadCallback?(true)
