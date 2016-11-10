@@ -9,11 +9,13 @@ before_install:
 script:
   - set -o pipefail
   - >-
-    xcodebuild clean build
+    xcodebuild clean build test
     -workspace Example/Lstn.xcworkspace
     -scheme LstnExample
     -sdk iphonesimulator10.0
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
+    -skip-testing:LstnTests/AudioEngineSpec
+
   - pod lib lint
 
 # deploy:

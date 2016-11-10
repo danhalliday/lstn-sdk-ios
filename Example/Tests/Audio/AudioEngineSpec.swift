@@ -1,5 +1,5 @@
 //
-//  DefaultAudioEngineSpec.swift
+//  AudioEngineSpec.swift
 //  Lstn
 //
 //  Created by Dan Halliday on 19/10/2016.
@@ -14,7 +14,7 @@ import Foundation
 
 private let timeout = 5.0 // Need a little time as no way to avoid reading from disk...
 
-class DefaultAudioEngineSpec: QuickSpec {
+class AudioEngineSpec: QuickSpec {
 
     var workingPopSoundPath: String {
         return Bundle(for: type(of: self)).path(forResource: "Pop", ofType: "m4a")!
