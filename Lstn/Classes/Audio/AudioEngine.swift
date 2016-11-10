@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol AudioEngine {
+protocol AudioEngine {
 
     func load(url: URL)
 
@@ -22,7 +22,7 @@ public protocol AudioEngine {
 
 }
 
-public protocol AudioEngineDelegate: class {
+protocol AudioEngineDelegate: class {
 
     func loadingDidStart()
     func loadingDidFinish()

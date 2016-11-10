@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Article {
+struct Article {
 
     let key: ArticleKey
 
@@ -22,7 +22,7 @@ public struct Article {
 
 }
 
-public struct ArticleKey {
+struct ArticleKey {
 
     let id: String
     let publisher: String
@@ -31,7 +31,7 @@ public struct ArticleKey {
 
 extension Article: Equatable {
 
-    public static func ==(lhs: Article, rhs: Article) -> Bool {
+    static func ==(lhs: Article, rhs: Article) -> Bool {
 
         return lhs.key == rhs.key
             && lhs.source == rhs.source
@@ -47,7 +47,7 @@ extension Article: Equatable {
 
 extension ArticleKey: Equatable {
 
-    public static func ==(lhs: ArticleKey, rhs: ArticleKey) -> Bool {
+    static func ==(lhs: ArticleKey, rhs: ArticleKey) -> Bool {
 
         return lhs.id == rhs.id && lhs.publisher == rhs.publisher
 
@@ -57,7 +57,7 @@ extension ArticleKey: Equatable {
 
 extension ArticleKey: Hashable {
 
-    public var hashValue: Int {
+    var hashValue: Int {
         return "\(self.id)\(self.publisher)".hashValue
     }
 

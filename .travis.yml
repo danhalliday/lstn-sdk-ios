@@ -16,7 +16,6 @@ script:
     -destination 'platform=iOS Simulator,name=iPhone 6,OS=10.0'
     -skip-testing:LstnTests/AudioEngineSpec
     -skip-testing:LstnTests/PlayerSpec
-
   - pod lib lint
 
 # deploy:

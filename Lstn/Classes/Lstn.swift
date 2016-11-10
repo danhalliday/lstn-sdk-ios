@@ -4,7 +4,7 @@ import Foundation
 
     public static let shared = Lstn()
 
-    public let player = Player()
+    public let player: Player = LocalPlayer()
 
     private override init() {
         super.init()

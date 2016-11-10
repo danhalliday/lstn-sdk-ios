@@ -8,9 +8,9 @@
 
 import Foundation
 
-public class RemoteArticleResolver: ArticleResolver {
+class RemoteArticleResolver: ArticleResolver {
 
-    public weak var delegate: ArticleResolverDelegate? = nil
+    weak var delegate: ArticleResolverDelegate? = nil
 
     private let endpoint: URL
     private let session: URLSessionType
@@ -24,12 +24,12 @@ public class RemoteArticleResolver: ArticleResolver {
 
     }
 
-    public func resolve(key: ArticleKey) {
+    func resolve(key: ArticleKey) {
 
         self.delegate?.resolutionDidStart(key: key)
 
         let url = self.endpoint
-            .appendingPathComponent("/publisher/\(key.publisher)/articles/\(key.id)/")
+            .appendingPathComponent("/publisher/\(key.publisher)/articles/\(key.id)")
 
         let task = self.session.dataTask(with: url) { data, response, error in
 
