@@ -33,7 +33,7 @@ public class RemoteArticleResolver: ArticleResolver {
 
         let task = self.session.dataTask(with: url) { data, response, error in
 
-            if let error = error as? NSError {
+            if let _ = error as? NSError {
                 self.delegate?.resolutionDidFail(key: key)
                 return
             }
