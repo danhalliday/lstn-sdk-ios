@@ -29,7 +29,7 @@ class PlayerSpec: QuickSpec {
 
                 it("should call back after loading a URL") {
 
-                    let player = Player(resolver: SucceedingContentResolver())
+                    let player = Player(resolver: SucceedingArticleResolver())
                     let url = URL(string: "http://example.com")!
                     var result: Bool? = nil
 
@@ -47,7 +47,7 @@ class PlayerSpec: QuickSpec {
 
                 it("should call its delegate after loading a URL") {
 
-                    let player = Player(resolver: SucceedingContentResolver())
+                    let player = Player(resolver: SucceedingArticleResolver())
                     let url = URL(string: "http://example.com")!
                     let spy = PlayerSpy()
 

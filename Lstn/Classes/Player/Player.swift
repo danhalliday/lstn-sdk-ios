@@ -102,6 +102,7 @@ extension Player: ArticleResolverDelegate {
     public func resolutionDidFinish(key: ArticleKey, article: Article) {
         self.remote.itemDidChange(item: self.remoteItemForArticle(article: article))
         self.article = article
+        self.engine.load(url: article.audio)
     }
 
     public func resolutionDidFail(key: ArticleKey) {
