@@ -19,24 +19,27 @@ pod "Lstn"
 Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load and play some content:
 
 ```swift
-let article = URL(string: "https://example.com/article.html")!
+let article = "12345-an-article-id"
+let publisher = "12345-a-publisher-token"
 
-Lstn.shared.player.load(source: article) { success in
+Lstn.shared.player.load(article: article, publisher: publisher) { success in
     if success { Lstn.shared.player.play() }
 }
 ```
 
 ## Real-World Example
 
-Larger apps will need a clean way to catch all player events, so a delegate protocol (`PlayerDelegate`) is provided. You can also create your own `Player` instances as needed:
+Larger apps will need a clean way to catch all player events, so a delegate protocol (`PlayerDelegate`) is provided. You can also create your own `Player` instances as needed using the `createPlayer()` factory method:
 
 ```swift
 import Lstn
 
 class Example {
 
-    let player = Player()
-    let article = URL(string: "https://example.com/article.html")!
+    let player = Lstn.createPlayer()
+
+    let article = "12345-an-article-id"
+    let publisher = "12345-a-publisher-token"
 
     var loading = false
     var playing = false
@@ -48,7 +51,7 @@ class Example {
     }
 
     func loadButtonWasTapped() {
-        self.player.load(source: self.article)
+        self.player.load(article: self.article, publisher: self.publisher)
     }
 
     func playButtonWasTapped() {
