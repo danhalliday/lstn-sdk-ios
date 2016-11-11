@@ -7,25 +7,30 @@
 //
 
 import Foundation
-import MediaPlayer
 
-public protocol Player {
+/// Lstn's podcast player.
+///
+/// The `Player` loads text articles and plays them as spoken audio using Lstn's web service.
+///
+@objc public protocol Player: class {
 
-//    init()
-//    init(resolver: ArticleResolver, engine: AudioEngine, control: RemoteControl)
-//    nope - no public initialiser we're going to provide a factory method.
+    /// A delegate which receives `Player` events
+    ///
+    weak var delegate: PlayerDelegate? { get set }
 
-//    func load(article: String, publisher: String)
-//    func load(article: String, publisher: String, complete: PlayerCallback)
+    func load(article: String, publisher: String)
+    func load(article: String, publisher: String, complete: @escaping PlayerCallback)
 
-//    func play()
-//    func play(complete: PlayerCallback)
+    func play()
+    func play(complete: @escaping PlayerCallback)
 
-//    func stop()
-//    func stop(complete: PlayerCallback)
+    func stop()
+    func stop(complete: @escaping PlayerCallback)
 
 }
 
+/// Event delegate protocol for `Player`.
+///
 @objc public protocol PlayerDelegate: class {
 
     func loadingDidStart()
@@ -40,4 +45,6 @@ public protocol Player {
 
 }
 
+/// Success/failure callback type for `Player` methods.
+///
 public typealias PlayerCallback = (Bool) -> Void

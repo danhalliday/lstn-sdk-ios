@@ -43,7 +43,7 @@ class ArticleResolverSpec: QuickSpec {
 
                 let session = MockURLSession()
                 let resolver = RemoteArticleResolver(endpoint: self.endpoint, session: session)
-                let url = self.endpoint.appendingPathComponent("/publisher/456/articles/123/")
+                let url = self.endpoint.appendingPathComponent("/publisher/456/articles/123")
 
                 resolver.resolve(key: self.key)
 

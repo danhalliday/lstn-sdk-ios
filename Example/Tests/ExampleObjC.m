@@ -1,5 +1,5 @@
 //
-//  ExampleObjectiveC.m
+//  ExampleObjC.m
 //  Lstn
 //
 //  Created by Dan Halliday on 27/10/2016.
@@ -10,10 +10,12 @@
 
 @import Lstn;
 
-@interface ExampleObjectiveC : NSObject <PlayerDelegate>
+@interface ExampleObjC : NSObject <PlayerDelegate>
 
-@property Player *player;
-@property NSURL *article;
+@property (strong) id<Player> player;
+
+@property NSString *article;
+@property NSString *publisher;
 
 @property BOOL loading;
 @property BOOL playing;
@@ -22,7 +24,7 @@
 
 @end
 
-@implementation ExampleObjectiveC
+@implementation ExampleObjC
 
 - (instancetype)init {
 
@@ -30,8 +32,10 @@
 
     if (self) {
 
-        _player = [Player new];
-        _article = [[NSURL alloc] initWithString:@"https://example.com/article.html"];
+        _player = [Lstn createPlayer];
+
+        _article = @"12345-an-article-id";
+        _publisher = @"12345-a-publisher-token";
 
         _loading = false;
         _playing = false;
@@ -47,7 +51,7 @@
 }
 
 - (void)loadButtonWasTapped {
-    [_player loadWithSource:_article];
+    [_player loadWithArticle: self.article publisher:self.publisher];
 }
 
 - (void)playButtonWasTapped {

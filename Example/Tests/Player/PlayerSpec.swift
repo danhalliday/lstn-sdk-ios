@@ -8,36 +8,41 @@
 
 import Quick
 import Nimble
-import Lstn
+import Foundation
+
+@testable import Lstn
+
+private let timeout = 5.0 // TODO: Implement mock audio engine to avoid reading from disk
 
 class PlayerSpec: QuickSpec {
 
+    private let article = "article-id-string"
+    private let publisher = "publisher-token-string"
+
     override func spec() {
 
-        describe("Player") {
+        describe("Default Player") {
+
+            it("should exist") {
+                _ = DefaultPlayer.self
+            }
 
             it("should load a URL") {
-
-                let player = Player()
-                let url = URL(string: "http://example.com")!
-
-                player.load(source: url)
-
+                DefaultPlayer().load(article: self.article, publisher: self.publisher)
             }
 
             describe("callback interface") {
 
                 it("should call back after loading a URL") {
 
-                    let player = Player(resolver: SucceedingArticleResolver())
-                    let url = URL(string: "http://example.com")!
+                    let player = DefaultPlayer(resolver: SucceedingArticleResolver())
                     var result: Bool? = nil
 
-                    player.load(source: url) { success in
-                        result = success
+                    player.load(article: self.article, publisher: self.publisher) {
+                        success in result = success
                     }
 
-                    expect(result).toEventually(equal(true), timeout: 10)
+                    expect(result).toEventually(equal(true), timeout: timeout)
 
                 }
 
@@ -47,29 +52,27 @@ class PlayerSpec: QuickSpec {
 
                 it("should successfully load an article") {
 
-                    let player = Player(resolver: SucceedingArticleResolver())
-                    let url = URL(string: "http://example.com")!
+                    let player = DefaultPlayer(resolver: SucceedingArticleResolver())
                     let spy = PlayerSpy()
 
                     player.delegate = spy
-                    player.load(source: url)
+                    player.load(article: self.article, publisher: self.publisher)
 
-                    expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: 10)
-                    expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: 10)
+                    expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: timeout)
+                    expect(spy.loadingDidFinishFired).toEventually(equal(true), timeout: timeout)
 
                 }
 
                 it("should fail to load an article if article resolution fails") {
 
-                    let player = Player(resolver: FailingArticleResolver())
-                    let url = URL(string: "http://example.com")!
+                    let player = DefaultPlayer(resolver: FailingArticleResolver())
                     let spy = PlayerSpy()
 
                     player.delegate = spy
-                    player.load(source: url)
+                    player.load(article: self.article, publisher: self.publisher)
 
-                    expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: 10)
-                    expect(spy.loadingDidFailFired).toEventually(equal(true), timeout: 10)
+                    expect(spy.loadingDidStartFired).toEventually(equal(true), timeout: timeout)
+                    expect(spy.loadingDidFailFired).toEventually(equal(true), timeout: timeout)
                     
                 }
 

@@ -1,38 +1,35 @@
 //
-//  LocalPlayer.swift
+//  DefaultPlayer.swift
 //  Pods
 //
-//  Created by Dan Halliday on 10/11/2016.
+//  Created by Dan Halliday on 11/11/2016.
 //
 //
 
 import Foundation
 
-class LocalPlayer: NSObject, Player {
+final class DefaultPlayer: Player {
 
-    public weak var delegate: PlayerDelegate? = nil
+    weak var delegate: PlayerDelegate? = nil
 
     fileprivate let resolver: ArticleResolver
     fileprivate let engine: AudioEngine
     fileprivate let control: RemoteControl
 
-    fileprivate var loadCallback: PlayerCallback?
-    fileprivate var playCallback: PlayerCallback?
-    fileprivate var stopCallback: PlayerCallback?
-
-    fileprivate let queue = DispatchQueue.main
+    fileprivate var loadCallback: PlayerCallback? = nil
+    fileprivate var playCallback: PlayerCallback? = nil
+    fileprivate var stopCallback: PlayerCallback? = nil
 
     fileprivate var article: Article? = nil
+    fileprivate let queue = DispatchQueue.main
 
-    public init(resolver: ArticleResolver = RemoteArticleResolver(),
-                engine: AudioEngine = DefaultAudioEngine(),
-                control: RemoteControl = SystemRemoteControl()) {
+    init(resolver: ArticleResolver = RemoteArticleResolver(),
+         engine: AudioEngine = DefaultAudioEngine(),
+         control: RemoteControl = SystemRemoteControl()) {
 
         self.resolver = resolver
         self.engine = engine
         self.control = control
-
-        super.init()
 
         self.resolver.delegate = self
         self.engine.delegate = self
@@ -40,41 +37,44 @@ class LocalPlayer: NSObject, Player {
 
     }
 
-    override convenience init() {
-        // For Objective-C compatibility
-        self.init(resolver: RemoteArticleResolver(), engine: DefaultAudioEngine(), control: SystemRemoteControl())
+    // MARK: - Public Methods
+
+    func load(article: String, publisher: String) {
+        self.resolver.resolve(key: ArticleKey(id: article, publisher: publisher))
     }
 
-    func load(source: URL, complete: PlayerCallback? = nil) {
+    func load(article: String, publisher: String, complete: @escaping PlayerCallback) {
 
         self.loadCallback = complete
-        self.resolver.resolve(key: ArticleKey(id: "123", publisher: "456"))
+        self.load(article: article, publisher: publisher)
 
     }
 
-    func play(complete: PlayerCallback? = nil) {
+    func play() {
+        self.engine.play()
+    }
+
+    func play(complete: @escaping PlayerCallback) {
 
         self.playCallback = complete
-        self.engine.play()
+        self.play()
 
     }
 
-    func stop(complete: PlayerCallback? = nil) {
+    func stop() {
+        self.engine.stop()
+    }
+
+    func stop(complete: @escaping PlayerCallback) {
 
         self.stopCallback = complete
-        self.engine.stop()
+        self.stop()
 
     }
 
-    fileprivate func dispatch(closure: @escaping () -> Void) {
-        DispatchQueue.main.async(execute: closure)
-    }
+    // MARK: - Private Methods
 
-    fileprivate func remoteItemForArticle(article: Article?) -> RemoteControlItem? {
-
-        guard let article = article else {
-            return nil
-        }
+    fileprivate func remoteControlItemForArticle(article: Article) -> RemoteControlItem {
 
         return RemoteControlItem(
             title: article.title, author: article.author, publisher: article.publisher,
@@ -85,39 +85,50 @@ class LocalPlayer: NSObject, Player {
 
 }
 
-extension LocalPlayer: ArticleResolverDelegate {
+// MARK: - Article Resolver Delegate
 
-    public func resolutionDidStart(key: ArticleKey) {
-        self.delegate?.loadingDidStart()
+extension DefaultPlayer: ArticleResolverDelegate {
+
+    func resolutionDidStart(key: ArticleKey) {
+
+        self.queue.async {
+            self.delegate?.loadingDidStart()
+        }
+
     }
 
-    public func resolutionDidFinish(key: ArticleKey, article: Article) {
-
-        self.control.itemDidChange(item: self.remoteItemForArticle(article: article))
+    func resolutionDidFinish(key: ArticleKey, article: Article) {
 
         self.article = article
+
+        self.control.itemDidChange(item: self.remoteControlItemForArticle(article: article))
         self.engine.load(url: article.audio)
 
     }
 
-    public func resolutionDidFail(key: ArticleKey) {
+    func resolutionDidFail(key: ArticleKey) {
 
-        self.delegate?.loadingDidFail()
-        self.loadCallback?(false)
+        self.queue.async {
+            self.delegate?.loadingDidFail()
+            self.loadCallback?(false)
+            self.loadCallback = nil
+        }
 
     }
 
 }
 
-extension LocalPlayer: AudioEngineDelegate {
+// MARK: - Audio Engine Delegate
 
-    func loadingDidStart() {
-        // ...
-    }
+extension DefaultPlayer: AudioEngineDelegate {
+
+    func loadingDidStart() {}
 
     func loadingDidFinish() {
 
-        self.control.itemDidChange(item: self.remoteItemForArticle(article: self.article))
+        if let article = self.article {
+            self.control.itemDidChange(item: self.remoteControlItemForArticle(article: article))
+        }
 
         self.queue.async {
             self.delegate?.loadingDidFinish()
@@ -184,12 +195,14 @@ extension LocalPlayer: AudioEngineDelegate {
             self.playCallback?(false)
             self.playCallback = nil
         }
-
+        
     }
 
 }
 
-extension LocalPlayer: RemoteControlDelegate {
+// MARK: - Remote Control Delegate
+
+extension DefaultPlayer: RemoteControlDelegate {
 
     func playCommandDidFire() {
         self.engine.play()
@@ -200,22 +213,3 @@ extension LocalPlayer: RemoteControlDelegate {
     }
 
 }
-
-// MARK: - Objective-C compatibility
-//
-//    extension LocalPlayer {
-//
-//
-//        func load(source: URL) {
-//            self.load(source: source, complete: nil)
-//        }
-//        
-//        func play() {
-//            self.play(complete: nil)
-//        }
-//        
-//        func stop() {
-//            self.stop(complete: nil)
-//        }
-//        
-//    }

@@ -26,28 +26,33 @@ class SystemRemoteControl: NSObject, RemoteControl {
     }
 
     func itemDidChange(item: RemoteControlItem?) {
+
         self.item = item
+
         self.updateNowPlayingInfo()
         self.updateImage(image: item?.image)
+
     }
 
     func playbackDidStart(position: Double) {
+
         self.playing = true
         self.position = position
+
         self.updateNowPlayingInfo()
+
     }
 
     func playbackDidStop(position: Double) {
+
         self.playing = false
         self.position = position
+
         self.updateNowPlayingInfo()
+
     }
 
-    func nowPlayingInfo() -> [String:Any] {
-
-        guard let item = self.item else {
-            return [:]
-        }
+    func nowPlayingInfo(item: RemoteControlItem) -> [String:Any] {
 
         var info: [String:Any] = [
             MPMediaItemPropertyTitle: item.title,
@@ -70,7 +75,13 @@ class SystemRemoteControl: NSObject, RemoteControl {
     }
 
     func updateNowPlayingInfo() {
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = self.nowPlayingInfo()
+
+        guard let item = self.item else {
+            return
+        }
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = self.nowPlayingInfo(item: item)
+
     }
 
     func registerForCommands() {
