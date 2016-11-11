@@ -86,9 +86,9 @@ extension ArticlesController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let url = self.urlForRow(index: indexPath.row)
-
-        Lstn.shared.player.load(source: url) { success in
+        // TODO: Fetch articles form live source and use real IDs here
+        
+        Lstn.shared.player.load(article: "123", publisher: "456") { success in
             if success { Lstn.shared.player.play() }
         }
 

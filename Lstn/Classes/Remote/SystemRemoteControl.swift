@@ -1,53 +1,58 @@
 //
-//  MediaPlayerRemote.swift
+//  SystemRemoteControl.swift
 //  Pods
 //
-//  Created by Dan Halliday on 08/11/2016.
+//  Created by Dan Halliday on 10/11/2016.
 //
 //
 
-import MediaPlayer
 import UIKit
+import MediaPlayer
 
-class MediaPlayerRemote: NSObject, Remote {
+class SystemRemoteControl: NSObject, RemoteControl {
 
-    var item: RemoteItem? = nil
+    var item: RemoteControlItem? = nil
 
     var playing: Bool = false
     var position: Double = 0
 
     var artwork: MPMediaItemArtwork? = nil
 
-    weak var delegate: RemoteDelegate? = nil
+    weak var delegate: RemoteControlDelegate? = nil
 
     override init() {
         super.init()
         self.registerForCommands()
     }
 
-    func itemDidChange(item: RemoteItem?) {
+    func itemDidChange(item: RemoteControlItem?) {
+
         self.item = item
+
         self.updateNowPlayingInfo()
         self.updateImage(image: item?.image)
+
     }
 
     func playbackDidStart(position: Double) {
+
         self.playing = true
         self.position = position
+
         self.updateNowPlayingInfo()
+
     }
 
     func playbackDidStop(position: Double) {
+
         self.playing = false
         self.position = position
+
         self.updateNowPlayingInfo()
+
     }
 
-    func nowPlayingInfo() -> [String:Any] {
-
-        guard let item = self.item else {
-            return [:]
-        }
+    func nowPlayingInfo(item: RemoteControlItem) -> [String:Any] {
 
         var info: [String:Any] = [
             MPMediaItemPropertyTitle: item.title,
@@ -66,11 +71,17 @@ class MediaPlayerRemote: NSObject, Remote {
         }
 
         return info
-        
+
     }
 
     func updateNowPlayingInfo() {
-        MPNowPlayingInfoCenter.default().nowPlayingInfo = self.nowPlayingInfo()
+
+        guard let item = self.item else {
+            return
+        }
+
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = self.nowPlayingInfo(item: item)
+
     }
 
     func registerForCommands() {
@@ -112,7 +123,7 @@ class MediaPlayerRemote: NSObject, Remote {
 
 // MARK: - Remote Command Handlers
 
-extension MediaPlayerRemote {
+extension SystemRemoteControl {
 
     @objc func playCommandDidFire() {
         self.delegate?.playCommandDidFire()
@@ -126,23 +137,21 @@ extension MediaPlayerRemote {
     @objc func stopCommandDidFire() {
 
     }
-
+    
     @objc func playPauseToggleCommandDidFire() {
-
+        
     }
-
+    
     @objc func previousCommandDidFire() {
-
+        
     }
-
+    
     @objc func nextCommandDidFire() {
-
+        
     }
-
+    
     @objc func changePlaybackRateCommandDidFire() {
-
+        
     }
-
-
 
 }

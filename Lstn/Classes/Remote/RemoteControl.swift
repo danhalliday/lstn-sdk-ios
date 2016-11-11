@@ -1,30 +1,30 @@
 //
-//  Remote.swift
+//  RemoteControl.swift
 //  Pods
 //
 //  Created by Dan Halliday on 08/11/2016.
 //
 //
 
-public protocol Remote {
+protocol RemoteControl {
 
-    func itemDidChange(item: RemoteItem?)
+    func itemDidChange(item: RemoteControlItem?)
 
     func playbackDidStart(position: Double)
     func playbackDidStop(position: Double)
 
-    weak var delegate: RemoteDelegate? { get set }
+    weak var delegate: RemoteControlDelegate? { get set }
 
 }
 
-public protocol RemoteDelegate: class {
+protocol RemoteControlDelegate: class {
 
     func playCommandDidFire()
     func pauseCommandDidFire()
 
 }
 
-public struct RemoteItem {
+struct RemoteControlItem {
 
     let title: String
     let author: String

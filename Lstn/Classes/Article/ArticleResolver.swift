@@ -6,7 +6,7 @@
 //
 //
 
-public protocol ArticleResolver {
+protocol ArticleResolver {
 
     func resolve(key: ArticleKey)
 
@@ -14,7 +14,7 @@ public protocol ArticleResolver {
 
 }
 
-public protocol ArticleResolverDelegate: class {
+protocol ArticleResolverDelegate: class {
 
     func resolutionDidStart(key: ArticleKey)
     func resolutionDidFinish(key: ArticleKey, article: Article)
