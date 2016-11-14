@@ -105,6 +105,11 @@ extension Example: PlayerDelegate {
 }
 ```
 
+For more concrete examples, see the working [example app](https://github.com/lstn-ltd/lstn-sdk-ios/tree/master/Example) at:
+
+- [Player View](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Lstn/PlayerView.swift) is a simple `UIView` which controls and reacts to Lstn’s shared player
+- [Articles Controller](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Lstn/ArticlesController.swift) is a simple `UIViewController` which fetches articles from a Lstn-compatible source and plays those articles with Lstn’s shared player
+
 ---
 
 Lstn is available under the MIT license. See the LICENSE file for more info.

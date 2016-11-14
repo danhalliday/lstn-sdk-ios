@@ -2,6 +2,8 @@ import Foundation
 
 @objc public class Lstn: NSObject {
 
+    // MARK: Public Interface
+
     /// Singleton instance for easy access to Lstn.
     ///
     /// For more complex apps it may be desirable to use Lstn's classes directly. Factory methods
@@ -16,15 +18,23 @@ import Foundation
     public let player: Player = DefaultPlayer()
 
     /// Factory vending Player instances.
+    ///
     /// - Returns: A Player instance
     ///
     public static func createPlayer() -> Player { return DefaultPlayer() }
 
-    // static let API = URL(string: "https://api.lstn.ltd")!
-    static let API = URL(string: "https://private-378fa2-lstn.apiary-mock.com/v1")!
+    // MARK: - Internal Methods
 
-    private override init() {
-        super.init()
+    static var endpoint = environment(key: "LSTN_API_ENDPOINT") ?? "https://api.lstn.ltd/v1"
+
+    private override init() { super.init() }
+
+}
+
+extension Lstn {
+
+    static func environment(key: String) -> String? {
+        return ProcessInfo.processInfo.environment[key]
     }
 
 }

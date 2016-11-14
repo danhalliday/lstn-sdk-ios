@@ -13,28 +13,8 @@ class ArticlesController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
 
-    let articles = [
-        [
-            "title": "Pentonville Prison stabbing: Inmate killed and two injured",
-            "url": "http://www.bbc.co.uk/news/uk-england-london-37698780"
-        ],
-        [
-            "title": "Mosul battle: 900 civilians flee city ahead of fighting",
-            "url": "http://www.bbc.co.uk/news/world-middle-east-37701235"
-        ],
-        [
-            "title": "A photo of an orangutan climbing high into a tree",
-            "url": "http://www.bbc.co.uk/news/science-environment-37693214"
-        ],
-        [
-            "title": "A Conservative MP who wants child migrants arriving in the UK",
-            "url": "http://www.bbc.co.uk/news/uk-37700074"
-        ],
-        [
-            "title": "The UK's biggest builders merchant says it is closing 30 branches",
-            "url": "http://www.bbc.co.uk/news/business-37701427"
-        ]
-    ]
+    let store = ArticleStore()
+    var articles: [Article] = []
 
     override func viewDidLoad() {
 
@@ -43,18 +23,34 @@ class ArticlesController: UIViewController {
         self.tableView.dataSource = self
         self.tableView.delegate = self
 
+        self.navigationItem.prompt = "Loading articles..."
+
+        self.store.fetch { articles in
+            DispatchQueue.main.async { self.loadingDidFinish(articles: articles) }
+        }
+
+    }
+
+    func loadingDidFinish(articles: [Article]?) {
+
+        guard let articles = articles else {
+            self.navigationItem.prompt = "Failed to fetch articles!"
+            return
+        }
+
+        self.articles = articles
+        self.navigationItem.prompt = nil
+
+        self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
+
     }
 
     func titleForRow(index: Int) -> String {
-        return self.articles[index]["title"]!
+        return self.articles[index].title
     }
 
     func detailForRow(index: Int) -> String {
-        return self.articles[index]["url"]!
-    }
-
-    func urlForRow(index: Int) -> URL {
-        return URL(string: self.articles[index]["url"]!)!
+        return self.articles[index].body
     }
 
 }
@@ -86,10 +82,10 @@ extension ArticlesController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        // TODO: Fetch articles form live source and use real IDs here
+        let article = self.articles[indexPath.row]
         
-        Lstn.shared.player.load(article: "123", publisher: "456") { success in
-            if success { Lstn.shared.player.play() }
+        Lstn.shared.player.load(article: article.id, publisher: article.publisher) {
+            success in if success { Lstn.shared.player.play() }
         }
 
     }

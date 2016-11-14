@@ -12,12 +12,12 @@ class RemoteArticleResolver: ArticleResolver {
 
     weak var delegate: ArticleResolverDelegate? = nil
 
-    private let endpoint: URL
+    private let endpoint: String
     private let session: URLSessionType
     private var tasks: [URLSessionDataTaskType] = []
     private var cache: [ArticleKey:Article] = [:]
 
-    init(endpoint: URL = Lstn.API, session: URLSessionType = URLSession.shared) {
+    init(endpoint: String = Lstn.endpoint, session: URLSessionType = URLSession.shared) {
 
         self.endpoint = endpoint
         self.session = session
@@ -28,9 +28,10 @@ class RemoteArticleResolver: ArticleResolver {
 
         self.delegate?.resolutionDidStart(key: key)
 
-        let url = self.endpoint
-            .appendingPathComponent("/publisher/\(key.publisher)/articles/\(key.id)")
+        let url = URL(string: "\(self.endpoint)/publisher/\(key.publisher)/articles/\(key.id)")!
 
+        // TODO: Authentication token
+        
         let task = self.session.dataTask(with: url) { data, response, error in
 
             if let _ = error as? NSError {
