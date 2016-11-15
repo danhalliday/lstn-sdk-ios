@@ -23,7 +23,7 @@ LSTN_TOKEN: 12345
 
 ![Setting Lstn’s environment variable in Xcode](https://s21.postimg.org/9s2kiwimv/lstn_environment_variables_xcode.png)
 
-## Quick Example
+## Quick Start
 
 Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load and play some content:
 
@@ -114,10 +114,17 @@ extension Example: PlayerDelegate {
 }
 ```
 
+The above can be found in Lstn’s test suite, along with an equivalent Objective-C example:
+
+- Swift [example](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Tests/Example.swift)
+- Objective-C [example](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Tests/ExampleObjC.m)
+
 For more concrete examples, see the working [example app](https://github.com/lstn-ltd/lstn-sdk-ios/tree/master/Example) at:
 
 - [Player View](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Lstn/PlayerView.swift) is a simple `UIView` which controls and reacts to Lstn’s shared player
 - [Articles Controller](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Lstn/ArticlesController.swift) is a simple `UIViewController` which fetches articles from a Lstn-compatible source and plays those articles with Lstn’s shared player
+
+
 
 ---
 
