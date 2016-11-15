@@ -16,6 +16,8 @@ class ArticlesController: UIViewController {
     let store = ArticleStore()
     var articles: [Article] = []
 
+    let publisher = ProcessInfo.processInfo.environment["LSTN_EXAMPLE_PUBLISHER"]!
+
     override func viewDidLoad() {
 
         super.viewDidLoad()
@@ -50,7 +52,7 @@ class ArticlesController: UIViewController {
     }
 
     func detailForRow(index: Int) -> String {
-        return self.articles[index].body
+        return self.articles[index].summary
     }
 
 }
@@ -84,7 +86,7 @@ extension ArticlesController: UITableViewDelegate {
 
         let article = self.articles[indexPath.row]
         
-        Lstn.shared.player.load(article: article.id, publisher: article.publisher) {
+        Lstn.shared.player.load(article: article.id, publisher: self.publisher) {
             success in if success { Lstn.shared.player.play() }
         }
 

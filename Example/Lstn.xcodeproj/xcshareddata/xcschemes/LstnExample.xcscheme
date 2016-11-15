@@ -87,8 +87,28 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "LSTN_API_ENDPOINT"
-            value = "https://private-378fa2-lstn.apiary-mock.com/v1"
+            key = "LSTN_TOKEN"
+            value = "test_api_key"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LSTN_ENDPOINT"
+            value = "https://lstn-staging.herokuapp.com/api/v1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LSTN_EXAMPLE_ENDPOINT"
+            value = "https://lstn-staging.herokuapp.com/api/v1"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LSTN_EXAMPLE_PUBLISHER"
+            value = "news_api"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "LSTN_EXAMPLE_TOKEN"
+            value = "test_api_key"
             isEnabled = "YES">
          </EnvironmentVariable>
          <EnvironmentVariable

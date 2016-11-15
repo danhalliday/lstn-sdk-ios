@@ -30,7 +30,7 @@ class MockURLSession: URLSessionType {
 
     }
 
-    func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskType {
+    func dataTask(with url: URL, completionHandler: @escaping URLSessionDataTaskCallbackType) -> URLSessionDataTaskType {
 
         self.dataTaskFired = true
         self.dataTaskUrl = url
@@ -39,6 +39,17 @@ class MockURLSession: URLSessionType {
             completionHandler(self.data, self.response, self.error)
         }
 
+    }
+
+    func dataTask(with request: URLRequest, completionHandler: @escaping URLSessionDataTaskCallbackType) -> URLSessionDataTaskType {
+
+        self.dataTaskFired = true
+        self.dataTaskUrl = request.url
+
+        return MockURLSessionDataTask {
+            completionHandler(self.data, self.response, self.error)
+        }
+        
     }
 
 }

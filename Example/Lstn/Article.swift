@@ -11,9 +11,8 @@ import Foundation
 struct Article {
 
     let id: String
-    let publisher: String
 
     let title: String
-    let body: String
+    let summary: String
 
 }

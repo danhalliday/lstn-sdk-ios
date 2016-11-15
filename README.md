@@ -7,14 +7,23 @@
 
 Lstn is a podcast player for your app’s text content.
 
-## Getting Started
+## Installation
 
-Lstn is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
+Lstn is available through [CocoaPods](http://cocoapods.org). To install it, simply add the following line to your Podfile:
 
 ```ruby
 pod "Lstn"
 ```
+
+Lstn requires a token to use the service. [Get in touch](mailto:hello@lstn.ltd) with us to receive one, and then add the following environment variable to your project:
+
+```
+LSTN_TOKEN: 12345
+```
+
+![Setting Lstn’s environment variable in Xcode](https://s21.postimg.org/9s2kiwimv/lstn_environment_variables_xcode.png)
+
+## Quick Example
 
 Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load and play some content:
 

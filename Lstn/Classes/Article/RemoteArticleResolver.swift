@@ -28,11 +28,14 @@ class RemoteArticleResolver: ArticleResolver {
 
         self.delegate?.resolutionDidStart(key: key)
 
-        let url = URL(string: "\(self.endpoint)/publisher/\(key.publisher)/articles/\(key.id)")!
+        let url = URL(string: "\(self.endpoint)/publishers/\(key.publisher)/articles/\(key.id)")!
+        var request = URLRequest(url: url)
+
+        request.setValue("Bearer \(Lstn.token)", forHTTPHeaderField: "Authorization")
 
         // TODO: Authentication token
         
-        let task = self.session.dataTask(with: url) { data, response, error in
+        let task = self.session.dataTask(with: request) { data, response, error in
 
             if let _ = error as? NSError {
                 self.delegate?.resolutionDidFail(key: key)
@@ -96,41 +99,50 @@ class RemoteArticleResolver: ArticleResolver {
             return nil
         }
 
-        guard let publisher = dictionary["publisher"] as? [String:Any] else {
-            return nil
-        }
+        // guard let publisher = dictionary["publisher"] as? [String:Any] else {
+        //     return nil
+        // }
 
-        guard let publisherId = publisher["id"] as? String else {
-            return nil
-        }
+        // guard let publisherId = publisher["id"] as? String else {
+        //     return nil
+        // }
 
-        guard let publisherName = publisher["name"] as? String else {
-            return nil
-        }
+        // guard let publisherName = publisher["name"] as? String else {
+        //     return nil
+        // }
 
         guard let source = URL(string: dictionary["url"] as? String) else {
             return nil
         }
 
-        guard let media = dictionary["media"] as? [[String:Any]] else {
-            return nil
-        }
+        // guard let media = dictionary["media"] as? [[String:Any]] else {
+        //     return nil
+        // }
 
-        guard let audio = URL(string: media.first?["url"] as? String) else {
-            return nil
-        }
+        // guard let audio = URL(string: media.first?["url"] as? String) else {
+        //     return nil
+        // }
 
-        guard let image = URL(string: dictionary["image"] as? String) else {
-            return nil
-        }
+        // guard let image = URL(string: dictionary["image"] as? String) else {
+        //     return nil
+        // }
 
         guard let title = dictionary["title"] as? String else {
             return nil
         }
 
-        guard let author = dictionary["author"] as? String else {
-            return nil
-        }
+        // guard let author = dictionary["author"] as? String else {
+        //     return nil
+        // }
+
+        // Temporary hard-coded values
+        // TODO: Swap out once API implementation is complete
+
+        let publisherId = "[API TODO]: Publisher ID"
+        let publisherName = "[API TODO]: Publisher Name"
+        let audio = URL(string: "https://archive.org/download/testmp3testfile/mpthreetest.mp3")!
+        let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
+        let author = dictionary["author"] as? String ?? publisherName
 
         let key = ArticleKey(id: id, publisher: publisherId)
 

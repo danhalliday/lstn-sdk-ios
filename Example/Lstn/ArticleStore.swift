@@ -10,16 +10,18 @@ import Foundation
 
 class ArticleStore {
 
-    let publisher = "news-api"
-    let endpoint = ProcessInfo.processInfo.environment["LSTN_API_ENDPOINT"]!
+    let token = ProcessInfo.processInfo.environment["LSTN_EXAMPLE_TOKEN"]!
+    let publisher = ProcessInfo.processInfo.environment["LSTN_EXAMPLE_PUBLISHER"]!
+    let endpoint = ProcessInfo.processInfo.environment["LSTN_EXAMPLE_ENDPOINT"]!
 
     func fetch(complete: @escaping ([Article]?) -> Void) {
 
-        let url = URL(string: "\(self.endpoint)/publisher/\(self.publisher)/articles/")!
+        let url = URL(string: "\(self.endpoint)/publishers/\(self.publisher)/articles/")!
+        var request = URLRequest(url: url)
 
-        // TODO: Authentication token
+        request.setValue("Bearer \(self.token)", forHTTPHeaderField: "Authorization")
 
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
             if let _ = error {
                 complete(nil)
@@ -79,13 +81,7 @@ class ArticleStore {
             return nil
         }
 
-        guard let id = dictionary["id"] as? String else { return nil }
-
-        guard let publisher = dictionary["publisher"] as? [String:Any] else {
-            return nil
-        }
-
-        guard let publisherId = publisher["id"] as? String else {
+        guard let id = dictionary["id"] as? String else {
             return nil
         }
 
@@ -93,11 +89,11 @@ class ArticleStore {
             return nil
         }
 
-        guard let body = dictionary["body"] as? String else {
+        guard let summary = dictionary["summary"] as? String else {
             return nil
         }
 
-        return Article(id: id, publisher: publisherId, title: title, body: body)
+        return Article(id: id, title: title, summary: summary)
 
     }
 
