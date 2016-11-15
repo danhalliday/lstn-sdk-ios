@@ -124,7 +124,9 @@ For more concrete examples, see the working [example app](https://github.com/lst
 - [Player View](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Lstn/PlayerView.swift) is a simple `UIView` which controls and reacts to Lstn’s shared player
 - [Articles Controller](https://github.com/lstn-ltd/lstn-sdk-ios/blob/master/Example/Lstn/ArticlesController.swift) is a simple `UIViewController` which fetches articles from a Lstn-compatible source and plays those articles with Lstn’s shared player
 
+For use with React Native, example bridging code can be found in Lstn’s public demo app:
 
+- React Native [example](https://github.com/lstn-ltd/lstn-app/blob/master/ios/Lstn/PlayerBridge.m)
 
 ---
 
