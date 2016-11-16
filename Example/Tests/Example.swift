@@ -13,7 +13,7 @@ class Example {
     let player = Lstn.createPlayer()
 
     let article = "12345-an-article-id"
-    let publisher = "12345-a-publisher-token"
+    let publisher = "12345-a-publisher-id"
 
     var loading = false
     var playing = false

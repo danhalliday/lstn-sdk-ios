@@ -15,13 +15,13 @@ Lstn is available through [CocoaPods](http://cocoapods.org). To install it, simp
 pod "Lstn"
 ```
 
-Lstn requires a token to use the service. [Get in touch](mailto:hello@lstn.ltd) with us to receive one, and then add the following environment variable to your project:
+Lstn requires a token to use the service. [Get in touch](mailto:hello@lstn.ltd) with us to receive one, and then add it to your app’s `Info.plist` file under the `LstnToken` key:
 
-```
-LSTN_TOKEN: 12345
-```
+![Setting Lstn’s token property list entry in Xcode](https://s12.postimg.org/67om5j7wd/lstn_info_variables_xcode.png)
 
-![Setting Lstn’s environment variable in Xcode](https://s21.postimg.org/9s2kiwimv/lstn_environment_variables_xcode.png)
+You may also override the token value in `Info.plist` using an environment variable under the `LSTN_TOKEN` key:
+
+![Setting Lstn’s token environemnt variable in Xcode](https://s12.postimg.org/w0r3beg6l/lstn_environment_variables_xcode.png)
 
 ## Quick Start
 
@@ -29,7 +29,7 @@ Lstn provides a singleton instance and simple callback interface for quick and d
 
 ```swift
 let article = "12345-an-article-id"
-let publisher = "12345-a-publisher-token"
+let publisher = "12345-a-publisher-id"
 
 Lstn.shared.player.load(article: article, publisher: publisher) { success in
     if success { Lstn.shared.player.play() }
@@ -48,7 +48,7 @@ class Example {
     let player = Lstn.createPlayer()
 
     let article = "12345-an-article-id"
-    let publisher = "12345-a-publisher-token"
+    let publisher = "12345-a-publisher-id"
 
     var loading = false
     var playing = false

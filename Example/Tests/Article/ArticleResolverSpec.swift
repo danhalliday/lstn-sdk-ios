@@ -15,7 +15,7 @@ import Foundation
 class ArticleResolverSpec: QuickSpec {
 
     let key = ArticleKey(id: "123", publisher: "456")
-    let endpoint = "https://example.com/v1"
+    let endpoint = URL(string: "https://example.com/v1")!
 
     override func spec() {
 
@@ -43,7 +43,7 @@ class ArticleResolverSpec: QuickSpec {
 
                 let session = MockURLSession()
                 let resolver = RemoteArticleResolver(endpoint: self.endpoint, session: session)
-                let url = URL(string: self.endpoint + "/publisher/456/articles/123")!
+                let url = self.endpoint.appendingPathComponent("/publishers/456/articles/123")
 
                 resolver.resolve(key: self.key)
 
@@ -74,7 +74,7 @@ class ArticleResolverSpec: QuickSpec {
 
                 expect(spy.resolutionDidFinishFired).toEventually(equal(true))
                 expect(spy.article?.title).toEventually(equal("Title"))
-                expect(spy.article?.publisher).toEventually(equal("Publisher"))
+                expect(spy.article?.publisher).toEventually(equal("[API TODO]: Publisher Name"))
 
             }
 

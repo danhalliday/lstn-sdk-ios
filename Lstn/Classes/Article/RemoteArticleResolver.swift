@@ -12,12 +12,14 @@ class RemoteArticleResolver: ArticleResolver {
 
     weak var delegate: ArticleResolverDelegate? = nil
 
-    private let endpoint: String
+    private let endpoint: URL
     private let session: URLSessionType
     private var tasks: [URLSessionDataTaskType] = []
     private var cache: [ArticleKey:Article] = [:]
 
-    init(endpoint: String = Lstn.endpoint, session: URLSessionType = URLSession.shared) {
+    // TODO: Inject authentication token as well as endpoint; test
+
+    init(endpoint: URL = Lstn.endpoint, session: URLSessionType = URLSession.shared) {
 
         self.endpoint = endpoint
         self.session = session
@@ -28,13 +30,8 @@ class RemoteArticleResolver: ArticleResolver {
 
         self.delegate?.resolutionDidStart(key: key)
 
-        let url = URL(string: "\(self.endpoint)/publishers/\(key.publisher)/articles/\(key.id)")!
-        var request = URLRequest(url: url)
+        let request = self.request(key: key)
 
-        request.setValue("Bearer \(Lstn.token)", forHTTPHeaderField: "Authorization")
-
-        // TODO: Authentication token
-        
         let task = self.session.dataTask(with: request) { data, response, error in
 
             if let _ = error as? NSError {
@@ -150,6 +147,20 @@ class RemoteArticleResolver: ArticleResolver {
                               title: title, author: author, publisher: publisherName)
 
         return article
+
+    }
+
+    func url(key: ArticleKey) -> URL {
+        return self.endpoint.appendingPathComponent("/publishers/\(key.publisher)/articles/\(key.id)")
+    }
+
+    func request(key: ArticleKey) -> URLRequest {
+
+        var request = URLRequest(url: self.url(key: key))
+        let token = Lstn.token ?? ""
+
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        return request
 
     }
 

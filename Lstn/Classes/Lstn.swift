@@ -1,8 +1,9 @@
 import Foundation
 
-@objc public class Lstn: NSObject {
 
-    // MARK: Public Interface
+// MARK: Public Interface
+
+@objc public class Lstn: NSObject {
 
     /// Singleton instance for easy access to Lstn.
     ///
@@ -23,19 +24,47 @@ import Foundation
     ///
     public static func createPlayer() -> Player { return DefaultPlayer() }
 
-    // MARK: - Internal Methods
-
-    static var token = environment(key: "LSTN_TOKEN") ?? ""
-    static var endpoint = environment(key: "LSTN_ENDPOINT") ?? "https://api.lstn.ltd/v1"
+//    static var token = environment(key: "LSTN_TOKEN") ?? ""
+//    static var endpoint = environment(key: "LSTN_ENDPOINT") ?? "https://api.lstn.ltd/v1"
 
     private override init() { super.init() }
 
 }
 
+// MARK: - Internal Configuration
+
 extension Lstn {
 
-    static func environment(key: String) -> String? {
-        return ProcessInfo.processInfo.environment[key]
+    private static let environment = ProcessInfo.processInfo.environment
+    private static let info = Bundle.main.infoDictionary
+
+    static var token: String? {
+
+        if let token = self.environment["LSTN_TOKEN"] {
+            return token
+        }
+
+        if let token = self.info?["LstnToken"] as? String {
+            return token
+        }
+
+        print("Lstn token not set! See https://github.com/lstn-ltd/lstn-sdk-ios#installation")
+        return nil
+
+    }
+
+    static var endpoint: URL {
+
+        if let string = self.environment["LSTN_ENDPOINT"], let endpoint = URL(string: string) {
+            return endpoint
+        }
+
+        if let string = self.info?["LstnEndpoint"] as? String, let endpoint = URL(string: string) {
+            return endpoint
+        }
+
+        return URL(string: "https://api.lstn.ltd/v1")!
+
     }
 
 }

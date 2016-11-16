@@ -35,7 +35,7 @@
         _player = [Lstn createPlayer];
 
         _article = @"12345-an-article-id";
-        _publisher = @"12345-a-publisher-token";
+        _publisher = @"12345-a-publisher-id";
 
         _loading = false;
         _playing = false;

@@ -8,10 +8,13 @@
 
 import Quick
 import Nimble
-import Lstn
+
+@testable import Lstn
 
 class LstnSpec: QuickSpec {
+
     override func spec() {
+
         describe("singleton interface") {
 
             it("should exist") {
@@ -19,5 +22,16 @@ class LstnSpec: QuickSpec {
             }
 
         }
+
+        describe("configuration") {
+
+            it("should read its token from the app bundle") {
+                // TODO: Doesn't work because of Bundle/tests bug?
+                // expect(Lstn.token).to(equal("test_api_key"))
+            }
+
+        }
+
     }
+
 }
