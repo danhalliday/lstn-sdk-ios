@@ -28,29 +28,46 @@ class DefaultAudioEngine: NSObject, AudioEngine {
     }
 
     func load(url: URL) {
+
         self.queue.async {
+
             self.removeItemObservers(item: self.player.currentItem)
-            let item = AVPlayerItem(url: url)
-            self.addItemObservers(item: item)
-            self.player.replaceCurrentItem(with: item)
+
+            let asset = AVAsset(url: url)
+
+            asset.loadValuesAsynchronously(forKeys: ["duration"]) {
+                let item = AVPlayerItem(asset: asset)
+                self.addItemObservers(item: item)
+                self.player.replaceCurrentItem(with: item)
+            }
+
         }
+
     }
 
     func play() {
+
         self.queue.async {
+
             self.addPlayerTimeObservers(player: self.player)
+
             if self.playerIsAtEnd(player: self.player) {
                 self.player.seek(to: kCMTimeZero)
             }
+
             self.player.play()
+
         }
+
     }
 
     func stop() {
+
         self.queue.async {
             self.removePlayerTimeObservers(player: self.player)
             self.player.pause()
         }
+
     }
 
     var elapsedTime: Double {
@@ -94,13 +111,12 @@ extension DefaultAudioEngine {
     fileprivate func addPlayerTimeObservers(player: AVPlayer) {
 
         let interval = CMTime(value: 1, timescale: 1)
-        let queue = DispatchQueue.main
 
         guard let duration = player.currentItem?.duration, duration.seconds > 0 else {
             return
         }
 
-        let observer = player.addPeriodicTimeObserver(forInterval: interval, queue: queue) {
+        let observer = player.addPeriodicTimeObserver(forInterval: interval, queue: self.queue) {
             time in self.delegate?.playbackDidProgress(amount: time.seconds / duration.seconds)
         }
 
