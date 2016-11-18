@@ -20,7 +20,9 @@ final class DefaultPlayer: Player {
     fileprivate var playCallback: PlayerCallback? = nil
     fileprivate var stopCallback: PlayerCallback? = nil
 
+    fileprivate var key: ArticleKey? = nil
     fileprivate var article: Article? = nil
+
     fileprivate let queue = DispatchQueue.main
 
     init(resolver: ArticleResolver = RemoteArticleResolver(),
@@ -40,7 +42,12 @@ final class DefaultPlayer: Player {
     // MARK: - Public Methods
 
     func load(article: String, publisher: String) {
-        self.resolver.resolve(key: ArticleKey(id: article, publisher: publisher))
+
+        let key = ArticleKey(id: article, publisher: publisher)
+        self.key = key
+
+        self.resolver.resolve(key: key)
+
     }
 
     func load(article: String, publisher: String, complete: @escaping PlayerCallback) {
@@ -99,6 +106,10 @@ extension DefaultPlayer: ArticleResolverDelegate {
 
     func resolutionDidFinish(key: ArticleKey, article: Article) {
 
+        if key != self.key {
+            return
+        }
+
         self.article = article
 
         self.control.itemDidChange(item: self.remoteControlItemForArticle(article: article))
@@ -126,9 +137,11 @@ extension DefaultPlayer: AudioEngineDelegate {
 
     func loadingDidFinish() {
 
-        if let article = self.article {
-            self.control.itemDidChange(item: self.remoteControlItemForArticle(article: article))
+        guard let article = self.article else {
+            return
         }
+
+        self.control.itemDidChange(item: self.remoteControlItemForArticle(article: article))
 
         self.queue.async {
             self.delegate?.loadingDidFinish()

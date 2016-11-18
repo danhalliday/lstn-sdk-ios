@@ -17,6 +17,8 @@ class RemoteArticleResolver: ArticleResolver {
     private var tasks: [URLSessionDataTaskType] = []
     private var cache: [ArticleKey:Article] = [:]
 
+    private let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
+
     // TODO: Inject authentication token as well as endpoint; test
 
     init(endpoint: URL = Lstn.endpoint, session: URLSessionType = URLSession.shared) {
@@ -124,9 +126,7 @@ class RemoteArticleResolver: ArticleResolver {
             return nil
         }
 
-        // guard let image = URL(string: dictionary["image"] as? String) else {
-        //     return nil
-        // }
+        // let image = URL(string: dictionary["image"] as? String) ?? self.image
 
         guard let title = dictionary["title"] as? String else {
             return nil
@@ -141,12 +141,11 @@ class RemoteArticleResolver: ArticleResolver {
 
         let publisherId = "[API TODO]: Publisher ID"
         let publisherName = "[API TODO]: Publisher Name"
-        let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
         let author = dictionary["author"] as? String ?? publisherName
 
         let key = ArticleKey(id: id, publisher: publisherId)
 
-        let article = Article(key: key, source: source, audio: audio, image: image,
+        let article = Article(key: key, source: source, audio: audio, image: self.image,
                               title: title, author: author, publisher: publisherName)
 
         return article

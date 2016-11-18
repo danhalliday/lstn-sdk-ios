@@ -13,7 +13,7 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
     weak var delegate: AudioEngineDelegate?
 
-    @objc fileprivate let player = AVPlayer()
+    @objc fileprivate var player = AVPlayer()
 
     fileprivate var rateObservationContext = 0
     fileprivate var statusObservationContext = 0
@@ -21,6 +21,7 @@ class DefaultAudioEngine: NSObject, AudioEngine {
     fileprivate var timeObservers: [Any] = []
 
     fileprivate let queue = DispatchQueue.global(qos: .background)
+    fileprivate var url: URL? = nil
 
     override init() {
         super.init()
@@ -31,14 +32,22 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
         self.queue.async {
 
-            self.removeItemObservers(item: self.player.currentItem)
+            self.url = url
 
-            let asset = AVAsset(url: url)
+            if self.player.currentItem?.error != nil {
+                self.resetPlayer()
+            }
+
+            let asset = AVURLAsset(url: url)
 
             asset.loadValuesAsynchronously(forKeys: ["duration"]) {
-                let item = AVPlayerItem(asset: asset)
-                self.addItemObservers(item: item)
-                self.player.replaceCurrentItem(with: item)
+
+                if asset.url != self.url { return }
+
+                self.removeItemObservers(item: self.player.currentItem)
+                self.player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
+                self.addItemObservers(item: self.player.currentItem)
+
             }
 
         }
@@ -76,6 +85,17 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
     var totalTime: Double {
         return self.player.currentItem?.duration.seconds ?? 0
+    }
+
+    fileprivate func resetPlayer() {
+
+        self.removePlayerObservers(player: self.player)
+        self.removePlayerTimeObservers(player: self.player)
+
+        self.player = AVPlayer()
+
+        self.addPlayerObservers(player: self.player)
+
     }
 
     private func playerIsAtEnd(player: AVPlayer) -> Bool {
