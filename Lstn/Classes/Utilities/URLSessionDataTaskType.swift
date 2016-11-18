@@ -12,7 +12,7 @@ import Foundation
  Fat free dependency injection of URLSession and friends
  */
 
-protocol URLSessionDataTaskType {
+protocol URLSessionDataTaskType: class {
 
     func resume()
     func cancel()
