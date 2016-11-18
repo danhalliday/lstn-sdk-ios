@@ -14,6 +14,8 @@ class ArticleResolverSpy: ArticleResolverDelegate {
     var resolutionDidFinishFired: Bool = false
     var resolutionDidFailFired: Bool = false
 
+    var resolutionCount: Int = 0
+
     var key: ArticleKey? = nil
     var article: Article? = nil
 
@@ -26,11 +28,13 @@ class ArticleResolverSpy: ArticleResolverDelegate {
         self.key = key
         self.article = article
         self.resolutionDidFinishFired = true
+        self.resolutionCount += 1
     }
 
     func resolutionDidFail(key: ArticleKey) {
         self.key = key
         self.resolutionDidFailFired = true
+        self.resolutionCount += 1
     }
 
 }

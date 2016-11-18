@@ -17,6 +17,22 @@ class ArticleResolverSpec: QuickSpec {
     let key = ArticleKey(id: "123", publisher: "456")
     let endpoint = URL(string: "https://example.com/v1")!
 
+    let response: [String:Any] = [
+        "id": "12345",
+        "url": "https://example.com/article.html",
+        "title": "Title",
+        "author": "Author",
+        "image": "https://example.com/image.jpg",
+        "state": "processed",
+        "media": [
+            [
+                "role": "summary",
+                "type": "audio/wav",
+                "url": "https://example.com/audio.mp3"
+            ]
+        ]
+    ]
+
     override func spec() {
 
         describe("Remote Article Resolver") {
@@ -54,17 +70,7 @@ class ArticleResolverSpec: QuickSpec {
 
             it("should return a valid model object for a successful request") {
 
-                let response: [String:Any] = [
-                    "id": "123",
-                    "url": "https://example.com/article.html",
-                    "title": "Title",
-                    "author": "Author",
-                    "image": "https://example.com/image.jpg",
-                    "publisher": ["id": "456", "name": "Publisher"],
-                    "media": [["url": "https://example.com/audio.mp3"]]
-                ]
-
-                let data = try! JSONSerialization.data(withJSONObject: response)
+                let data = try! JSONSerialization.data(withJSONObject: self.response)
                 let session = MockURLSession(data: data)
                 let resolver = RemoteArticleResolver(endpoint: self.endpoint, session: session)
                 let spy = ArticleResolverSpy()

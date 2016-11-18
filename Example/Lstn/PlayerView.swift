@@ -59,12 +59,16 @@ extension PlayerView: PlayerDelegate {
 
     func loadingDidStart() {
 
+        print("loadingDidStart")
+
         self.loadingIndicatorView.startAnimating()
         self.errorIcon.isHidden = true
 
     }
 
     func loadingDidFinish() {
+
+        print("loadingDidFinish")
 
         self.playButton.isEnabled = true
         self.pauseButton.isEnabled = true
@@ -73,6 +77,8 @@ extension PlayerView: PlayerDelegate {
     }
 
     func loadingDidFail() {
+
+        print("loadingDidFail")
 
         self.playButton.isEnabled = false
         self.pauseButton.isEnabled = false
@@ -83,6 +89,8 @@ extension PlayerView: PlayerDelegate {
 
     func playbackDidStart() {
 
+        print("playbackDidStart")
+
         self.playButton.isHidden = true
         self.pauseButton.isHidden = false
         self.errorIcon.isHidden = true
@@ -91,11 +99,15 @@ extension PlayerView: PlayerDelegate {
 
     func playbackDidProgress(amount: Double) {
 
+        print("playbackDidProgress (\(amount))")
+
         self.positionProgressView.setProgress(Float(amount), animated: true)
 
     }
 
     func playbackDidStop() {
+
+        print("playbackDidStop")
 
         self.playButton.isHidden = false
         self.pauseButton.isHidden = true
@@ -104,12 +116,16 @@ extension PlayerView: PlayerDelegate {
 
     func playbackDidFinish() {
 
+        print("playbackDidFinish")
+
         self.playButton.isHidden = false
         self.pauseButton.isHidden = true
 
     }
 
     func playbackDidFail() {
+
+        print("playbackDidFail")
 
         self.playButton.isHidden = false
         self.pauseButton.isHidden = true

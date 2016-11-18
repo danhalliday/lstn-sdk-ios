@@ -36,7 +36,6 @@ class DefaultAudioEngine: NSObject, AudioEngine {
             let asset = AVAsset(url: url)
 
             asset.loadValuesAsynchronously(forKeys: ["duration"]) {
-                self.delegate?.loadingDidFinish()
                 let item = AVPlayerItem(asset: asset)
                 self.addItemObservers(item: item)
                 self.player.replaceCurrentItem(with: item)

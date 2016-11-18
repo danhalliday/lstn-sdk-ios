@@ -30,7 +30,7 @@ class RemoteArticleResolver: ArticleResolver {
 
         self.delegate?.resolutionDidStart(key: key)
 
-        let request = self.request(key: key)
+        let request = self.request(for: key)
 
         let task = self.session.dataTask(with: request) { data, response, error in
 
@@ -92,6 +92,10 @@ class RemoteArticleResolver: ArticleResolver {
             return nil
         }
 
+        guard let state = dictionary["state"] as? String, state == "processed" else {
+            return nil
+        }
+
         guard let id = dictionary["id"] as? String else {
             return nil
         }
@@ -112,13 +116,13 @@ class RemoteArticleResolver: ArticleResolver {
             return nil
         }
 
-        // guard let media = dictionary["media"] as? [[String:Any]] else {
-        //     return nil
-        // }
+        guard let media = dictionary["media"] as? [[String:Any]] else {
+            return nil
+        }
 
-        // guard let audio = URL(string: media.first?["url"] as? String) else {
-        //     return nil
-        // }
+        guard let audio = self.audio(for: media) else {
+            return nil
+        }
 
         // guard let image = URL(string: dictionary["image"] as? String) else {
         //     return nil
@@ -137,7 +141,6 @@ class RemoteArticleResolver: ArticleResolver {
 
         let publisherId = "[API TODO]: Publisher ID"
         let publisherName = "[API TODO]: Publisher Name"
-        let audio = URL(string: "https://archive.org/download/testmp3testfile/mpthreetest.mp3")!
         let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
         let author = dictionary["author"] as? String ?? publisherName
 
@@ -150,17 +153,35 @@ class RemoteArticleResolver: ArticleResolver {
 
     }
 
-    func url(key: ArticleKey) -> URL {
+    func url(for key: ArticleKey) -> URL {
         return self.endpoint.appendingPathComponent("/publishers/\(key.publisher)/articles/\(key.id)")
     }
 
-    func request(key: ArticleKey) -> URLRequest {
+    func request(for key: ArticleKey) -> URLRequest {
 
-        var request = URLRequest(url: self.url(key: key))
+        var request = URLRequest(url: self.url(for: key))
         let token = Lstn.token ?? ""
 
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         return request
+
+    }
+
+    func audio(for media: [[String:Any]]) -> URL? {
+
+        let items = media.filter {
+            $0["role"] as? String == "summary" && $0["type"] as? String == "audio/wav"
+        }
+
+        guard let item = items.first else {
+            return nil
+        }
+
+        guard let url = item["url"] as? String else {
+            return nil
+        }
+
+        return URL(string: url)
 
     }
 
