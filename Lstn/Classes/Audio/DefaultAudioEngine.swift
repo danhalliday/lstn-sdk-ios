@@ -35,18 +35,22 @@ class DefaultAudioEngine: NSObject, AudioEngine {
             self.url = url
 
             if self.player.currentItem?.error != nil {
-                self.resetPlayer()
+                self.reset()
             }
 
             let asset = AVURLAsset(url: url)
 
             asset.loadValuesAsynchronously(forKeys: ["duration"]) {
 
-                if asset.url != self.url { return }
+                self.queue.async {
 
-                self.removeItemObservers(item: self.player.currentItem)
-                self.player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
-                self.addItemObservers(item: self.player.currentItem)
+                    if asset.url != self.url { return }
+
+                    self.removeItemObservers(item: self.player.currentItem)
+                    self.player.replaceCurrentItem(with: AVPlayerItem(asset: asset))
+                    self.addItemObservers(item: self.player.currentItem)
+
+                }
 
             }
 
@@ -58,6 +62,7 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
         self.queue.async {
 
+            self.enableAudioSession()
             self.addPlayerTimeObservers(player: self.player)
 
             if self.playerIsAtEnd(player: self.player) {
@@ -73,8 +78,12 @@ class DefaultAudioEngine: NSObject, AudioEngine {
     func stop() {
 
         self.queue.async {
-            self.removePlayerTimeObservers(player: self.player)
+
             self.player.pause()
+
+            self.removePlayerTimeObservers(player: self.player)
+            self.disableAudioSession()
+
         }
 
     }
@@ -87,7 +96,11 @@ class DefaultAudioEngine: NSObject, AudioEngine {
         return self.player.currentItem?.duration.seconds ?? 0
     }
 
-    fileprivate func resetPlayer() {
+    var isPlaying: Bool {
+        return self.player.rate > 0
+    }
+
+    private func reset() {
 
         self.removePlayerObservers(player: self.player)
         self.removePlayerTimeObservers(player: self.player)
@@ -104,8 +117,87 @@ class DefaultAudioEngine: NSObject, AudioEngine {
     }
 
     deinit {
+        self.disableAudioSession()
         self.removePlayerObservers(player: self.player)
         self.removePlayerTimeObservers(player: self.player)
+    }
+
+}
+
+// MARK: - Audio Session
+
+extension DefaultAudioEngine {
+
+    func enableAudioSession() {
+
+        let session = AVAudioSession.sharedInstance()
+
+        do { try session.setActive(true) } catch {
+            print(error)
+        }
+
+        do { try session.setCategory(AVAudioSessionCategoryPlayback) } catch {
+            print(error)
+        }
+
+        do { try session.setMode(AVAudioSessionModeSpokenAudio) } catch {
+            print(error)
+        }
+
+        self.addAudioSessionObservers()
+
+    }
+
+    func disableAudioSession() {
+
+        let session = AVAudioSession.sharedInstance()
+
+        do { try session.setActive(false) } catch {
+            print(error)
+        }
+
+        self.removeAudioSessionObservers()
+        
+    }
+
+    func addAudioSessionObservers() {
+
+        NotificationCenter.default.addObserver(self,
+            selector: #selector(self.handleAudioSessionInterruptionEvent),
+            name: Notification.Name.AVAudioSessionInterruption, object: nil)
+
+    }
+
+    func removeAudioSessionObservers() {
+
+        NotificationCenter.default.removeObserver(self,
+            name: Notification.Name.AVAudioSessionInterruption, object: nil)
+
+    }
+
+    func handleAudioSessionInterruptionEvent(notification: Notification) {
+
+        if notification.name != Notification.Name.AVAudioSessionInterruption {
+            return
+        }
+
+        guard let info = notification.userInfo else {
+            return
+        }
+
+        guard let event = info[AVAudioSessionInterruptionTypeKey] as? UInt else {
+            return
+        }
+
+        guard let value = AVAudioSessionInterruptionType(rawValue: event) else {
+            return
+        }
+
+        switch value {
+        case .began: break // TODO: Customise interrupt behaviour
+        case .ended: break // TODO: Customise interrupt behaviour
+        }
+
     }
 
 }

@@ -23,6 +23,10 @@ You may also override the token value in `Info.plist` using an environment varia
 
 ![Setting Lstn’s token environemnt variable in Xcode](https://s12.postimg.org/w0r3beg6l/lstn_environment_variables_xcode.png)
 
+You probably also want to enable audio playback when your app is in the background. Check the _audio, airplay, and picture in picture_ background mode in the _capabilities_ tab for your app target in Xcode:
+
+![Enabling your app to play audio when in the background](https://s11.postimg.org/waf9ljgmb/lstn_background_modes_xcode.png)
+
 ## Quick Start
 
 Lstn provides a singleton instance and simple callback interface for quick and dirty use. To load and play some content:
