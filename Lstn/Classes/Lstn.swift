@@ -24,9 +24,6 @@ import Foundation
     ///
     public static func createPlayer() -> Player { return DefaultPlayer() }
 
-//    static var token = environment(key: "LSTN_TOKEN") ?? ""
-//    static var endpoint = environment(key: "LSTN_ENDPOINT") ?? "https://api.lstn.ltd/v1"
-
     private override init() { super.init() }
 
 }
