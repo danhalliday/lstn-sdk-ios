@@ -19,6 +19,11 @@ class RemoteArticleResolver: ArticleResolver {
 
     private let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
 
+    private enum AudioFormat: String {
+        case wav = "audio/wav"
+        case hls = "application/x-mpegurl"
+    }
+
     // TODO: Inject authentication token as well as endpoint; test
 
     init(endpoint: URL = Lstn.endpoint, session: URLSessionType = URLSession.shared) {
@@ -168,11 +173,12 @@ class RemoteArticleResolver: ArticleResolver {
 
     func audio(for media: [[String:Any]]) -> URL? {
 
-        let items = media.filter {
-            $0["role"] as? String == "summary" && $0["type"] as? String == "audio/wav"
-        }
+        let candidates = media.filter { ($0["role"] as? String)?.lowercased() == "summary" }
 
-        guard let item = items.first else {
+        let wav = candidates.filter { ($0["type"] as? String)?.lowercased() == AudioFormat.wav.rawValue }
+        let hls = candidates.filter { ($0["type"] as? String)?.lowercased() == AudioFormat.hls.rawValue }
+
+        guard let item = hls.first ?? wav.first else {
             return nil
         }
 
