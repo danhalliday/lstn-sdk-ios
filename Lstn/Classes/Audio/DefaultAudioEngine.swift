@@ -63,6 +63,7 @@ class DefaultAudioEngine: NSObject, AudioEngine {
         self.queue.async {
 
             self.enableAudioSession()
+            self.removePlayerTimeObservers(player: self.player)
             self.addPlayerTimeObservers(player: self.player)
 
             if self.playerIsAtEnd(player: self.player) {
