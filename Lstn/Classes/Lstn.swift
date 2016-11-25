@@ -60,7 +60,7 @@ extension Lstn {
             return endpoint
         }
 
-        return URL(string: "https://api.lstn.ltd/v1")!
+        return URL(string: "https://lstn-prod.herokuapp.com/api/v1")!
 
     }
 
