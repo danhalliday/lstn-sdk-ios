@@ -115,6 +115,14 @@ extension Example: PlayerDelegate {
         self.error = true
     }
 
+    func requestPreviousItem() {
+        // Playlist implementation omitted for brevity
+    }
+
+    func requestNextItem() {
+        // Playlist implementation omitted for brevity
+    }
+
 }
 ```
 

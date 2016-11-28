@@ -57,6 +57,8 @@ extension PlayerView {
 
 extension PlayerView: PlayerDelegate {
 
+    // MARK: Loading
+
     func loadingDidStart() {
 
         print("loadingDidStart")
@@ -86,6 +88,8 @@ extension PlayerView: PlayerDelegate {
         self.errorIcon.isHidden = false
 
     }
+
+    // MARK: Playback
 
     func playbackDidStart() {
 
@@ -131,6 +135,18 @@ extension PlayerView: PlayerDelegate {
         self.pauseButton.isHidden = true
         self.errorIcon.isHidden = false
 
+    }
+
+    // MARK: Navigation
+
+    func requestPreviousItem() {
+        // TODO: Implement playlist
+        print("prev")
+    }
+
+    func requestNextItem() {
+        // TODO: Implement playlist
+        print("next")
     }
     
 }

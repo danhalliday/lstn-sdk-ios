@@ -51,5 +51,16 @@ class PlayerSpy: PlayerDelegate {
     func playbackDidFail() {
         self.playbackDidFailFired = true
     }
+
+    var requestPreviousItemFired = false
+    var requestNextItemFired = false
+
+    func requestPreviousItem() {
+        self.requestPreviousItemFired = true
+    }
+
+    func requestNextItem() {
+        self.requestNextItemFired = true
+    }
     
 }

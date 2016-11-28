@@ -208,7 +208,7 @@ extension DefaultPlayer: AudioEngineDelegate {
             self.playCallback?(false)
             self.playCallback = nil
         }
-        
+
     }
 
 }
@@ -223,6 +223,22 @@ extension DefaultPlayer: RemoteControlDelegate {
 
     func pauseCommandDidFire() {
         self.engine.stop()
+    }
+
+    func previousCommandDidFire() {
+
+        self.queue.async {
+            self.delegate?.requestPreviousItem()
+        }
+
+    }
+
+    func nextCommandDidFire() {
+
+        self.queue.async {
+            self.delegate?.requestNextItem()
+        }
+
     }
 
 }

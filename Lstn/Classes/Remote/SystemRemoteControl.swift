@@ -90,6 +90,9 @@ class SystemRemoteControl: NSObject, RemoteControl {
 
         center.playCommand.addTarget(self, action: #selector(self.playCommandDidFire))
         center.pauseCommand.addTarget(self, action: #selector(self.pauseCommandDidFire))
+        center.stopCommand.addTarget(self, action: #selector(self.stopCommandDidFire))
+        center.nextTrackCommand.addTarget(self, action: #selector(self.nextCommandDidFire))
+        center.previousTrackCommand.addTarget(self, action: #selector(self.previousCommandDidFire))
 
     }
 
@@ -135,23 +138,23 @@ extension SystemRemoteControl {
 
 
     @objc func stopCommandDidFire() {
-
+        self.delegate?.pauseCommandDidFire()
     }
     
     @objc func playPauseToggleCommandDidFire() {
-        
+        // TODO: Implement play/pause toggle logic
     }
     
     @objc func previousCommandDidFire() {
-        
+        self.delegate?.previousCommandDidFire()
     }
     
     @objc func nextCommandDidFire() {
-        
+        self.delegate?.nextCommandDidFire()
     }
     
     @objc func changePlaybackRateCommandDidFire() {
-        
+        // TODO: Implement rate change logic
     }
 
 }

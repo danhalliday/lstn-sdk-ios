@@ -100,4 +100,12 @@
     _error = false;
 }
 
+- (void)requestPreviousItem {
+    // Playlist implementation omitted for brevity
+}
+
+- (void)requestNextItem {
+    // Playlist implementation omitted for brevity
+}
+
 @end

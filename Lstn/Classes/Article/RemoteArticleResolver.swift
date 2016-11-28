@@ -17,7 +17,7 @@ class RemoteArticleResolver: ArticleResolver {
     private var tasks: [URLSessionDataTaskType] = []
     private var cache: [ArticleKey:Article] = [:]
 
-    private let image = URL(string: "https://s15.postimg.org/mnowhye8b/lstn_now_playing_image.png")!
+    private let image = URL(string: "https://s18.postimg.org/p8os2kf6h/lstn_article_image_placeholder.png")!
 
     private enum AudioFormat: String {
         case wav = "audio/wav"
@@ -144,14 +144,13 @@ class RemoteArticleResolver: ArticleResolver {
         // Temporary hard-coded values
         // TODO: Swap out once API implementation is complete
 
-        let publisherId = "[API TODO]: Publisher ID"
-        let publisherName = "[API TODO]: Publisher Name"
-        let author = dictionary["author"] as? String ?? publisherName
+        let publisher = "Lstn"
+        let author = dictionary["author"] as? String ?? "Lstn"
 
-        let key = ArticleKey(id: id, publisher: publisherId)
+        let key = ArticleKey(id: id, publisher: "unknown")
 
         let article = Article(key: key, source: source, audio: audio, image: self.image,
-                              title: title, author: author, publisher: publisherName)
+                              title: title, author: author, publisher: publisher)
 
         return article
 

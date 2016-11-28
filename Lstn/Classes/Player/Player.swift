@@ -58,6 +58,9 @@ import Foundation
     func playbackDidFinish()
     func playbackDidFail()
 
+    func requestPreviousItem()
+    func requestNextItem()
+
 }
 
 /// Success/failure callback type for `Player` methods.
