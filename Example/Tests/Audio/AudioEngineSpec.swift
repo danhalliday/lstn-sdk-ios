@@ -127,6 +127,44 @@ class AudioEngineSpec: QuickSpec {
 
             }
 
+            it("should start playing when toggled") {
+
+                let engine = DefaultAudioEngine()
+                let spy = AudioEngineSpy()
+
+                let url = URL(fileURLWithPath: self.workingPopSoundPath)
+
+                spy.loadingDidFinishCallback = {
+                    engine.toggle()
+                }
+
+                engine.delegate = spy
+                engine.load(url: url)
+
+                expect(spy.playbackDidStartFired).toEventually(equal(true), timeout: timeout)
+
+            }
+
+            it("should stop playing when toggled twice") {
+
+                let engine = DefaultAudioEngine()
+                let spy = AudioEngineSpy()
+
+                let url = URL(fileURLWithPath: self.workingPopSoundPath)
+
+                spy.loadingDidFinishCallback = {
+                    engine.toggle()
+                    engine.toggle()
+                }
+
+                engine.delegate = spy
+                engine.load(url: url)
+
+                expect(spy.playbackDidStartFired).toEventually(equal(true), timeout: timeout)
+                expect(spy.playbackDidStopFired).toEventually(equal(true), timeout: timeout)
+                
+            }
+
         }
 
     }

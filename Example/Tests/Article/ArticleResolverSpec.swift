@@ -80,7 +80,7 @@ class ArticleResolverSpec: QuickSpec {
 
                 expect(spy.resolutionDidFinishFired).toEventually(equal(true))
                 expect(spy.article?.title).toEventually(equal("Title"))
-                expect(spy.article?.publisher).toEventually(equal("[API TODO]: Publisher Name"))
+                expect(spy.article?.publisher).toEventually(equal("Lstn"))
 
             }
 

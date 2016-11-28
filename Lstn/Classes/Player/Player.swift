@@ -42,6 +42,14 @@ import Foundation
     ///
     func stop(complete: @escaping PlayerCallback)
 
+    /// Play or stop, depending on the state of the player
+    ///
+    func toggle()
+
+    /// Play or stop, depending on the state of the player, and call back once finished
+    ///
+    func toggle(complete: @escaping PlayerCallback)
+
 }
 
 /// Event delegate protocol for `Player`.

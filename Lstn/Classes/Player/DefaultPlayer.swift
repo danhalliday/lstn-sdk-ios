@@ -19,6 +19,7 @@ final class DefaultPlayer: Player {
     fileprivate var loadCallback: PlayerCallback? = nil
     fileprivate var playCallback: PlayerCallback? = nil
     fileprivate var stopCallback: PlayerCallback? = nil
+    fileprivate var toggleCallback: PlayerCallback? = nil
 
     fileprivate var key: ArticleKey? = nil
     fileprivate var article: Article? = nil
@@ -76,6 +77,17 @@ final class DefaultPlayer: Player {
 
         self.stopCallback = complete
         self.stop()
+
+    }
+
+    func toggle() {
+        self.engine.toggle()
+    }
+
+    func toggle(complete: @escaping PlayerCallback) {
+
+        self.toggleCallback = complete
+        self.toggle()
 
     }
 
@@ -166,9 +178,15 @@ extension DefaultPlayer: AudioEngineDelegate {
         self.control.playbackDidStart(position: self.engine.elapsedTime)
 
         self.queue.async {
+
             self.delegate?.playbackDidStart()
+
             self.playCallback?(true)
+            self.toggleCallback?(true)
+
             self.playCallback = nil
+            self.toggleCallback = nil
+
         }
 
     }
@@ -186,9 +204,15 @@ extension DefaultPlayer: AudioEngineDelegate {
         self.control.playbackDidStop(position: self.engine.elapsedTime)
 
         self.queue.async {
+
             self.delegate?.playbackDidStop()
+
             self.stopCallback?(true)
+            self.toggleCallback?(true)
+
             self.stopCallback = nil
+            self.toggleCallback = nil
+
         }
 
     }
@@ -223,6 +247,10 @@ extension DefaultPlayer: RemoteControlDelegate {
 
     func pauseCommandDidFire() {
         self.engine.stop()
+    }
+
+    func toggleCommandDidFire() {
+        self.engine.toggle()
     }
 
     func previousCommandDidFire() {

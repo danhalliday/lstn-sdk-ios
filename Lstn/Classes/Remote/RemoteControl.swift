@@ -21,6 +21,7 @@ protocol RemoteControlDelegate: class {
 
     func playCommandDidFire()
     func pauseCommandDidFire()
+    func toggleCommandDidFire()
     func previousCommandDidFire()
     func nextCommandDidFire()
 

@@ -89,6 +89,19 @@ class DefaultAudioEngine: NSObject, AudioEngine {
 
     }
 
+    func toggle() {
+
+        self.queue.async {
+
+            switch self.isPlaying {
+            case true: self.stop()
+            case false: self.play()
+            }
+
+        }
+
+    }
+
     var elapsedTime: Double {
         return self.player.currentTime().seconds
     }

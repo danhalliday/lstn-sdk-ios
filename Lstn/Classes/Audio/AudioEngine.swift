@@ -14,6 +14,7 @@ protocol AudioEngine {
 
     func play()
     func stop()
+    func toggle()
 
     weak var delegate: AudioEngineDelegate? { get set }
 
