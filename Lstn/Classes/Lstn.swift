@@ -18,6 +18,12 @@ import Foundation
     ///
     public let player: Player = DefaultPlayer()
 
+    /// Lstn's device notifier.
+    ///
+    /// The `Notifier` provides user notifications when relevant new articles are available. 
+    ///
+    public let notifier: Notifier = LocalNotifier()
+
     /// Factory vending Player instances.
     ///
     /// - Returns: A Player instance

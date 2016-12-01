@@ -50,7 +50,7 @@
 		18A9EF66D838267C25A2F68E /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		257141F06B5AE93B9DD39ED3 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		358BE9774C51967BCEB67D5B /* Pods_LstnExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LstnExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3702733C1DD4B23500C8E3ED /* MockArticleResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockArticleResolver.swift; path = Article/MockArticleResolver.swift; sourceTree = "<group>"; };
+		3702733C1DD4B23500C8E3ED /* MockArticleResolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockArticleResolver.swift; sourceTree = "<group>"; };
 		3702734F1DD9D14B00C8E3ED /* Article.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		370273511DD9D1C200C8E3ED /* ArticleStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleStore.swift; sourceTree = "<group>"; };
 		370835B81DB7A03400B26896 /* Pop.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = Pop.m4a; sourceTree = "<group>"; };
@@ -60,14 +60,15 @@
 		371F52DD1DC230DB00DAF7AA /* LstnTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LstnTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		371F52DE1DC230DB00DAF7AA /* ExampleObjC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExampleObjC.m; sourceTree = "<group>"; };
 		3733573A1DB761840058ED70 /* PlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
-		374C0BB81DD32EF800BAD1E8 /* ArticleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleSpec.swift; path = Article/ArticleSpec.swift; sourceTree = "<group>"; };
-		374C0BBB1DD3310B00BAD1E8 /* ArticleResolverSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleResolverSpec.swift; path = Article/ArticleResolverSpec.swift; sourceTree = "<group>"; };
-		374C0BBE1DD3332300BAD1E8 /* ArticleResolverSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ArticleResolverSpy.swift; path = Article/ArticleResolverSpy.swift; sourceTree = "<group>"; };
+		374C0BB81DD32EF800BAD1E8 /* ArticleSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleSpec.swift; sourceTree = "<group>"; };
+		374C0BBB1DD3310B00BAD1E8 /* ArticleResolverSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleResolverSpec.swift; sourceTree = "<group>"; };
+		374C0BBE1DD3332300BAD1E8 /* ArticleResolverSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleResolverSpy.swift; sourceTree = "<group>"; };
 		37840D631DB5152500B92DF5 /* PlayerSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSpec.swift; sourceTree = "<group>"; };
 		37840D681DB5284700B92DF5 /* PlayerSpy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayerSpy.swift; sourceTree = "<group>"; };
 		37840D771DB6211400B92DF5 /* MockURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		37840D791DB6212200B92DF5 /* MockURLSessionDataTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSessionDataTask.swift; sourceTree = "<group>"; };
 		37840D901DB6733800B92DF5 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
+		37C6E4F91DF03F0100A9DB63 /* LstnExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LstnExample.entitlements; sourceTree = "<group>"; };
 		40119DEF79C11DFA62299771 /* Pods-LstnTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LstnTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LstnTests/Pods-LstnTests.release.xcconfig"; sourceTree = "<group>"; };
 		428C7AC610715E0566E73B9D /* Pods_LstnTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LstnTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD01AFB9204008FA782 /* LstnExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LstnExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,7 +113,7 @@
 				374C0BBE1DD3332300BAD1E8 /* ArticleResolverSpy.swift */,
 				3702733C1DD4B23500C8E3ED /* MockArticleResolver.swift */,
 			);
-			name = Article;
+			path = Article;
 			sourceTree = "<group>";
 		};
 		37840D761DB6210B00B92DF5 /* Utilities */ = {
@@ -145,6 +146,7 @@
 		607FACC71AFB9204008FA782 = {
 			isa = PBXGroup;
 			children = (
+				37C6E4F91DF03F0100A9DB63 /* LstnExample.entitlements */,
 				607FACF51AFB993E008FA782 /* Podspec Metadata */,
 				607FACD21AFB9204008FA782 /* Example for Lstn */,
 				607FACE81AFB9204008FA782 /* Tests */,
@@ -305,6 +307,9 @@
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
 								enabled = 1;
 							};
 						};
@@ -623,6 +628,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LstnExample.entitlements;
 				DEVELOPMENT_TEAM = 44Z29AP4K7;
 				INFOPLIST_FILE = Lstn/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -639,6 +645,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = LstnExample.entitlements;
 				DEVELOPMENT_TEAM = 44Z29AP4K7;
 				INFOPLIST_FILE = Lstn/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

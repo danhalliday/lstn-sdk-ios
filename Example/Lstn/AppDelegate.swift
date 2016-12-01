@@ -7,7 +7,21 @@
 //
 
 import UIKit
+import UserNotifications
+import Lstn
 
 @UIApplicationMain class AppDelegate: UIResponder, UIApplicationDelegate {
+
     var window: UIWindow?
+
+    func applicationDidFinishLaunching(_ application: UIApplication) {
+
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+
+        UNUserNotificationCenter.current().requestAuthorization(options: options) { success, error in
+            Lstn.shared.notifier.register()
+        }
+
+    }
+
 }
