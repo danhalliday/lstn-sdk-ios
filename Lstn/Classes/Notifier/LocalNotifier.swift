@@ -13,6 +13,7 @@ class LocalNotifier: Notifier {
     func register() {
 
         self.registerMorningNotification()
+        self.registerLunchtimeNotification()
         self.registerEveningNotification()
 
     }
@@ -33,6 +34,24 @@ class LocalNotifier: Notifier {
 
         UNUserNotificationCenter.current().add(request) { error in }
 
+    }
+
+    private func registerLunchtimeNotification() {
+
+        let content = UNMutableNotificationContent()
+        content.body = "Good afternoon! Your latest articles are ready for listening."
+
+        var components = DateComponents()
+        components.hour = 13
+        components.minute = 00
+
+        let id = "ltd.Lstn.notification.lunchtime"
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+
+        UNUserNotificationCenter.current().add(request) { error in }
+        
     }
 
     private func registerEveningNotification() {
