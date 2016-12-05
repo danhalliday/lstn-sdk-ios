@@ -171,7 +171,7 @@ extension DefaultAudioEngine {
         }
 
         self.removeAudioSessionObservers()
-        
+
     }
 
     func addAudioSessionObservers() {

@@ -62,8 +62,6 @@ final class DefaultPlayer: Player {
         self.loadCallback = complete
         self.load(article: article, publisher: publisher)
 
-        self.effects.play(.bong)
-
     }
 
     func play() {
@@ -226,6 +224,8 @@ extension DefaultPlayer: AudioEngineDelegate {
     }
 
     func playbackDidFinish() {
+
+        self.effects.play(.bong)
 
         self.queue.async {
             self.delegate?.playbackDidFinish()

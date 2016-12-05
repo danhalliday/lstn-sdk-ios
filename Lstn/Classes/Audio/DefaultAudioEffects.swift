@@ -6,15 +6,15 @@
 //
 //
 
-import AudioToolbox
+import AVFoundation
 
 class DefaultAudioEffects: AudioEffects {
 
-    private var identifiers: [AudioEffect:UInt32] = [:]
+    private var players: [AudioEffect:AVAudioPlayer] = [:]
 
     func load() {
 
-        self.identifiers.removeAll()
+        self.players.removeAll()
 
         for sound in AudioEffect.all {
 
@@ -28,11 +28,14 @@ class DefaultAudioEffects: AudioEffects {
                 continue
             }
 
-            var id: SystemSoundID = 0
+            let player: AVAudioPlayer
 
-            AudioServicesCreateSystemSoundID((url as CFURL), &id)
+            do { player = try AVAudioPlayer(contentsOf: url) } catch {
+                continue
+            }
 
-            self.identifiers[sound] = id
+            player.prepareToPlay()
+            self.players[sound] = player
 
         }
 
@@ -40,12 +43,12 @@ class DefaultAudioEffects: AudioEffects {
 
     func play(_ effect: AudioEffect) {
 
-        guard let id = self.identifiers[effect] else {
+        guard let player = self.players[effect] else {
             return
         }
 
-        AudioServicesPlaySystemSound(id)
-        
+        player.play()
+
     }
 
 }
