@@ -1,5 +1,5 @@
 PODS:
-  - Lstn (0.0.35)
+  - Lstn (0.3.2)
   - Nimble (5.0.0)
   - Quick (0.10.0)
 
@@ -13,10 +13,10 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Lstn: e8d4b91b2c997bef6d0c321663024ce07b97e5bf
+  Lstn: '05626768185851e798eda0c0aff9df0c02443197'
   Nimble: 56fc9f5020effa2206de22c3dd910f4fb011b92f
   Quick: 5d290df1c69d5ee2f0729956dcf0fd9a30447eaa
 
 PODFILE CHECKSUM: 8acb35e7d1eef0cc5ab36460c607ae6a40ea53a5
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.0.beta.1

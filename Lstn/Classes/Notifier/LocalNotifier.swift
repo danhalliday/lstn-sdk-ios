@@ -51,7 +51,7 @@ class LocalNotifier: Notifier {
         let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
 
         UNUserNotificationCenter.current().add(request) { error in }
-        
+
     }
 
     private func registerEveningNotification() {

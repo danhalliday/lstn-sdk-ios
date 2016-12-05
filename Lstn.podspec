@@ -13,4 +13,5 @@ Pod::Spec.new do |s|
   s.source = { :git => "https://github.com/lstn-ltd/lstn-sdk-ios.git", :tag => "#{s.version}" }
   s.ios.deployment_target = "10.0"
   s.source_files = "Lstn/Classes/**/*"
+  s.resources = ["Lstn/Assets/*.wav"]
 end

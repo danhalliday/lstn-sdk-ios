@@ -16,6 +16,8 @@ final class DefaultPlayer: Player {
     fileprivate let engine: AudioEngine
     fileprivate let control: RemoteControl
 
+    fileprivate let effects: AudioEffects
+
     fileprivate var loadCallback: PlayerCallback? = nil
     fileprivate var playCallback: PlayerCallback? = nil
     fileprivate var stopCallback: PlayerCallback? = nil
@@ -28,15 +30,19 @@ final class DefaultPlayer: Player {
 
     init(resolver: ArticleResolver = RemoteArticleResolver(),
          engine: AudioEngine = DefaultAudioEngine(),
+         effects: AudioEffects = DefaultAudioEffects(),
          control: RemoteControl = SystemRemoteControl()) {
 
         self.resolver = resolver
         self.engine = engine
+        self.effects = effects
         self.control = control
 
         self.resolver.delegate = self
         self.engine.delegate = self
         self.control.delegate = self
+
+        self.effects.load()
 
     }
 
@@ -55,6 +61,8 @@ final class DefaultPlayer: Player {
 
         self.loadCallback = complete
         self.load(article: article, publisher: publisher)
+
+        self.effects.play(.bong)
 
     }
 
