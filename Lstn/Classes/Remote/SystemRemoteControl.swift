@@ -124,6 +124,19 @@ class SystemRemoteControl: NSObject, RemoteControl {
 
     }
 
+    deinit {
+
+        let center = MPRemoteCommandCenter.shared()
+
+        center.playCommand.removeTarget(self)
+        center.pauseCommand.removeTarget(self)
+        center.togglePlayPauseCommand.removeTarget(self)
+        center.stopCommand.removeTarget(self)
+        center.nextTrackCommand.removeTarget(self)
+        center.previousTrackCommand.removeTarget(self)
+
+    }
+
 }
 
 // MARK: - Remote Command Handlers
