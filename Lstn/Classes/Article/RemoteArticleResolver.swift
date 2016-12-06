@@ -17,7 +17,7 @@ class RemoteArticleResolver: ArticleResolver {
     private var tasks: [URLSessionDataTaskType] = []
     private var cache: [ArticleKey:Article] = [:]
 
-    private let image = URL(string: "https://s18.postimg.org/p8os2kf6h/lstn_article_image_placeholder.png")!
+    private let image = URL(string: "https://s18.postimg.org/h3701xrex/lstn_article_image_placeholder_2.png")!
 
     private enum AudioFormat: String {
         case wav = "audio/wav"
