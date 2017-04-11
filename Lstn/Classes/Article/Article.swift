@@ -25,6 +25,7 @@ struct Article {
 struct ArticleKey {
 
     let id: String
+    let source: String
     let publisher: String
 
 }
@@ -58,7 +59,7 @@ extension ArticleKey: Equatable {
 extension ArticleKey: Hashable {
 
     var hashValue: Int {
-        return "\(self.id)\(self.publisher)".hashValue
+        return "\(self.id)\(self.source)\(self.publisher)".hashValue
     }
 
 }

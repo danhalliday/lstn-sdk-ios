@@ -48,19 +48,19 @@ final class DefaultPlayer: Player {
 
     // MARK: - Public Methods
 
-    func load(article: String, publisher: String) {
+    func load(article: String, source: String, publisher: String) {
 
-        let key = ArticleKey(id: article, publisher: publisher)
+        let key = ArticleKey(id: article, source: source, publisher: publisher)
         self.key = key
 
         self.resolver.resolve(key: key)
 
     }
 
-    func load(article: String, publisher: String, complete: @escaping PlayerCallback) {
+    func load(article: String, source: String, publisher: String, complete: @escaping PlayerCallback) {
 
         self.loadCallback = complete
-        self.load(article: article, publisher: publisher)
+        self.load(article: article, source: source, publisher: publisher)
 
     }
 

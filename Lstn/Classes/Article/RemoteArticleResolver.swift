@@ -22,6 +22,7 @@ class RemoteArticleResolver: ArticleResolver {
     private enum AudioFormat: String {
         case wav = "audio/wav"
         case hls = "application/x-mpegurl"
+        case mp3 = "audio/mpeg"
     }
 
     // TODO: Inject authentication token as well as endpoint; test
@@ -80,11 +81,12 @@ class RemoteArticleResolver: ArticleResolver {
 
             self.delegate?.resolutionDidFinish(key: key, article: article)
 
-            self.tasks
-                .enumerated()
-                .filter({ $0.element.state == .completed })
-                .map({ $0.offset })
-                .forEach({ self.tasks.remove(at: $0) })
+            self.tasks = self.tasks.filter({ $0.state != .completed })
+            
+//                .enumerated()
+//                .filter({ $0.element.state == .completed })
+//                .map({ $0.offset })
+//                .forEach({ self.tasks.remove(at: $0) })
 
         }
 
@@ -147,7 +149,7 @@ class RemoteArticleResolver: ArticleResolver {
         let publisher = "Lstn"
         let author = dictionary["author"] as? String ?? "Lstn"
 
-        let key = ArticleKey(id: id, publisher: "unknown")
+        let key = ArticleKey(id: id, source: "unknown", publisher: "unknown")
 
         let article = Article(key: key, source: source, audio: audio, image: self.image,
                               title: title, author: author, publisher: publisher)
@@ -157,7 +159,7 @@ class RemoteArticleResolver: ArticleResolver {
     }
 
     func url(for key: ArticleKey) -> URL {
-        return self.endpoint.appendingPathComponent("/publishers/\(key.publisher)/articles/\(key.id)")
+        return self.endpoint.appendingPathComponent("/news_sites/\(key.source)/articles/\(key.id)")
     }
 
     func request(for key: ArticleKey) -> URLRequest {
@@ -165,7 +167,7 @@ class RemoteArticleResolver: ArticleResolver {
         var request = URLRequest(url: self.url(for: key))
         let token = Lstn.token ?? ""
 
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        request.setValue("Token token=\(token)", forHTTPHeaderField: "Authorization")
         return request
 
     }
@@ -174,10 +176,11 @@ class RemoteArticleResolver: ArticleResolver {
 
         let candidates = media.filter { ($0["role"] as? String)?.lowercased() == "summary" }
 
-        let wav = candidates.filter { ($0["type"] as? String)?.lowercased() == AudioFormat.wav.rawValue }
-        let hls = candidates.filter { ($0["type"] as? String)?.lowercased() == AudioFormat.hls.rawValue }
+        let wav = candidates.filter { ($0["content_type"] as? String)?.lowercased() == AudioFormat.wav.rawValue }
+        let hls = candidates.filter { ($0["content_type"] as? String)?.lowercased() == AudioFormat.hls.rawValue }
+        let mp3 = candidates.filter { ($0["content_type"] as? String)?.lowercased() == AudioFormat.mp3.rawValue }
 
-        guard let item = hls.first ?? wav.first else {
+        guard let item = hls.first ?? mp3.first ?? wav.first else {
             return nil
         }
 

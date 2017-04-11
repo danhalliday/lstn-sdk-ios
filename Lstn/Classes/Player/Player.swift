@@ -20,11 +20,11 @@ import Foundation
 
     /// Load an article with the given article and publisher IDs.
     ///
-    func load(article: String, publisher: String)
+    func load(article: String, source: String, publisher: String)
 
     /// Load an article with the given article and publisher IDs, and call back once finished.
     ///
-    func load(article: String, publisher: String, complete: @escaping PlayerCallback)
+    func load(article: String, source: String, publisher: String, complete: @escaping PlayerCallback)
 
     /// Play the currently loaded article
     ///
