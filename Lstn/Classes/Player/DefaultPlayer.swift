@@ -12,9 +12,9 @@ final class DefaultPlayer: Player {
 
     weak var delegate: PlayerDelegate? = nil
 
-    fileprivate let resolver: ArticleResolver
-    fileprivate let engine: AudioEngine
-    fileprivate let control: RemoteControl
+    fileprivate var resolver: ArticleResolver
+    fileprivate var engine: AudioEngine
+    fileprivate var control: RemoteControl
 
     fileprivate let effects: AudioEffects
 
